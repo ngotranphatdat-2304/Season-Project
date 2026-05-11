@@ -5,44 +5,56 @@
  * Sunglasses: Top 5 collections + sale
  */
 
-import { MenuCategory } from './types';
+import { MenuCategory } from "./types";
 
 export const menuConfig: MenuCategory[] = [
   // 1. EYEGLASSES
   {
-    name: 'Eyeglasses',
+    name: "Eyeglasses",
     sections: [
       {
-        title: 'Frame Size',
+        title: "Frame Size",
         items: [
-          { label: 'Big', href: '/eyeglasses/frame-size/big' },
-          { label: 'Medium', href: '/eyeglasses/frame-size/medium' },
-          { label: 'Small', href: '/eyeglasses/frame-size/small' },
+          { label: "Big", href: "/eyeglasses/frame-size/big" },
+          { label: "Medium", href: "/eyeglasses/frame-size/medium" },
+          { label: "Small", href: "/eyeglasses/frame-size/small" },
         ],
       },
       {
-        title: 'Frame Material',
+        title: "Frame Material",
         items: [
-          { label: 'Acetate', href: '/eyeglasses/frame-material/acetate' },
-          { label: 'Metal', href: '/eyeglasses/frame-material/metal' },
+          { label: "Acetate", href: "/eyeglasses/frame-material/acetate" },
+          { label: "Metal", href: "/eyeglasses/frame-material/metal" },
         ],
       },
       {
-        title: 'Bestsellers',
+        title: "Bestsellers",
         items: [
-          { label: 'Best Sellers', href: '/eyeglasses/bestsellers', badge: 'bestseller' },
+          {
+            label: "Best Sellers",
+            href: "/eyeglasses/bestsellers",
+            badge: "bestseller",
+          },
         ],
       },
       {
-        title: 'Sale',
+        title: "Sale",
         items: [
-          { label: 'Clearance Sale', href: '/eyeglasses/sale/clearance', isSale: true },
+          {
+            label: "Clearance Sale",
+            href: "/eyeglasses/sale/clearance",
+            isSale: true,
+          },
         ],
       },
       {
-        title: 'View All',
+        title: "View All",
         items: [
-          { label: 'View All Eyeglasses', href: '/eyeglasses', badge: 'viewall' },
+          {
+            label: "View All Eyeglasses",
+            href: "/products",
+            badge: "viewall",
+          },
         ],
       },
     ],
@@ -50,34 +62,49 @@ export const menuConfig: MenuCategory[] = [
 
   // 2. SUNGLASSES - Top 5 Collections
   {
-    name: 'Sunglasses',
+    name: "Sunglasses",
     sections: [
       {
-        title: 'Collections',
+        title: "Collections",
         items: [
-          { label: 'The Athletes', href: '/sunglasses/collection/the-athletes' },
-          { label: 'The Soap', href: '/sunglasses/collection/the-soap' },
-          { label: 'The Ruler', href: '/sunglasses/collection/the-ruler' },
-          { label: 'The Cut', href: '/sunglasses/collection/the-cut' },
-          { label: 'The Edge', href: '/sunglasses/collection/the-edge' },
+          {
+            label: "The Athletes",
+            href: "/sunglasses/collection/the-athletes",
+          },
+          { label: "The Soap", href: "/sunglasses/collection/the-soap" },
+          { label: "The Ruler", href: "/sunglasses/collection/the-ruler" },
+          { label: "The Cut", href: "/sunglasses/collection/the-cut" },
+          { label: "The Edge", href: "/sunglasses/collection/the-edge" },
         ],
       },
       {
-        title: 'Bestsellers',
+        title: "Bestsellers",
         items: [
-          { label: 'Best Sellers', href: '/sunglasses/bestsellers', badge: 'bestseller' },
+          {
+            label: "Best Sellers",
+            href: "/sunglasses/bestsellers",
+            badge: "bestseller",
+          },
         ],
       },
       {
-        title: 'Sale',
+        title: "Sale",
         items: [
-          { label: 'Clearance Sale', href: '/sunglasses/sale/clearance', isSale: true },
+          {
+            label: "Clearance Sale",
+            href: "/sunglasses/sale/clearance",
+            isSale: true,
+          },
         ],
       },
       {
-        title: 'View All',
+        title: "View All",
         items: [
-          { label: 'View All Sunglasses', href: '/sunglasses', badge: 'viewall' },
+          {
+            label: "View All Sunglasses",
+            href: "/products/sunglasses",
+            badge: "viewall",
+          },
         ],
       },
     ],
@@ -85,16 +112,16 @@ export const menuConfig: MenuCategory[] = [
 
   // 3. SUPPORT
   {
-    name: 'Support',
+    name: "Support",
     sections: [
       {
-        title: 'Help',
+        title: "Help",
         items: [
-          { label: 'Contact Us', href: '/support/contact' },
-          { label: 'FAQ', href: '/support/faq' },
-          { label: 'Shipping & Returns', href: '/support/shipping' },
-          { label: 'Store Locator', href: '/support/locations' },
-          { label: 'Care Guide', href: '/support/care' },
+          { label: "Contact Us", href: "/support/contact" },
+          { label: "FAQ", href: "/support/faq" },
+          { label: "Shipping & Returns", href: "/support/shipping" },
+          { label: "Store Locator", href: "/support/locations" },
+          { label: "Care Guide", href: "/support/care" },
         ],
       },
     ],
