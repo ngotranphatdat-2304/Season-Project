@@ -22,7 +22,6 @@ export const menuConfig: MenuCategory[] = [
           {
             label: "Best Sellers",
             href: "/eyeglasses/bestsellers",
-            badge: "bestseller",
           },
         ],
       },
@@ -31,7 +30,6 @@ export const menuConfig: MenuCategory[] = [
           {
             label: "Clearance Sale",
             href: "/eyeglasses/sale/clearance",
-            isSale: true,
           },
         ],
       },
@@ -40,7 +38,6 @@ export const menuConfig: MenuCategory[] = [
           {
             label: "View All Eyeglasses",
             href: "/products/eyeglasses/view-all",
-            badge: "viewall",
           },
         ],
       },
@@ -67,7 +64,6 @@ export const menuConfig: MenuCategory[] = [
           {
             label: "Best Sellers",
             href: "/sunglasses/bestsellers",
-            badge: "bestseller",
           },
         ],
       },
@@ -76,7 +72,6 @@ export const menuConfig: MenuCategory[] = [
           {
             label: "Clearance Sale",
             href: "/sunglasses/sale/clearance",
-            isSale: true,
           },
         ],
       },
@@ -85,7 +80,6 @@ export const menuConfig: MenuCategory[] = [
           {
             label: "View All Sunglasses",
             href: "/products/sunglasses",
-            badge: "viewall",
           },
         ],
       },

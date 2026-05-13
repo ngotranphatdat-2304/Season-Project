@@ -6,8 +6,6 @@ export interface MenuItem {
   label: string;
   href: string;
   icon?: React.ReactNode;
-  isSale?: boolean;
-  badge?: "bestseller" | "viewall";
 }
 
 export interface MenuSection {

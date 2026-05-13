@@ -17,14 +17,7 @@ export function MenuItem({
   icon,
   onItemClick,
   className,
-  isSale,
-  badge,
 }: MenuItemProps) {
-  const getHoverColor = () => {
-    if (isSale) return "hover:text-season-sale-red";
-    return "hover:text-white";
-  };
-
   return (
     <Link
       href={href}
@@ -35,7 +28,7 @@ export function MenuItem({
         // Text styling - Light text for dark background
         "text-xs sm:text-base font-light",
         // Hover states - Light up on hover
-        getHoverColor(),
+        "hover:text-white",
         // Focus states - Accessibility
         "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-neutral-600 focus-visible:ring-offset-1 focus-visible:ring-offset-season-menu-bg hover:bg-neutral text-neutral-300",
         className,
@@ -45,12 +38,7 @@ export function MenuItem({
         <div className="flex items-center gap-2">
           {icon && (
             <span
-              className={cn(
-                "transition-colors",
-                isSale
-                  ? "text-season-sale-red"
-                  : "text-neutral group-hover:text-neutral-200",
-              )}
+              className={cn("text-neutral transition-colors group-hover:text-neutral-200")}
             >
               {icon}
             </span>
@@ -59,12 +47,7 @@ export function MenuItem({
         </div>
         {/* Arrow indicator - Appears on hover */}
         <span
-          className={cn(
-            "ml-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-            isSale
-              ? "text-season-sale-red"
-              : "text-neutral group-hover:text-neutral-400",
-          )}
+          className="ml-2 opacity-0 transition-opacity duration-200 text-neutral group-hover:opacity-100 group-hover:text-neutral-400"
         >
           →
         </span>
