@@ -1,19 +1,10 @@
-/**
- * Mega Menu Configuration - Simplified Structure
- * 3 main categories: Eyeglasses, Sunglasses, Support
- * Eyeglasses: All frame sizes + all materials + sale
- * Sunglasses: Top 5 collections + sale
- */
-
 import { MenuCategory } from "./types";
 
 export const menuConfig: MenuCategory[] = [
-  // 1. EYEGLASSES
   {
     name: "Eyeglasses",
     sections: [
       {
-        title: "Frame Size",
         items: [
           { label: "Big", href: "/eyeglasses/frame-size/big" },
           { label: "Medium", href: "/eyeglasses/frame-size/medium" },
@@ -21,14 +12,12 @@ export const menuConfig: MenuCategory[] = [
         ],
       },
       {
-        title: "Frame Material",
         items: [
           { label: "Acetate", href: "/eyeglasses/frame-material/acetate" },
           { label: "Metal", href: "/eyeglasses/frame-material/metal" },
         ],
       },
       {
-        title: "Bestsellers",
         items: [
           {
             label: "Best Sellers",
@@ -38,7 +27,6 @@ export const menuConfig: MenuCategory[] = [
         ],
       },
       {
-        title: "Sale",
         items: [
           {
             label: "Clearance Sale",
@@ -48,7 +36,6 @@ export const menuConfig: MenuCategory[] = [
         ],
       },
       {
-        title: "View All",
         items: [
           {
             label: "View All Eyeglasses",
@@ -60,12 +47,10 @@ export const menuConfig: MenuCategory[] = [
     ],
   },
 
-  // 2. SUNGLASSES - Top 5 Collections
   {
     name: "Sunglasses",
     sections: [
       {
-        title: "Collections",
         items: [
           {
             label: "The Athletes",
@@ -78,7 +63,6 @@ export const menuConfig: MenuCategory[] = [
         ],
       },
       {
-        title: "Bestsellers",
         items: [
           {
             label: "Best Sellers",
@@ -88,7 +72,6 @@ export const menuConfig: MenuCategory[] = [
         ],
       },
       {
-        title: "Sale",
         items: [
           {
             label: "Clearance Sale",
@@ -98,7 +81,6 @@ export const menuConfig: MenuCategory[] = [
         ],
       },
       {
-        title: "View All",
         items: [
           {
             label: "View All Sunglasses",
@@ -110,12 +92,10 @@ export const menuConfig: MenuCategory[] = [
     ],
   },
 
-  // 3. SUPPORT
   {
     name: "Support",
     sections: [
       {
-        title: "Help",
         items: [
           { label: "Contact Us", href: "/support/contact" },
           { label: "FAQ", href: "/support/faq" },

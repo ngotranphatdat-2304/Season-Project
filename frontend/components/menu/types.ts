@@ -6,12 +6,11 @@ export interface MenuItem {
   label: string;
   href: string;
   icon?: React.ReactNode;
-  isSale?: boolean;  // Optional flag for sale items (red)
-  badge?: 'bestseller' | 'viewall';  // Optional badge type for different styling
+  isSale?: boolean;
+  badge?: "bestseller" | "viewall";
 }
 
 export interface MenuSection {
-  title: string;
   items: MenuItem[];
 }
 
@@ -22,7 +21,7 @@ export interface MenuCategory {
   featuredImage?: {
     src: string;
     alt: string;
-    caption?: string;  // NEW: Optional caption
+    caption?: string;
   };
 }
 
