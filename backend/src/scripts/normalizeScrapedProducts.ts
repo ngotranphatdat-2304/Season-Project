@@ -187,7 +187,6 @@ const normalizeNewData = () => {
       color: color,
       size: "",
       price: price,
-      originalPrice: price,
       images: product.images || [],
       isDefault: groupedProducts[baseName].variants.length === 0, // Make first variant default
     });

@@ -35,7 +35,7 @@ export interface BaseProductResponse {
   type: string;
   brand: string;
   collectionId: string;
-  saleInfo: IBaseProductFields["saleInfo"];
+  salePercent: IBaseProductFields["salePercent"];
   availability: IBaseProductFields["availability"];
   description: string;
   variants: IVariant[];
@@ -79,7 +79,7 @@ export interface BaseDatabaseProduct {
   type: string;
   collectionId: Types.ObjectId | string;
   brand: string;
-  saleInfo: IBaseProductFields["saleInfo"];
+  salePercent: IBaseProductFields["salePercent"];
   availability: IBaseProductFields["availability"];
   description: string;
   rating: IBaseProductFields["rating"];

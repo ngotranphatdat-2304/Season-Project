@@ -188,7 +188,6 @@ const normalizeData = () => {
           color: variantColor,
           size: variant.size || "",
           price: variant.price,
-          originalPrice: variant.originalPrice || variant.price,
           images: variant.images || [],
           isDefault: index === 0, // First variant is default
         });
@@ -200,7 +199,6 @@ const normalizeData = () => {
         color: color,
         size: product.size || "",
         price: product.price,
-        originalPrice: product.originalPrice || product.price,
         images: product.images || [],
         isDefault: groupedProducts[baseName].variants.length === 0,
       });

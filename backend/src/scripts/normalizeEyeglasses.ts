@@ -181,17 +181,14 @@ const normalizeNewData = () => {
     if (!groupedProducts[baseName]) {
       // Check if this product is in clearance sale
       const isInClearanceSale = clearanceSaleBaseNames.has(baseName);
-      const salePercent = isInClearanceSale ? getRandomSalePercent() : undefined;
+      const salePercent = isInClearanceSale ? getRandomSalePercent() : 0;
 
       groupedProducts[baseName] = {
         name: baseName,
         slug: baseSlug,
         collectionId: collectionId,
         brand: product.vendor || "SEESONvn",
-        saleInfo: {
-          isOnSale: isInClearanceSale,
-          ...(isInClearanceSale && { salePercent: salePercent })
-        },
+        salePercent,
         availability: product.availability || "in_stock",
         type: "Eyeglasses",
         description: product.description || "",
@@ -222,7 +219,6 @@ const normalizeNewData = () => {
       color: color,
       size: "",
       price: price,
-      originalPrice: price,
       images: product.images || [],
       isDefault: groupedProducts[baseName].variants.length === 0, // Make first variant default
       stock: getRandomStock(), // Random stock 1-10

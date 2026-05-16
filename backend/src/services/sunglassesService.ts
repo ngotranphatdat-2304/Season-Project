@@ -16,7 +16,7 @@ function transformSunglassesProduct(
     type: product.type,
     collectionId: product.collectionId.toString(),
     brand: product.brand,
-    saleInfo: product.saleInfo,
+    salePercent: product.salePercent,
     availability: product.availability,
     description: product.description,
     specifications: product.specifications,
@@ -35,7 +35,7 @@ export async function getSunglassesByFilters(
 
     const products = await Sunglasses.find(filter)
       .select(
-        "name slug type collectionId brand saleInfo availability description specifications variants rating isActive",
+        "name slug type collectionId brand salePercent availability description specifications variants rating isActive",
       )
       .skip(query.offset)
       .limit(query.limit)

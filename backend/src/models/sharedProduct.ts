@@ -16,15 +16,9 @@ export interface IVariant {
   color?: string;
   size?: string;
   price: number;
-  originalPrice?: number;
   images: string[];
   isDefault: boolean;
   stock: number;
-}
-
-export interface ISaleInfo {
-  isOnSale: boolean;
-  salePercent?: number;
 }
 
 export interface IProductRating {
@@ -41,21 +35,13 @@ export interface IBaseProductFields {
   slug: string;
   collectionId: Types.ObjectId;
   brand: string;
-  saleInfo: ISaleInfo;
+  salePercent: number;
   availability: ProductAvailability;
   description: string;
   variants: IVariant[];
   rating: IProductRating;
   isActive: boolean;
 }
-
-export const saleInfoSchema = new Schema<ISaleInfo>(
-  {
-    isOnSale: { type: Boolean, default: false },
-    salePercent: { type: Number, min: 1, max: 30 },
-  },
-  { _id: false },
-);
 
 export const ratingSchema = new Schema<IProductRating>(
   {
@@ -71,7 +57,6 @@ export const variantSchema = new Schema<IVariant>(
     color: String,
     size: String,
     price: { type: Number, required: true, min: 0 },
-    originalPrice: { type: Number, min: 0 },
     images: [{ type: String }],
     isDefault: { type: Boolean, default: false },
     stock: { type: Number, required: true, min: 1, max: 10 },
@@ -88,7 +73,7 @@ export const baseProductDefinition = {
     required: true,
   },
   brand: { type: String, required: true },
-  saleInfo: { type: saleInfoSchema, default: () => ({ isOnSale: false }) },
+  salePercent: { type: Number, min: 0, max: 30, default: 0 },
   availability: {
     type: String,
     enum: PRODUCT_AVAILABILITIES,

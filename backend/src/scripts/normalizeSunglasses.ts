@@ -44,7 +44,6 @@ type NormalizedVariant = {
   color: string;
   size: string;
   price: number;
-  originalPrice: number;
   images: string[];
   isDefault: boolean;
   stock: number;
@@ -59,6 +58,7 @@ const toBaseName = (value: string) => {
 };
 
 const getRandomStock = () => Math.floor(Math.random() * 10) + 1;
+const getRandomSalePercent = () => Math.floor(Math.random() * 30) + 1;
 
 const normalizeColorFromName = (value: string) =>
   value.toLowerCase().replace(/\s*-/g, "-").replace(/\s+/g, "-");
@@ -166,7 +166,6 @@ const seedDatabase = async () => {
         color,
         size: "",
         price,
-        originalPrice: price,
         images: cloudinaryImages,
         isDefault: true,
         stock: getRandomStock(),
@@ -190,9 +189,7 @@ const seedDatabase = async () => {
       },
       isActive: true,
       collectionId: matchingCollection._id,
-      saleInfo: {
-        isOnSale: product.sale === true,
-      },
+      salePercent: product.sale === true ? getRandomSalePercent() : 0,
     });
   }
 
