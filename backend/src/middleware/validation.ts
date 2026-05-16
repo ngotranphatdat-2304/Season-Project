@@ -46,7 +46,6 @@ export const validateEyeglassesQuery = (
 
   if ("error" in pagination) {
     res.status(400).json({
-      success: false,
       error: pagination.error,
     });
     return;
@@ -55,7 +54,6 @@ export const validateEyeglassesQuery = (
   let frameType = query.frameType?.trim() || null;
   if (frameType && !["acetate", "metal"].includes(frameType.toLowerCase())) {
     res.status(400).json({
-      success: false,
       error: "Invalid frameType. Use 'Acetate' or 'Metal'",
     });
     return;
@@ -85,7 +83,6 @@ export const validateSunglassesQuery = (
 
   if ("error" in pagination) {
     res.status(400).json({
-      success: false,
       error: pagination.error,
     });
     return;

@@ -48,9 +48,7 @@ export interface EyewearResponseData {
   pagination: PaginationData;
 }
 
-export interface ApiResponse<T> {
-  success: boolean;
-  data?: T;
+export interface ErrorResponse {
   error?: string;
 }
 
