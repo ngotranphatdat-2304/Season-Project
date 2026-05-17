@@ -42,13 +42,8 @@ export async function getSunglassesByFilters(
       .lean<DatabaseSunglassesProduct[]>();
 
     return {
-      products: products.map(transformSunglassesProduct),
-      pagination: {
-        offset: query.offset,
-        limit: query.limit,
-        total,
-        hasMore: query.offset + query.limit < total,
-      },
+      records: products.map(transformSunglassesProduct),
+      total,
     };
   } catch (error) {
     console.error("Error fetching sunglasses:", error);

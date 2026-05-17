@@ -51,21 +51,14 @@ export interface SunglassesProductResponse extends BaseProductResponse {
   specifications: ISunglasses["specifications"];
 }
 
-export interface PaginationData {
-  offset: number;
-  limit: number;
-  total: number;
-  hasMore: boolean;
-}
-
 export interface EyeglassesResponseData {
-  products: EyeglassesProductResponse[];
-  pagination: PaginationData;
+  records: EyeglassesProductResponse[];
+  total: number;
 }
 
 export interface SunglassesResponseData {
-  products: SunglassesProductResponse[];
-  pagination: PaginationData;
+  records: SunglassesProductResponse[];
+  total: number;
 }
 
 export interface ErrorResponse {
