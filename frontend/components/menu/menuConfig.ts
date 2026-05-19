@@ -6,22 +6,22 @@ export const menuConfig: MenuCategory[] = [
     sections: [
       {
         items: [
-          { label: "Big", href: "/eyeglasses/frame-size/big" },
-          { label: "Medium", href: "/eyeglasses/frame-size/medium" },
-          { label: "Small", href: "/eyeglasses/frame-size/small" },
+          { label: "Big", href: "/products/eyeglasses/big" },
+          { label: "Medium", href: "/products/eyeglasses/medium" },
+          { label: "Small", href: "/products/eyeglasses/small" },
         ],
       },
       {
         items: [
-          { label: "Acetate", href: "/eyeglasses/frame-material/acetate" },
-          { label: "Metal", href: "/eyeglasses/frame-material/metal" },
+          { label: "Acetate", href: "/products/eyeglasses/acetate" },
+          { label: "Metal", href: "/products/eyeglasses/metal" },
         ],
       },
       {
         items: [
           {
             label: "Best Sellers",
-            href: "/eyeglasses/bestsellers",
+            href: "/products/eyeglasses/bestsellers",
           },
         ],
       },
@@ -29,7 +29,7 @@ export const menuConfig: MenuCategory[] = [
         items: [
           {
             label: "Clearance Sale",
-            href: "/eyeglasses/sale/clearance",
+            href: "/products/eyeglasses/sale",
           },
         ],
       },
@@ -51,19 +51,19 @@ export const menuConfig: MenuCategory[] = [
         items: [
           {
             label: "The Athletes",
-            href: "/sunglasses/collection/the-athletes",
+            href: "/products/sunglasses/the-athletes",
           },
-          { label: "The Soap", href: "/sunglasses/collection/the-soap" },
-          { label: "The Ruler", href: "/sunglasses/collection/the-ruler" },
-          { label: "The Cut", href: "/sunglasses/collection/the-cut" },
-          { label: "The Edge", href: "/sunglasses/collection/the-edge" },
+          { label: "The Soap", href: "/products/sunglasses/the-soap" },
+          { label: "The Ruler", href: "/products/sunglasses/the-ruler" },
+          { label: "The Cut", href: "/products/sunglasses/the-cut" },
+          { label: "The Edge", href: "/products/sunglasses/the-edge" },
         ],
       },
       {
         items: [
           {
             label: "Best Sellers",
-            href: "/sunglasses/bestsellers",
+            href: "/products/sunglasses/bestsellers",
           },
         ],
       },
@@ -71,7 +71,7 @@ export const menuConfig: MenuCategory[] = [
         items: [
           {
             label: "Clearance Sale",
-            href: "/sunglasses/sale/clearance",
+            href: "/products/sunglasses/sale",
           },
         ],
       },
