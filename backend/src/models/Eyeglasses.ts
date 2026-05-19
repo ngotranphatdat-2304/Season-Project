@@ -6,13 +6,22 @@ import {
   productGenderField,
 } from "./sharedProduct.js";
 
-export interface IFrameType {
-  material: "Acetate" | "Metal";
-  size: "Small" | "Medium" | "Big";
+export enum FrameMaterial {
+  Acetate = "Acetate",
+  Metal = "Metal",
+}
+
+export enum FrameSize {
+  Small = "Small",
+  Medium = "Medium",
+  Big = "Big",
 }
 
 export interface IEyeglassesSpecifications extends IBaseSpecifications {
-  frameType: IFrameType;
+  frameType: {
+    material: FrameMaterial;
+    size: FrameSize;
+  };
 }
 
 export interface IEyeglasses extends Document, IBaseProductFields {
@@ -28,12 +37,12 @@ const EyeglassesSchema = new Schema<IEyeglasses>(
       frameType: {
         size: {
           type: String,
-          enum: ["Small", "Medium", "Big"],
+          enum: Object.values(FrameSize),
           required: true,
         },
         material: {
           type: String,
-          enum: ["Acetate", "Metal"],
+          enum: Object.values(FrameMaterial),
           required: true,
         },
       },

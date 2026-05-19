@@ -1,4 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
+import { FrameSize, FrameMaterial } from "../models/Eyeglasses.js";
 import type {
   EyeglassesQueryParams,
   SunglassesQueryParams,
@@ -14,7 +15,10 @@ export interface SunglassesValidatedRequest extends Request {
   validatedQuery?: ValidatedSunglassesQuery;
 }
 
-const parsePagination = (query: { offset?: number | string; limit?: number | string }) => {
+const parsePagination = (query: {
+  offset?: number | string;
+  limit?: number | string;
+}) => {
   const offset = parseInt(query.offset as string) || 0;
   let limit = parseInt(query.limit as string) || 12;
 
@@ -51,21 +55,28 @@ export const validateEyeglassesQuery = (
     return;
   }
 
-  let frameType = query.frameType?.trim() || null;
-  if (frameType && !["acetate", "metal"].includes(frameType.toLowerCase())) {
+  const frameType =
+    FrameMaterial[query.frameType as keyof typeof FrameMaterial] || null;
+
+  if (query.frameType && frameType === null) {
     res.status(400).json({
-      error: "Invalid frameType. Use 'Acetate' or 'Metal'",
+      error: "Invalid frameType.",
     });
     return;
   }
 
-  if (frameType) {
-    frameType =
-      frameType.charAt(0).toUpperCase() + frameType.slice(1).toLowerCase();
+  const frameSize =
+    FrameSize[query.frameSize as keyof typeof FrameSize] || null;
+  if (query.frameSize && frameSize === null) {
+    res.status(400).json({
+      error: "Invalid frameSize.",
+    });
+    return;
   }
 
   req.validatedQuery = {
-    frameType: frameType as ValidatedEyeglassesQuery["frameType"],
+    frameType: frameType,
+    frameSize: frameSize,
     offset: pagination.offset,
     limit: pagination.limit,
   };

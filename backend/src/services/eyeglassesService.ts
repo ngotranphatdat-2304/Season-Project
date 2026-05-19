@@ -15,6 +15,10 @@ function buildFilter(query: ValidatedEyeglassesQuery): Record<string, unknown> {
     filter["specifications.frameType.material"] = query.frameType;
   }
 
+  if (query.frameSize !== null) {
+    filter["specifications.frameType.size"] = query.frameSize;
+  }
+
   return filter;
 }
 

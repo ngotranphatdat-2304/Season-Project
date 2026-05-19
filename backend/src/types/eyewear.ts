@@ -1,7 +1,8 @@
 import type { IBaseProductFields, IVariant } from "../models/sharedProduct.js";
 import type {
+  FrameMaterial,
+  FrameSize,
   IEyeglassesSpecifications,
-  IFrameType,
 } from "../models/Eyeglasses.js";
 import type { ISunglasses } from "../models/Sunglasses.js";
 import type { Types } from "mongoose";
@@ -13,12 +14,14 @@ export interface BaseQueryParams {
 
 export interface EyeglassesQueryParams extends BaseQueryParams {
   frameType?: string;
+  frameSize?: string;
 }
 
 export interface SunglassesQueryParams extends BaseQueryParams {}
 
 export interface ValidatedEyeglassesQuery {
-  frameType: IFrameType["material"] | null;
+  frameType: FrameMaterial | null;
+  frameSize: FrameSize | null;
   offset: number;
   limit: number;
 }
