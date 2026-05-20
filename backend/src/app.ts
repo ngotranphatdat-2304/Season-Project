@@ -5,7 +5,7 @@ import eyeglassesRouter from "./routes/eyeglasses.js";
 import sunglassesRouter from "./routes/sunglasses.js";
 
 // Load environment variables from the parent directory
-dotenv.config({ path: "../.env" });
+dotenv.config({ path: "../.env.backend" });
 
 const app = express();
 const allowedOrigin = process.env.ALLOWED_ORIGIN;

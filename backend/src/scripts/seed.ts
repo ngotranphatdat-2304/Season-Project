@@ -8,7 +8,7 @@ import { Collection } from "../models/Collection.js";
 import { Eyeglasses } from "../models/Eyeglasses.js";
 import { Sunglasses } from "../models/Sunglasses.js";
 
-dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+dotenv.config({ path: path.resolve(process.cwd(), ".env.backend") });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,7 +17,7 @@ const seedDatabase = async () => {
   try {
     const mongoUri = process.env.MONGO_URI;
     if (mongoUri === undefined || mongoUri === "") {
-      throw new Error("Please provide a MongoDB URI in .env");
+      throw new Error("Please provide a MongoDB URI in .env.backend");
     }
 
     await mongoose.connect(mongoUri);

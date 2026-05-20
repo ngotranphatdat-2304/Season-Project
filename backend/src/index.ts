@@ -4,7 +4,7 @@ import { PORT } from "./config/constants.js";
 import app from "./app.js";
 
 dotenv.config({
-  path: "../.env",
+  path: "../.env.backend",
 });
 
 const startServer = async () => {
