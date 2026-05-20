@@ -1,5 +1,10 @@
 [
   {
+    "_id": "69d267a4dd0dd4ea810abc8b",
+    "name": "The Office",
+    "slug": "the-office"
+  },
+  {
     "_id": "69d267a4dd0dd4ea810abc83",
     "name": "The Assembled",
     "slug": "the-assembled"
@@ -38,26 +43,6 @@
     "_id": "69d267a4dd0dd4ea810abc8a",
     "name": "The Obsidian",
     "slug": "the-obsidian"
-  },
-  {
-    "_id": "69d267a4dd0dd4ea810abc8b",
-    "name": "The Office",
-    "slug": "the-office"
-  },
-  {
-    "_id": "69d267a4dd0dd4ea810abc8c",
-    "name": "The Paper Knife",
-    "slug": "the-paper-knife"
-  },
-  {
-    "_id": "69d267a4dd0dd4ea810abc8d",
-    "name": "The Ruler",
-    "slug": "the-ruler"
-  },
-  {
-    "_id": "69d267a4dd0dd4ea810abc8e",
-    "name": "The Set Square",
-    "slug": "the-set-square"
   },
   {
     "_id": "69d267a4dd0dd4ea810abc8f",

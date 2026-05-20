@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { ProductTypeEnum } from "@/lib/enums";
 import { Button } from "@/components/ui/button";
 import { ProductsPage } from "./products-page";
 import { fetchProductsBatchByCategory } from "../../lib/model/";
 import { PAGE_SIZE, ProductCard, ProductsPageData } from "../../lib/model/misc";
-import type { ProductsPageProps } from "./type";
+import { ProductsPageProps } from "./type";
+
 
 type ProductsPageShellProps<C extends ProductTypeEnum = ProductTypeEnum> = {
   category: C;
@@ -24,8 +25,13 @@ export function ProductsPageShell<C extends ProductTypeEnum = ProductTypeEnum>({
   );
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [isPending, startTransition] = useTransition();
-
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setProducts(initialData.initialProducts);
+    setError(null);
+  }, [initialData, view]);
+
   const loadedCount = products.length;
   const canLoadMore = loadedCount < initialData.totalItems;
 
@@ -56,16 +62,11 @@ export function ProductsPageShell<C extends ProductTypeEnum = ProductTypeEnum>({
 
   return (
     <div className="flex flex-col gap-8">
-      <ProductsPage
-        category={category}
-        view={view}
-        products={products}
-        totalItems={initialData.totalItems}
-      />
+      <ProductsPage products={products} totalItems={initialData.totalItems} />
 
       <div className="flex flex-col items-center gap-4 pb-8">
         <p className="text-center text-[15px] italic text-neutral-600">
-          <div className="h-px w-28 bg-linear-to-r from-neutral-400 via-neutral-300 to-transparent" />
+          Showing {products.length} of {initialData.totalItems} products
         </p>
 
         <div className="h-px w-28 bg-linear-to-r from-neutral-400 via-neutral-300 to-transparent" />

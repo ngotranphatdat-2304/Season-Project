@@ -40,6 +40,38 @@ const parsePagination = (query: {
   };
 };
 
+const parseSaleParam = (saleParam?: string): { sale: boolean } | { error: string } => {
+  if (saleParam === undefined) {
+    return { sale: false };
+  }
+
+  const normalized = saleParam.trim().toLowerCase();
+  if (["true", "1", "yes"].includes(normalized)) {
+    return { sale: true };
+  }
+
+  if (["false", "0", "no"].includes(normalized)) {
+    return { sale: false };
+  }
+
+  return { error: "Invalid sale. Use true or false." };
+};
+
+const normalizeCollectionSlug = (value?: string): string | null => {
+  if (value === undefined) {
+    return null;
+  }
+
+  const normalized = value
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+
+  return normalized === "" ? null : normalized;
+};
+
 export const validateEyeglassesQuery = (
   req: EyeglassesValidatedRequest,
   res: Response,
@@ -74,9 +106,16 @@ export const validateEyeglassesQuery = (
     return;
   }
 
+  const sale = parseSaleParam(query.sale);
+  if ("error" in sale) {
+    res.status(400).json({ error: sale.error });
+    return;
+  }
+
   req.validatedQuery = {
     frameType: frameType,
     frameSize: frameSize,
+    sale: sale.sale,
     offset: pagination.offset,
     limit: pagination.limit,
   };
@@ -99,6 +138,18 @@ export const validateSunglassesQuery = (
     return;
   }
 
-  req.validatedQuery = pagination;
+  const sale = parseSaleParam(query.sale);
+  if ("error" in sale) {
+    res.status(400).json({ error: sale.error });
+    return;
+  }
+
+  const collectionSlug = normalizeCollectionSlug(query.collectionSlug);
+
+  req.validatedQuery = {
+    collectionSlug,
+    ...pagination,
+    sale: sale.sale,
+  };
   next();
 };

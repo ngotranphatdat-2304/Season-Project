@@ -19,6 +19,10 @@ function buildFilter(query: ValidatedEyeglassesQuery): Record<string, unknown> {
     filter["specifications.frameType.size"] = query.frameSize;
   }
 
+  if (query.sale === true) {
+    filter.salePercent = { $gt: 0 };
+  }
+
   return filter;
 }
 

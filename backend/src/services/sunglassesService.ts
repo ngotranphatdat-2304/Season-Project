@@ -1,3 +1,4 @@
+import { Collection } from "../models/Collection.js";
 import { Sunglasses } from "../models/Sunglasses.js";
 import type {
   DatabaseSunglassesProduct,
@@ -30,7 +31,31 @@ export async function getSunglassesByFilters(
   query: ValidatedSunglassesQuery,
 ): Promise<SunglassesResponseData> {
   try {
-    const filter = { isActive: true };
+    const filter: Record<string, unknown> = {
+      isActive: true,
+    };
+
+    if (query.collectionSlug !== null) {
+      const collection = await Collection.findOne({
+        slug: query.collectionSlug,
+      })
+        .select("_id")
+        .lean<{ _id: unknown } | null>();
+
+      if (collection === null) {
+        return {
+          records: [],
+          total: 0,
+        };
+      }
+
+      filter.collectionId = collection._id;
+    }
+
+    if (query.sale === true) {
+      filter.salePercent = { $gt: 0 };
+    }
+
     const total = await Sunglasses.countDocuments(filter);
 
     const products = await Sunglasses.find(filter)

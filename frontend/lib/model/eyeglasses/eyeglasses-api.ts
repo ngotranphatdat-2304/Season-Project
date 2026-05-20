@@ -26,26 +26,28 @@ const toEyeglassesCard = (product: EyeglassesProduct): ProductCard => ({
 });
 
 function getEyeglassesQueryByView(view: EyeglassesView): EyeglassesQuery {
-  const normalizedView = String(view).toLowerCase();
-
-  if (normalizedView === "acetate") {
+  if (view === EyeglassesView.Acetate) {
     return { frameType: FrameMaterialEnum.Acetate };
   }
 
-  if (normalizedView === "metal") {
+  if (view === EyeglassesView.Metal) {
     return { frameType: FrameMaterialEnum.Metal };
   }
 
-  if (normalizedView === "small") {
+  if (view === EyeglassesView.Small) {
     return { frameSize: FrameSizeEnum.Small };
   }
 
-  if (normalizedView === "medium") {
+  if (view === EyeglassesView.Medium) {
     return { frameSize: FrameSizeEnum.Medium };
   }
 
-  if (normalizedView === "big") {
+  if (view === EyeglassesView.Big) {
     return { frameSize: FrameSizeEnum.Big };
+  }
+
+  if (view === EyeglassesView.Sale) {
+    return { sale: true };
   }
 
   return {};
@@ -67,6 +69,13 @@ export async function fetchEyeglassesBatch(
   offset: number,
   limit: number = PAGE_SIZE,
 ): Promise<ListResponse<ProductCard>> {
+  if (view === EyeglassesView.Bestsellers) {
+    return {
+      records: [],
+      total: 0,
+    };
+  }
+
   const response = await fetchEyeglassesPage(
     getEyeglassesQueryByView(view),
     offset,

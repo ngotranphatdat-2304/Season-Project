@@ -1,9 +1,11 @@
 export type SunglassesQuery = {
-  collectionId?: string;
+  collectionSlug?: string;
+  sale?: boolean;
 };
 
 export function serializeSunglassesQuery(params: SunglassesQuery) {
   return {
-    collectionId: params.collectionId,
+    collectionSlug: params.collectionSlug,
+    sale: params.sale,
   };
 }

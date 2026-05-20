@@ -15,18 +15,25 @@ export interface BaseQueryParams {
 export interface EyeglassesQueryParams extends BaseQueryParams {
   frameType?: string;
   frameSize?: string;
+  sale?: string;
 }
 
-export interface SunglassesQueryParams extends BaseQueryParams {}
+export interface SunglassesQueryParams extends BaseQueryParams {
+  collectionSlug?: string;
+  sale?: string;
+}
 
 export interface ValidatedEyeglassesQuery {
   frameType: FrameMaterial | null;
   frameSize: FrameSize | null;
+  sale: boolean;
   offset: number;
   limit: number;
 }
 
 export interface ValidatedSunglassesQuery {
+  collectionSlug: string | null;
+  sale: boolean;
   offset: number;
   limit: number;
 }

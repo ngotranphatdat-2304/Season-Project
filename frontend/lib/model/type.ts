@@ -13,23 +13,24 @@ export type FrameMaterial = FrameMaterialEnum;
 export type FrameSize = FrameSizeEnum;
 
 export enum EyeglassesView {
-  Acetate = "Acetate",
-  Metal = "Metal",
-  Big = "Big",
-  Medium = "Medium",
-  Small = "Small",
-  Sale = "Sale",
-  Bestsellers = "Bestsellers",
+  Acetate = "acetate",
+  Metal = "metal",
+  Big = "big",
+  Medium = "medium",
+  Small = "small",
+  Sale = "sale",
+  Bestsellers = "bestsellers",
   ViewAll = "view-all",
 }
 
 export enum SunglassesView {
-  TheAthletes = "The Athletes",
-  TheSoap = "The Soap",
-  TheRuler = "The Ruler",
-  TheCut = "The Cut",
-  TheEdge = "The Edge",
-  Sale = "Sale",
-  Bestsellers = "Bestsellers",
+  TheAssembled = "the-assembled",
+  TheAthletes = "the-athletes",
+  TheCutEdge = "the-cut-edge",
+  TheObsidian = "the-obsidian",
+  TheOffice = "the-office",
+  TheSoap = "the-soap",
+  TheVertebra = "the-vertebra",
+  Sale = "sale",
   ViewAll = "view-all",
 }

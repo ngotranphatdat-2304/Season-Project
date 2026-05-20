@@ -1,6 +1,8 @@
 import { notFound, redirect } from "next/navigation";
-import { getProductCategoryConfig } from "@/components/products/utils";
-import { ProductTypeEnum } from "@/lib/enums";
+import {
+  getProductCategoryConfig,
+  parseProductCategory,
+} from "@/components/products/utils";
 
 type CategoryRouteProps = {
   params: Promise<{
@@ -10,11 +12,9 @@ type CategoryRouteProps = {
 
 export default async function CategoryPage({ params }: CategoryRouteProps) {
   const { category: categoryParam } = await params;
-  const category =
-    ProductTypeEnum[categoryParam as keyof typeof ProductTypeEnum];
+  const category = parseProductCategory(categoryParam);
 
   if (category === undefined) {
-    console.error(`Invalid category: ${categoryParam}`);
     notFound();
   }
 

@@ -5,7 +5,7 @@ import {
   serializeSunglassesQuery,
 } from "@/lib/model";
 import { serializePaginationQuery } from "@/lib/serialize";
-import type { SunglassesView } from "../type";
+import { SunglassesView } from "../type";
 import {
   getVariantCountLabel,
   ProductCard,
@@ -24,7 +24,23 @@ const toSunglassesCard = (product: SunglassesProduct): ProductCard => ({
   meta: product.brand,
 });
 
-function getSunglassesQueryByView(_view: SunglassesView): SunglassesQuery {
+function getSunglassesQueryByView(view: SunglassesView): SunglassesQuery {
+  if (
+    view === SunglassesView.TheAssembled ||
+    view === SunglassesView.TheAthletes ||
+    view === SunglassesView.TheCutEdge ||
+    view === SunglassesView.TheObsidian ||
+    view === SunglassesView.TheSoap ||
+    view === SunglassesView.TheOffice ||
+    view === SunglassesView.TheVertebra
+  ) {
+    return { collectionSlug: view };
+  }
+
+  if (view === SunglassesView.Sale) {
+    return { sale: true };
+  }
+
   return {};
 }
 

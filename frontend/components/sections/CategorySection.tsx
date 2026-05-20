@@ -5,10 +5,10 @@ import { kinhCan, kinhRam } from "@/images/landing-page";
 export function CategoryGrid() {
   return (
     <section className="relative w-full bg-white border-b border-season-gray overflow-hidden ">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-0.5 mt-0.5 mb-0.5 mr-0.5 ml-0.5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-0.4">
         {/* Product 1 */}
         <Link
-          href="/product/1"
+          href="/products/sunglasses/view-all"
           className="group relative relativeblock h-[60vh] md:h-[85vh]  w-full overflow-hidden"
         >
           <Image
@@ -30,7 +30,7 @@ export function CategoryGrid() {
 
         {/* Product 2 */}
         <Link
-          href="/product/2"
+          href="/products/eyeglasses/view-all"
           className="group relative relativeblock h-[60vh] md:h-[85vh]  w-full overflow-hidden"
         >
           <Image

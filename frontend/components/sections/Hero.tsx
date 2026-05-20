@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 import { heroImage, heroImage2, heroImage3 } from "@/images/landing-page";
 import {
   Carousel,
@@ -75,12 +76,12 @@ export function Hero() {
         <h1 className="text-2xl sm:text-4xl md:text-6xl font-serif text-white uppercase tracking-[0.20em] font-extralight drop-shadow-md">
           New Collections
         </h1>
-        <Button
-          variant="outline"
-          className="rounded-none border-white bg-transparent px-6 py-5 md:px-8 md:py-6 font-sans text-[10px] md:text-xs uppercase tracking-widest text-white hover:bg-white hover:text-black transition-colors duration-300 backdrop-blur-sm pointer-events-auto"
+        <Link
+          href="/products/sunglasses/view-all"
+          className="rounded-none outline border-white bg-transparent px-6 py-5 md:px-8 md:py-6 font-sans text-[10px] md:text-xs uppercase tracking-widest text-white hover:bg-white hover:text-black transition-colors duration-300 backdrop-blur-sm pointer-events-auto"
         >
           Shop Now
-        </Button>
+        </Link>
       </div>
     </section>
   );

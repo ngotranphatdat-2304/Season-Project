@@ -106,7 +106,7 @@ export class SunglassesProduct {
       return this.price;
     }
 
-    return Math.round(this.price / (1 - this.salePercent / 100));
+    return Math.ceil(this.price / (1 - this.salePercent / 100));
   }
 
   get isOnSale(): boolean {

@@ -20,14 +20,6 @@ export const menuConfig: MenuCategory[] = [
       {
         items: [
           {
-            label: "Best Sellers",
-            href: "/products/eyeglasses/bestsellers",
-          },
-        ],
-      },
-      {
-        items: [
-          {
             label: "Clearance Sale",
             href: "/products/eyeglasses/sale",
           },
@@ -50,20 +42,30 @@ export const menuConfig: MenuCategory[] = [
       {
         items: [
           {
+            label: "The Assembled",
+            href: "/products/sunglasses/the-assembled",
+          },
+          {
             label: "The Athletes",
             href: "/products/sunglasses/the-athletes",
           },
+          {
+            label: "The Obsidian",
+            href: "/products/sunglasses/the-obsidian",
+          },
+          {
+            label: "The Paper Knife",
+            href: "/products/sunglasses/the-paper-knife",
+          },
           { label: "The Soap", href: "/products/sunglasses/the-soap" },
           { label: "The Ruler", href: "/products/sunglasses/the-ruler" },
-          { label: "The Cut", href: "/products/sunglasses/the-cut" },
-          { label: "The Edge", href: "/products/sunglasses/the-edge" },
-        ],
-      },
-      {
-        items: [
           {
-            label: "Best Sellers",
-            href: "/products/sunglasses/bestsellers",
+            label: "The Set Square",
+            href: "/products/sunglasses/the-set-square",
+          },
+          {
+            label: "The Vertebra",
+            href: "/products/sunglasses/the-vertebra",
           },
         ],
       },
