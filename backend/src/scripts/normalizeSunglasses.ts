@@ -7,7 +7,7 @@ import { v2 as cloudinary } from "cloudinary";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-dotenv.config({ path: path.resolve(process.cwd(), ".env") });
+dotenv.config({ path: path.resolve(process.cwd(), ".env.backend") });
 
 const inputPath = path.resolve(
   __dirname,
@@ -22,6 +22,21 @@ const outputPath = path.resolve(
   __dirname,
   "../../season_data/sunglasses-normalized.json",
 );
+
+const assignGenderBySplit = <
+  T extends { slug: string; specifications: { gender: string } },
+>(
+  products: T[],
+) => {
+  const sortedProducts = [...products].sort((left, right) =>
+    left.slug.localeCompare(right.slug),
+  );
+  const maleCount = Math.ceil(sortedProducts.length / 2);
+
+  sortedProducts.forEach((product, index) => {
+    product.specifications.gender = index < maleCount ? "Male" : "Female";
+  });
+};
 
 type SourceProduct = {
   slug: string;
@@ -98,7 +113,7 @@ const uploadFolderImages = async (folderPath: string, publicFolder: string) => {
 const seedDatabase = async () => {
   const cloudinaryUrl = process.env.CLOUDINARY_URL;
   if (cloudinaryUrl === undefined || cloudinaryUrl === "") {
-    throw new Error("Please provide CLOUDINARY_URL in .env");
+    throw new Error("Please provide CLOUDINARY_URL in .env.backend");
   }
 
   const cloudinaryConfig = parseCloudinaryUrl(cloudinaryUrl);
@@ -192,6 +207,10 @@ const seedDatabase = async () => {
       salePercent: product.sale === true ? getRandomSalePercent() : 0,
     });
   }
+
+  assignGenderBySplit(
+    normalizedProducts as Array<{ slug: string; specifications: { gender: string } }>,
+  );
 
   fs.writeFileSync(outputPath, JSON.stringify(normalizedProducts, null, 2));
   console.log(`✅ Normalized sunglasses saved to ${outputPath}`);

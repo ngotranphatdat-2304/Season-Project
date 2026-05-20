@@ -25,6 +25,7 @@
     "normalize": "tsx src/scripts/normalizeData.ts",
     "normalize:sunglasses": "tsx src/scripts/normalizeSunglasses.ts",
     "normalize:eyeglasses": "tsx src/scripts/normalizeEyeglasses.ts",
+    "normalize:collections": "tsx src/scripts/updateCollectionCounts.ts",
     "seed": "tsx src/scripts/seed.ts"
   },
   "keywords": [],

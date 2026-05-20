@@ -41,6 +41,19 @@ const outputPath = path.resolve(
   "../../season_data/eyeglasses-normalized.json",
 );
 
+const assignGenderBySplit = <T extends { slug: string; specifications: { gender: string } }>(
+  products: T[],
+) => {
+  const sortedProducts = [...products].sort((left, right) =>
+    left.slug.localeCompare(right.slug),
+  );
+  const maleCount = Math.ceil(sortedProducts.length / 2);
+
+  sortedProducts.forEach((product, index) => {
+    product.specifications.gender = index < maleCount ? "Male" : "Female";
+  });
+};
+
 const normalizeNewData = () => {
   const rawData = fs.readFileSync(inputPath, "utf8");
   const data = JSON.parse(rawData);
@@ -226,6 +239,7 @@ const normalizeNewData = () => {
   });
 
   const result = Object.values(groupedProducts);
+  assignGenderBySplit(result as Array<{ slug: string; specifications: { gender: string } }>);
 
   fs.writeFileSync(outputPath, JSON.stringify(result, null, 2));
   console.log(`✅ Normalized newly scraped products saved to ${outputPath}`);
