@@ -57,7 +57,6 @@ type SourceProduct = {
 type NormalizedVariant = {
   sku: string;
   color: string;
-  size: string;
   price: number;
   images: string[];
   isDefault: boolean;
@@ -179,7 +178,6 @@ const seedDatabase = async () => {
       {
         sku: product.slug,
         color,
-        size: "",
         price,
         images: cloudinaryImages,
         isDefault: true,

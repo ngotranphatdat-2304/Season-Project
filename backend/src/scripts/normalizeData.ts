@@ -186,7 +186,6 @@ const normalizeData = () => {
         groupedProducts[baseName].variants.push({
           sku: variant.sku,
           color: variantColor,
-          size: variant.size || "",
           price: variant.price,
           images: variant.images || [],
           isDefault: index === 0, // First variant is default
@@ -197,7 +196,6 @@ const normalizeData = () => {
       groupedProducts[baseName].variants.push({
         sku: product.sku || "",
         color: color,
-        size: product.size || "",
         price: product.price,
         images: product.images || [],
         isDefault: groupedProducts[baseName].variants.length === 0,

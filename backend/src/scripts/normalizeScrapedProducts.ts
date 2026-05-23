@@ -185,7 +185,6 @@ const normalizeNewData = () => {
     groupedProducts[baseName].variants.push({
       sku: product.slug,
       color: color,
-      size: "",
       price: price,
       images: product.images || [],
       isDefault: groupedProducts[baseName].variants.length === 0, // Make first variant default

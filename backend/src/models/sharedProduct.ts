@@ -14,7 +14,6 @@ const PRODUCT_GENDERS: ProductGender[] = ["Male", "Female", "Unisex"];
 export interface IVariant {
   sku: string;
   color?: string;
-  size?: string;
   price: number;
   images: string[];
   isDefault: boolean;
@@ -55,7 +54,6 @@ export const variantSchema = new Schema<IVariant>(
   {
     sku: { type: String, required: true },
     color: String,
-    size: String,
     price: { type: Number, required: true, min: 0 },
     images: [{ type: String }],
     isDefault: { type: Boolean, default: false },

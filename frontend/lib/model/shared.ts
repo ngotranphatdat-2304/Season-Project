@@ -26,7 +26,6 @@ export class Rating {
 export interface ProductVariantArgs {
   sku: string;
   color?: string;
-  size?: string;
   price: number;
   images: string[];
   isDefault: boolean;
@@ -36,7 +35,6 @@ export interface ProductVariantArgs {
 export class ProductVariant {
   sku: string;
   color?: string;
-  size?: string;
   price: number;
   images: string[];
   isDefault: boolean;
@@ -45,7 +43,6 @@ export class ProductVariant {
   constructor(args: ProductVariantArgs) {
     this.sku = args.sku;
     this.color = args.color;
-    this.size = args.size;
     this.price = args.price;
     this.images = args.images;
     this.isDefault = args.isDefault;
@@ -56,7 +53,6 @@ export class ProductVariant {
     return new ProductVariant({
       sku: data.sku,
       color: data.color ?? undefined,
-      size: data.size ?? undefined,
       price: data.price,
       images: data.images ?? [],
       isDefault: data.isDefault,

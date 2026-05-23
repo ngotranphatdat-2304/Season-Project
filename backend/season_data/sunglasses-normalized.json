@@ -13,7 +13,6 @@
       {
         "sku": "the-set-square-01-sunglasses-black-black",
         "color": "black-black",
-        "size": "",
         "price": 2950000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472700/MyProject/the-set-square-01-sunglasses-black-black/image_01.jpg",
@@ -50,7 +49,6 @@
       {
         "sku": "the-obsidian-02-sunglasses-black-black",
         "color": "black-black",
-        "size": "",
         "price": 2320000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471855/MyProject/the-obsidian-02-sunglasses-black-black/image_01.jpg",
@@ -86,7 +84,6 @@
       {
         "sku": "the-athletes-01-sunglasses-black-black",
         "color": "black-black",
-        "size": "",
         "price": 3350000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472751/MyProject/the-athletes-01-sunglasses-black-black/image_01.png",
@@ -122,7 +119,6 @@
       {
         "sku": "the-soap-08-sunglasses-grey-rhino",
         "color": "grey-rhino",
-        "size": "",
         "price": 2450000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471869/MyProject/the-soap-08-sunglasses-grey-rhino/image_01.jpg",
@@ -157,7 +153,6 @@
       {
         "sku": "the-vertebra-02-sunglasses-purple-purple",
         "color": "purple-purple",
-        "size": "",
         "price": 2160000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471874/MyProject/the-vertebra-02-sunglasses-purple-purple/image_01.jpg",
@@ -193,7 +188,6 @@
       {
         "sku": "the-vertebra-01-sunglasses-purple-purple",
         "color": "purple-purple",
-        "size": "",
         "price": 2160000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471881/MyProject/the-vertebra-01-sunglasses-purple-purple/image_01.jpg",
@@ -229,7 +223,6 @@
       {
         "sku": "the-ruler-03-sunglasses-silver-brown",
         "color": "silver-brown",
-        "size": "",
         "price": 2900000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471888/MyProject/the-ruler-03-sunglasses-silver-brown/image_01.jpg",
@@ -266,7 +259,6 @@
       {
         "sku": "the-assembled-10-sunglasses-light-grey-mirror-iron",
         "color": "light-grey-mirror-iron",
-        "size": "",
         "price": 2720000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471896/MyProject/the-assembled-10-sunglasses-light-grey-mirror-iron/image_01.jpg",
@@ -302,7 +294,6 @@
       {
         "sku": "the-vertebra-04-sunglasses-black-green-black",
         "color": "black-green-black",
-        "size": "",
         "price": 2160000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471903/MyProject/the-vertebra-04-sunglasses-black-green-black/image_01.jpg",
@@ -338,7 +329,6 @@
       {
         "sku": "the-ruler-03-sunglasses-silver-tinted-blue",
         "color": "silver-tinted-blue",
-        "size": "",
         "price": 2900000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471911/MyProject/the-ruler-03-sunglasses-silver-tinted-blue/image_01.jpg",
@@ -375,7 +365,6 @@
       {
         "sku": "the-vertebra-04-sunglasses-silver-black",
         "color": "silver-black",
-        "size": "",
         "price": 2160000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471919/MyProject/the-vertebra-04-sunglasses-silver-black/image_01.jpg",
@@ -411,7 +400,6 @@
       {
         "sku": "the-assembled-10-sunglasses-light-grey-black",
         "color": "light-grey-black",
-        "size": "",
         "price": 2720000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471926/MyProject/the-assembled-10-sunglasses-light-grey-black/image_01.jpg",
@@ -448,7 +436,6 @@
       {
         "sku": "the-cut-edge-01-sunglasses-teal-teal",
         "color": "teal-teal",
-        "size": "",
         "price": 2600000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471934/MyProject/the-cut-edge-01-sunglasses-teal-teal/image_01.jpg",
@@ -484,7 +471,6 @@
       {
         "sku": "the-vertebra-04-sunglasses-black-purple-black",
         "color": "black-purple-black",
-        "size": "",
         "price": 2160000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471940/MyProject/the-vertebra-04-sunglasses-black-purple-black/image_01.jpg",
@@ -519,7 +505,6 @@
       {
         "sku": "the-athletes-12-sunglasses-solid-brown-black",
         "color": "solid-brown-black",
-        "size": "",
         "price": 2900000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471947/MyProject/the-athletes-12-sunglasses-solid-brown-black/image_01.png",
@@ -554,7 +539,6 @@
       {
         "sku": "the-obsidian-02-sunglasses-havana-green",
         "color": "havana-green",
-        "size": "",
         "price": 2900000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471952/MyProject/the-obsidian-02-sunglasses-havana-green/image_01.jpg",
@@ -591,7 +575,6 @@
       {
         "sku": "the-athletes-12-sunglasses-grey-black",
         "color": "grey-black",
-        "size": "",
         "price": 2900000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778471960/MyProject/the-athletes-12-sunglasses-grey-black/image_01.png",
@@ -626,7 +609,6 @@
       {
         "sku": "the-athletes-01-sunglasses-silver-black",
         "color": "silver-black",
-        "size": "",
         "price": 3350000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472107/MyProject/the-athletes-01-sunglasses-silver-black/image_01.png",
@@ -662,7 +644,6 @@
       {
         "sku": "the-soap-03-sunglasses-purple-purple",
         "color": "purple-purple",
-        "size": "",
         "price": 2650000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472114/MyProject/the-soap-03-sunglasses-purple-purple/image_01.jpg",
@@ -699,7 +680,6 @@
       {
         "sku": "the-paper-knife-01-sunglasses-black-black",
         "color": "black-black",
-        "size": "",
         "price": 2700000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472122/MyProject/the-paper-knife-01-sunglasses-black-black/image_01.jpg",
@@ -736,7 +716,6 @@
       {
         "sku": "the-set-square-02-sunglasses-grey-rhino",
         "color": "grey-rhino",
-        "size": "",
         "price": 2600000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472131/MyProject/the-set-square-02-sunglasses-grey-rhino/image_01.jpg",
@@ -773,7 +752,6 @@
       {
         "sku": "the-soap-07-sunglasses-grey-rhino",
         "color": "grey-rhino",
-        "size": "",
         "price": 2450000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472140/MyProject/the-soap-07-sunglasses-grey-rhino/image_01.jpg",
@@ -808,7 +786,6 @@
       {
         "sku": "the-snorkel-03-sunglasses-purple-mirror-iron",
         "color": "purple-mirror-iron",
-        "size": "",
         "price": 2800000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472146/MyProject/the-snorkel-03-sunglasses-purple-mirror-iron/image_01.jpg",
@@ -845,7 +822,6 @@
       {
         "sku": "the-paper-knife-02-sunglasses-black-black",
         "color": "black-black",
-        "size": "",
         "price": 2700000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472158/MyProject/the-paper-knife-02-sunglasses-black-black/image_01.jpg",
@@ -882,7 +858,6 @@
       {
         "sku": "the-athletes-10-sunglasses-grey-black",
         "color": "grey-black",
-        "size": "",
         "price": 2900000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472168/MyProject/the-athletes-10-sunglasses-grey-black/image_01.png",
@@ -917,7 +892,6 @@
       {
         "sku": "the-athletes-06-sunglasses-silver-tinted-blue",
         "color": "silver-tinted-blue",
-        "size": "",
         "price": 3000000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472176/MyProject/the-athletes-06-sunglasses-silver-tinted-blue/image_01.png",
@@ -952,7 +926,6 @@
       {
         "sku": "the-athletes-14-sunglasses-grey-black",
         "color": "grey-black",
-        "size": "",
         "price": 2900000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472183/MyProject/the-athletes-14-sunglasses-grey-black/image_01.png",
@@ -987,7 +960,6 @@
       {
         "sku": "the-athletes-05-sunglasses-silver-tinted-blue",
         "color": "silver-tinted-blue",
-        "size": "",
         "price": 3000000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472189/MyProject/the-athletes-05-sunglasses-silver-tinted-blue/image_01.png",
@@ -1022,7 +994,6 @@
       {
         "sku": "the-athletes-06-sunglasses-silver-yellow",
         "color": "silver-yellow",
-        "size": "",
         "price": 3000000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472195/MyProject/the-athletes-06-sunglasses-silver-yellow/image_01.png",
@@ -1057,7 +1028,6 @@
       {
         "sku": "the-athletes-07-sunglasses-silver-tinted-blue",
         "color": "silver-tinted-blue",
-        "size": "",
         "price": 3000000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472203/MyProject/the-athletes-07-sunglasses-silver-tinted-blue/image_01.png",
@@ -1092,7 +1062,6 @@
       {
         "sku": "the-athletes-15-sunglasses-brown-brown",
         "color": "brown-brown",
-        "size": "",
         "price": 2900000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472212/MyProject/the-athletes-15-sunglasses-brown-brown/image_01.png",
@@ -1127,7 +1096,6 @@
       {
         "sku": "the-athletes-14-sunglasses-black-tinted-blue",
         "color": "black-tinted-blue",
-        "size": "",
         "price": 2900000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472219/MyProject/the-athletes-14-sunglasses-black-tinted-blue/image_01.png",
@@ -1162,7 +1130,6 @@
       {
         "sku": "the-athletes-07-sunglasses-silver-orange",
         "color": "silver-orange",
-        "size": "",
         "price": 3000000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472225/MyProject/the-athletes-07-sunglasses-silver-orange/image_01.png",
@@ -1197,7 +1164,6 @@
       {
         "sku": "the-athletes-05-sunglasses-silver-yellow",
         "color": "silver-yellow",
-        "size": "",
         "price": 3000000,
         "images": [
           "https://res.cloudinary.com/dzpflddlo/image/upload/v1778472231/MyProject/the-athletes-05-sunglasses-silver-yellow/image_01.png",
