@@ -13,7 +13,9 @@ export function toEyeglassesCard(product: EyeglassesProduct): ProductCard {
   return {
     title: product.name,
     slug: product.slug,
-    image: product.primaryImage,
+    images: product.variants
+      .map((variant) => variant.images[0] ?? "")
+      .filter((image) => image !== ""),
     colorCount: product.variantCountLabel,
     price: product.price,
     originalPrice: product.originalPrice,
@@ -25,7 +27,9 @@ export function toSunglassesCard(product: SunglassesProduct): ProductCard {
   return {
     title: product.name,
     slug: product.slug,
-    image: product.primaryImage,
+    images: product.variants
+      .map((variant) => variant.images[0] ?? "")
+      .filter((image) => image !== ""),
     colorCount: product.variantCountLabel,
     price: product.price,
     originalPrice: product.originalPrice,

@@ -4,7 +4,7 @@ import { FrameMaterialEnum, FrameSizeEnum, ProductTypeEnum } from "../enums";
 export type ProductCard = {
   title: string;
   slug: string;
-  image: string;
+  images: string[];
   colorCount: string;
   price: number;
   originalPrice: number;
