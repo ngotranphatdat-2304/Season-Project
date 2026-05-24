@@ -5,6 +5,8 @@ import type {
   CollectionFiltersResponseData,
   CollectionProductResponse,
   CollectionProductsResponseData,
+  EyeglassesProductResponse,
+  SunglassesProductResponse,
   ValidatedCollectionProductsQuery,
 } from "../types/eyewear.js";
 import { buildSort } from "./utils.js";
@@ -82,6 +84,25 @@ function transformCollectionProduct(product: {
   isActive: boolean;
   specifications: unknown;
 }): CollectionProductResponse {
+  if (product.type === "Eyeglasses") {
+    return {
+      id: String(product._id),
+      name: product.name,
+      slug: product.slug,
+      type: product.type,
+      collectionId: String(product.collectionId),
+      brand: product.brand,
+      salePercent: product.salePercent,
+      availability: product.availability as EyeglassesProductResponse["availability"],
+      description: product.description,
+      variants: product.variants as EyeglassesProductResponse["variants"],
+      rating: product.rating as EyeglassesProductResponse["rating"],
+      isActive: product.isActive,
+      specifications:
+        product.specifications as EyeglassesProductResponse["specifications"],
+    };
+  }
+
   return {
     id: String(product._id),
     name: product.name,
@@ -90,14 +111,13 @@ function transformCollectionProduct(product: {
     collectionId: String(product.collectionId),
     brand: product.brand,
     salePercent: product.salePercent,
-    availability:
-      product.availability as CollectionProductResponse["availability"],
+    availability: product.availability as SunglassesProductResponse["availability"],
     description: product.description,
-    variants: product.variants as CollectionProductResponse["variants"],
-    rating: product.rating as CollectionProductResponse["rating"],
+    variants: product.variants as SunglassesProductResponse["variants"],
+    rating: product.rating as SunglassesProductResponse["rating"],
     isActive: product.isActive,
     specifications:
-      product.specifications as CollectionProductResponse["specifications"],
+      product.specifications as SunglassesProductResponse["specifications"],
   };
 }
 

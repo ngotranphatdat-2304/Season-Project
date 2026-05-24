@@ -9,6 +9,7 @@ import {
 } from "@/lib/model/misc";
 import { CategoryListShell } from "@/components/products/view-by-category/category-list-shell";
 import { parseProductCategory } from "@/components/products/view-by-category/category-config";
+import { getSingleSearchParam } from "@/app/utils/search-params";
 
 type CategoryRouteProps = {
   params: Promise<{
@@ -17,16 +18,6 @@ type CategoryRouteProps = {
   }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
-
-function getSingleSearchParam(
-  value: string | string[] | undefined,
-): string | undefined {
-  if (Array.isArray(value)) {
-    return value[0];
-  }
-
-  return value;
-}
 
 export default async function CategoryPage({
   params,

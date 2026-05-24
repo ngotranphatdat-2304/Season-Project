@@ -2,6 +2,8 @@ import { ProductRouteView } from "./type";
 import { FrameMaterialEnum, FrameSizeEnum, ProductTypeEnum } from "../enums";
 
 export type ProductCard = {
+  id: string;
+  type: ProductTypeEnum;
   title: string;
   slug: string;
   images: string[];

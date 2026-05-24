@@ -1,4 +1,4 @@
-import { fetchList, type ListResponse } from "@/lib/fetcher";
+import { fetchList, fetchOne, type ListResponse } from "@/lib/fetcher";
 import { ProductGenderEnum } from "@/lib/enums";
 import {
   EyeglassesProduct,
@@ -100,4 +100,10 @@ export async function fetchEyeglassesCollectionBatch(
     offset,
     limit,
   );
+}
+
+export async function fetchEyeglassesById(
+  id: string,
+): Promise<EyeglassesProduct> {
+  return fetchOne(`/eyeglasses/${id}`, EyeglassesProduct);
 }

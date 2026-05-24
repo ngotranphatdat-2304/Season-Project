@@ -1,10 +1,12 @@
 import mongoose, { Document, Schema } from "mongoose";
 import {
   baseProductDefinition,
-  type IBaseProductFields,
-  type IBaseSpecifications,
   productGenderField,
 } from "./sharedProduct.js";
+import type {
+  IBaseProductFields,
+  IBaseSpecifications,
+} from "../types/eyewear.js";
 
 export interface ISunglasses extends Document, IBaseProductFields {
   type: "Sunglasses";

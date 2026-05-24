@@ -5,6 +5,7 @@ import {
   parseProductsQueryState,
   toPlainObject,
 } from "@/lib/model/misc";
+import { getSingleSearchParam } from "@/app/utils/search-params";
 
 type CollectionPageProps = {
   params: Promise<{
@@ -12,16 +13,6 @@ type CollectionPageProps = {
   }>;
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 };
-
-function getSingleSearchParam(
-  value: string | string[] | undefined,
-): string | undefined {
-  if (Array.isArray(value)) {
-    return value[0];
-  }
-
-  return value;
-}
 
 export default async function CollectionPage({
   params,
@@ -41,7 +32,7 @@ export default async function CollectionPage({
   }
 
   const collectionProducts = await getCollectionPageData(slug, queryState.sort);
-
+  
   return (
     <CollectionListShell
       collectionSlug={slug}

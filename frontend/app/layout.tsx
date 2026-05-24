@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Crimson_Pro } from "next/font/google";
+import { Afacad, Crimson_Pro } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/sections/Header";
@@ -9,6 +9,12 @@ const crimsonPro = Crimson_Pro({
   subsets: ["latin"],
   variable: "--font-crimson-pro",
   weight: ["200", "300", "400", "500", "600"],
+});
+
+const afacad = Afacad({
+  subsets: ["latin"],
+  variable: "--font-afacad",
+  weight: ["400", "500", "600", "700"],
 });
 
 export const viewport: Viewport = {
@@ -33,6 +39,7 @@ export default function RootLayout({
         className={cn(
           "min-h-screen bg-background font-serif antialiased",
           crimsonPro.variable,
+          afacad.variable,
         )}
       >
         <Header />

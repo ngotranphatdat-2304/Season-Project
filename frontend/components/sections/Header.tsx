@@ -1,33 +1,12 @@
 "use client";
 import Link from "next/link";
 import { Search, Heart, User, ShoppingBag } from "lucide-react";
-import { useEffect, useState } from "react";
 import { MegaMenu } from "../menu/MegaMenu";
 
 export function Header() {
-  const [scrollDirection, setScrollDirection] = useState<"up" | "down" | null>(
-    null,
-  );
-  const [lastScrollY, setLastScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        setScrollDirection("down");
-      } else if (currentScrollY < lastScrollY) {
-        setScrollDirection("up");
-      }
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY]);
-
   return (
     <header
-      className={`sticky top-0 z-40 bg-white/95 backdrop-blur-sm border-b border-season-gray transition-transform duration-300 ease-in-out ${scrollDirection === "down" ? "-translate-y-full" : "translate-y-0"}`}
+      className="sticky top-0 z-40 border-b border-season-gray bg-white/95 backdrop-blur-sm"
     >
       <nav className="flex items-center justify-between px-6 py-4">
         {/* Left: Menu */}

@@ -30,7 +30,7 @@ export function CategoryLayout({
   const visibleFilters = categoryConfig.filters.map((filter) => ({
     label: filter.label,
     slug: filter.slug,
-    href: `/products/${category}/${filter.slug}`,
+    href: `/${category}/${filter.slug}`,
   }));
 
   return (

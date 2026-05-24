@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Bookmark, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,6 +28,7 @@ function ProductImageCard({ product, index }: ProductImageCardProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [hasManualNavigation, setHasManualNavigation] = useState(false);
+  const detailHref = `/products/${product.id}?type=${product.type}`;
 
   const displayedIndex = useMemo(() => {
     if (
@@ -71,6 +73,39 @@ function ProductImageCard({ product, index }: ProductImageCardProps) {
     >
       <CardContent className="p-3 sm:p-4">
         <div className="relative aspect-[4/4.4] overflow-hidden bg-[#f7f7fb] transition-transform duration-500 group-hover:-translate-y-1">
+          <Link
+            href={detailHref}
+            className="absolute inset-0 block"
+            aria-label={`View details for ${product.title}`}
+          >
+            <div className="absolute inset-0 overflow-hidden">
+              {imageCount > 0 ? (
+                <div
+                  className="flex h-full w-full transition-transform duration-500 ease-out"
+                  style={{
+                    transform: `translateX(-${displayedIndex * 100}%)`,
+                  }}
+                >
+                  {product.images.map((image, imageIndex) => (
+                    <div
+                      key={`${product.slug}-${imageIndex}`}
+                      className="relative h-full min-w-full"
+                    >
+                      <Image
+                        src={image}
+                        alt={`${product.title} ${imageIndex + 1}`}
+                        fill
+                        loading={index === 0 && imageIndex === 0 ? "eager" : "lazy"}
+                        className="object-cover object-center"
+                        sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                      />
+                    </div>
+                  ))}
+                </div>
+              ) : null}
+            </div>
+          </Link>
+
           <Button
             variant="ghost"
             size="icon"
@@ -78,33 +113,6 @@ function ProductImageCard({ product, index }: ProductImageCardProps) {
           >
             <Bookmark data-icon="inline-start" />
           </Button>
-
-          <div className="absolute inset-0 overflow-hidden">
-            {imageCount > 0 ? (
-              <div
-                className="flex h-full w-full transition-transform duration-500 ease-out"
-                style={{
-                  transform: `translateX(-${displayedIndex * 100}%)`,
-                }}
-              >
-                {product.images.map((image, imageIndex) => (
-                  <div
-                    key={`${product.slug}-${imageIndex}`}
-                    className="relative h-full min-w-full"
-                  >
-                    <Image
-                      src={image}
-                      alt={`${product.title} ${imageIndex + 1}`}
-                      fill
-                      loading={index === 0 && imageIndex === 0 ? "eager" : "lazy"}
-                      className="object-cover object-center"
-                      sizes="(max-width: 768px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                    />
-                  </div>
-                ))}
-              </div>
-            ) : null}
-          </div>
 
           {imageCount > 1 ? (
             <>
@@ -115,7 +123,11 @@ function ProductImageCard({ product, index }: ProductImageCardProps) {
                   "absolute left-3 top-1/2 z-10 flex size-9 -translate-y-1/2 items-center justify-center text-neutral-700 opacity-0 transition-all duration-300 group-hover:opacity-100 md:size-10",
                   displayedIndex === 0 && "pointer-events-none opacity-0",
                 )}
-                onClick={handlePrevious}
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  handlePrevious();
+                }}
               >
                 <ChevronLeft className="size-4" />
               </button>
@@ -128,7 +140,11 @@ function ProductImageCard({ product, index }: ProductImageCardProps) {
                   displayedIndex >= imageCount - 1 &&
                     "pointer-events-none opacity-0",
                 )}
-                onClick={handleNext}
+                onClick={(event) => {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  handleNext();
+                }}
               >
                 <ChevronRight className="size-4" />
               </button>
@@ -150,9 +166,11 @@ function ProductImageCard({ product, index }: ProductImageCardProps) {
               {product.meta}
             </p>
           ) : null}
-          <CardTitle className="text-sm font-serif font-normal uppercase tracking-[0.08em] sm:text-base md:text-lg md:tracking-[0.12em]">
-            {product.title}
-          </CardTitle>
+          <Link href={detailHref} className="hover:opacity-70 transition-opacity">
+            <CardTitle className="text-sm font-serif font-normal uppercase tracking-[0.08em] sm:text-base md:text-lg md:tracking-[0.12em]">
+              {product.title}
+            </CardTitle>
+          </Link>
         </div>
         <div className="text-left text-xs text-neutral-600 sm:text-sm md:text-right">
           {product.isOnSale ? (

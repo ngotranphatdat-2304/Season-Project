@@ -1,46 +1,6 @@
 import { Schema, Types } from "mongoose";
+import { PRODUCT_AVAILABILITIES, PRODUCT_GENDERS, type IProductRating, type IVariant, type ProductAvailability, type ProductGender } from "../types/eyewear.js";
 
-export type ProductAvailability = "in_stock" | "out_of_stock" | "pre_order";
-export type ProductGender = "Male" | "Female" | "Unisex";
-
-const PRODUCT_AVAILABILITIES: ProductAvailability[] = [
-  "in_stock",
-  "out_of_stock",
-  "pre_order",
-];
-
-const PRODUCT_GENDERS: ProductGender[] = ["Male", "Female", "Unisex"];
-
-export interface IVariant {
-  sku: string;
-  color?: string;
-  price: number;
-  images: string[];
-  isDefault: boolean;
-  stock: number;
-}
-
-export interface IProductRating {
-  avg: number;
-  count: number;
-}
-
-export interface IBaseSpecifications {
-  gender: ProductGender;
-}
-
-export interface IBaseProductFields {
-  name: string;
-  slug: string;
-  collectionId: Types.ObjectId;
-  brand: string;
-  salePercent: number;
-  availability: ProductAvailability;
-  description: string;
-  variants: IVariant[];
-  rating: IProductRating;
-  isActive: boolean;
-}
 
 export const ratingSchema = new Schema<IProductRating>(
   {

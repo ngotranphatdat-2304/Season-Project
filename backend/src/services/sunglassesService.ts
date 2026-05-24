@@ -8,6 +8,9 @@ import type {
 } from "../types/eyewear.js";
 import { buildSort } from "./utils.js";
 
+const PRODUCT_SELECT_FIELDS =
+  "name slug type collectionId brand salePercent availability description specifications variants rating isActive";
+
 function transformSunglassesProduct(
   product: DatabaseSunglassesProduct,
 ): SunglassesProductResponse {
@@ -64,9 +67,7 @@ export async function getSunglassesByFilters(
     const total = await Sunglasses.countDocuments(filter);
 
     const products = await Sunglasses.find(filter)
-      .select(
-        "name slug type collectionId brand salePercent availability description specifications variants rating isActive",
-      )
+      .select(PRODUCT_SELECT_FIELDS)
       .sort(buildSort(query.sort))
       .skip(query.offset)
       .limit(query.limit)
@@ -78,6 +79,28 @@ export async function getSunglassesByFilters(
     };
   } catch (error) {
     console.error("Error fetching sunglasses:", error);
+    throw new Error("Failed to fetch sunglasses");
+  }
+}
+
+export async function getSunglassesById(
+  id: string,
+): Promise<SunglassesProductResponse | null> {
+  try {
+    const product = await Sunglasses.findOne({
+      _id: id,
+      isActive: true,
+    })
+      .select(PRODUCT_SELECT_FIELDS)
+      .lean<DatabaseSunglassesProduct | null>();
+
+    if (product === null) {
+      return null;
+    }
+
+    return transformSunglassesProduct(product);
+  } catch (error) {
+    console.error("Error fetching sunglasses by id:", error);
     throw new Error("Failed to fetch sunglasses");
   }
 }

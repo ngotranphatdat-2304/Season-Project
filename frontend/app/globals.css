@@ -1,6 +1,18 @@
 @import "tailwindcss";
 @config "../tailwind.config.js";
 
+@font-face {
+  font-family: "Seesans";
+  src:
+    url("https://www.seeson.vn/cdn/shop/files/Seesans-1.004.woff2?v=1960113731927308805")
+      format("woff2"),
+    url("https://www.seeson.vn/cdn/shop/files/Seesans-1.004.woff?v=15524096933568396366")
+      format("woff"),
+    url("https://www.seeson.vn/cdn/shop/files/Seesans-1.004.ttf?v=9039759546275048279")
+      format("truetype");
+  font-display: swap;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

@@ -1,12 +1,66 @@
-import type { IBaseProductFields, IVariant } from "../models/sharedProduct.js";
-import type {
-  FrameMaterial,
-  FrameSize,
-  IEyeglassesSpecifications,
+import {
+  type FrameMaterial,
+  type FrameSize,
+  type IEyeglassesSpecifications,
 } from "../models/Eyeglasses.js";
-import type { ISunglasses } from "../models/Sunglasses.js";
 import type { Types } from "mongoose";
-import type { ProductGender } from "../models/sharedProduct.js";
+
+export const PRODUCT_AVAILABILITIES = [
+  "in_stock",
+  "out_of_stock",
+  "pre_order",
+] as const;
+
+export const PRODUCT_GENDERS = ["Male", "Female", "Unisex"] as const;
+
+export type ProductAvailability = (typeof PRODUCT_AVAILABILITIES)[number];
+export type ProductGender = (typeof PRODUCT_GENDERS)[number];
+
+export type ProductSort =
+  | "title-asc"
+  | "title-desc"
+  | "price-desc"
+  | "price-asc";
+
+export const PRODUCT_SORTS = [
+  "title-asc",
+  "title-desc",
+  "price-desc",
+  "price-asc",
+] as const satisfies readonly ProductSort[];
+
+export const DEFAULT_PRODUCT_SORT: ProductSort = "title-asc";
+
+export interface IVariant {
+  sku: string;
+  color?: string;
+  price: number;
+  images: string[];
+  isDefault: boolean;
+  stock: number;
+}
+
+export interface IProductRating {
+  avg: number;
+  count: number;
+}
+
+export interface IBaseSpecifications {
+  gender: ProductGender;
+}
+
+export interface IBaseProductFields {
+  name: string;
+  slug: string;
+  collectionId: Types.ObjectId;
+  brand: string;
+  salePercent: number;
+  availability: ProductAvailability;
+  description: string;
+  variants: IVariant[];
+  rating: IProductRating;
+  isActive: boolean;
+}
 
 export interface BaseQueryParams {
   offset?: number | string;
@@ -28,21 +82,6 @@ export interface SunglassesQueryParams extends BaseQueryParams {
   sale?: string;
   sort?: string;
 }
-
-export type ProductSort =
-  | "title-asc"
-  | "title-desc"
-  | "price-desc"
-  | "price-asc";
-
-export const PRODUCT_SORTS: ProductSort[] = [
-  "title-asc",
-  "title-desc",
-  "price-desc",
-  "price-asc",
-];
-
-export const DEFAULT_PRODUCT_SORT: ProductSort = "title-asc";
 
 export interface SortableQuery {
   sort: ProductSort;
@@ -88,11 +127,11 @@ export interface BaseProductResponse {
   type: string;
   brand: string;
   collectionId: string;
-  salePercent: IBaseProductFields["salePercent"];
-  availability: IBaseProductFields["availability"];
+  salePercent: number;
+  availability: ProductAvailability;
   description: string;
   variants: IVariant[];
-  rating: IBaseProductFields["rating"];
+  rating: IProductRating;
   isActive: boolean;
 }
 
@@ -101,7 +140,7 @@ export interface EyeglassesProductResponse extends BaseProductResponse {
 }
 
 export interface SunglassesProductResponse extends BaseProductResponse {
-  specifications: ISunglasses["specifications"];
+  specifications: IBaseSpecifications;
 }
 
 export interface EyeglassesResponseData {
@@ -139,10 +178,10 @@ export interface BaseDatabaseProduct {
   type: string;
   collectionId: Types.ObjectId | string;
   brand: string;
-  salePercent: IBaseProductFields["salePercent"];
-  availability: IBaseProductFields["availability"];
+  salePercent: number;
+  availability: ProductAvailability;
   description: string;
-  rating: IBaseProductFields["rating"];
+  rating: IProductRating;
   variants: IVariant[];
   isActive: boolean;
 }
@@ -152,5 +191,5 @@ export interface DatabaseEyeglassesProduct extends BaseDatabaseProduct {
 }
 
 export interface DatabaseSunglassesProduct extends BaseDatabaseProduct {
-  specifications: ISunglasses["specifications"];
+  specifications: IBaseSpecifications;
 }

@@ -8,6 +8,9 @@ import type {
 } from "../types/eyewear.js";
 import { buildSort } from "./utils.js";
 
+const PRODUCT_SELECT_FIELDS =
+  "name slug type collectionId brand salePercent availability description specifications variants rating isActive";
+
 function buildFilter(query: ValidatedEyeglassesQuery): Record<string, unknown> {
   const filter: Record<string, unknown> = {
     isActive: true,
@@ -78,9 +81,7 @@ export async function getEyeglassesByFilters(
     const total = await Eyeglasses.countDocuments(filter);
 
     const products = await Eyeglasses.find(filter)
-      .select(
-        "name slug type collectionId brand salePercent availability description specifications variants rating isActive",
-      )
+      .select(PRODUCT_SELECT_FIELDS)
       .sort(buildSort(query.sort))
       .skip(query.offset)
       .limit(query.limit)
@@ -92,6 +93,28 @@ export async function getEyeglassesByFilters(
     };
   } catch (error) {
     console.error("Error fetching eyeglasses:", error);
+    throw new Error("Failed to fetch eyeglasses");
+  }
+}
+
+export async function getEyeglassesById(
+  id: string,
+): Promise<EyeglassesProductResponse | null> {
+  try {
+    const product = await Eyeglasses.findOne({
+      _id: id,
+      isActive: true,
+    })
+      .select(PRODUCT_SELECT_FIELDS)
+      .lean<DatabaseEyeglassesProduct | null>();
+
+    if (product === null) {
+      return null;
+    }
+
+    return transformEyeglassesProduct(product);
+  } catch (error) {
+    console.error("Error fetching eyeglasses by id:", error);
     throw new Error("Failed to fetch eyeglasses");
   }
 }

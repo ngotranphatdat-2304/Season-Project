@@ -8,11 +8,11 @@ export const menuConfig: MenuCategory[] = [
         items: [
           {
             label: "View All Eyeglasses",
-            href: "/products/eyeglasses/view-all",
+            href: "/eyeglasses/view-all",
           },
-          { label: "Women Eyeglasses", href: "/products/eyeglasses/women" },
-          { label: "Men Eyeglasses", href: "/products/eyeglasses/men" },
-          { label: "Clearance Sale", href: "/products/eyeglasses/sale" },
+          { label: "Women Eyeglasses", href: "/eyeglasses/women" },
+          { label: "Men Eyeglasses", href: "/eyeglasses/men" },
+          { label: "Clearance Sale", href: "/eyeglasses/sale" },
         ],
       },
     ],
@@ -25,11 +25,11 @@ export const menuConfig: MenuCategory[] = [
         items: [
           {
             label: "View All Sunglasses",
-            href: "/products/sunglasses/view-all",
+            href: "/sunglasses/view-all",
           },
-          { label: "Women Sunglasses", href: "/products/sunglasses/women" },
-          { label: "Men Sunglasses", href: "/products/sunglasses/men" },
-          { label: "Clearance Sale", href: "/products/sunglasses/sale" },
+          { label: "Women Sunglasses", href: "/sunglasses/women" },
+          { label: "Men Sunglasses", href: "/sunglasses/men" },
+          { label: "Clearance Sale", href: "/sunglasses/sale" },
         ],
       },
     ],
@@ -40,11 +40,11 @@ export const menuConfig: MenuCategory[] = [
     sections: [
       {
         items: [
-          { label: "The Athletes", href: "/products/collections/the-athletes" },
-          { label: "The Office", href: "/products/collections/the-office" },
-          { label: "The Soap", href: "/products/collections/the-soap" },
-          { label: "The Vertebra", href: "/products/collections/the-vertebra" },
-          { label: "The Cut", href: "/products/collections/the-cut" },
+          { label: "The Athletes", href: "/collections/the-athletes" },
+          { label: "The Office", href: "/collections/the-office" },
+          { label: "The Soap", href: "/collections/the-soap" },
+          { label: "The Vertebra", href: "/collections/the-vertebra" },
+          { label: "The Cut", href: "/collections/the-cut" },
         ],
       },
     ],

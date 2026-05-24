@@ -21,7 +21,7 @@ export default async function CategoryRouteLayout({
   const category = parseProductCategory(categoryParam);
 
   if (category === undefined) {
-    notFound();
+    return children;
   }
 
   const categoryConfig = getProductCategoryConfig(category);

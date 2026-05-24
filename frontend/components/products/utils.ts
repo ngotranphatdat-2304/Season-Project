@@ -11,6 +11,8 @@ import {
 
 export function toEyeglassesCard(product: EyeglassesProduct): ProductCard {
   return {
+    id: product.id,
+    type: ProductTypeEnum.eyeglasses,
     title: product.name,
     slug: product.slug,
     images: product.variants
@@ -25,6 +27,8 @@ export function toEyeglassesCard(product: EyeglassesProduct): ProductCard {
 }
 export function toSunglassesCard(product: SunglassesProduct): ProductCard {
   return {
+    id: product.id,
+    type: ProductTypeEnum.sunglasses,
     title: product.name,
     slug: product.slug,
     images: product.variants
@@ -51,6 +55,29 @@ export type SerializedProductRecord =
   | EyeglassesProductArgs
   | SunglassesProductArgs;
 
+export function deserializeProductRecord(
+  record: SerializedProductRecord,
+): ProductModel {
+  const normalizedType = String(record.type ?? "")
+    .trim()
+    .toLowerCase();
+
+  if (
+    normalizedType === "sunglasses" ||
+    normalizedType === ProductTypeEnum.sunglasses
+  ) {
+    return SunglassesProduct.deser({
+      ...record,
+      type: ProductTypeEnum.sunglasses,
+    } as SunglassesProductArgs);
+  }
+
+  return EyeglassesProduct.deser({
+    ...record,
+    type: ProductTypeEnum.eyeglasses,
+  } as EyeglassesProductArgs);
+}
+
 // General hydration function that can handle both product types based on the type field in the serialized record. This is useful for scenarios where we have a mixed list of products and need to hydrate them without knowing the category upfront.
 export function hydrateProducts(
   records: SerializedProductRecord[],
@@ -67,9 +94,15 @@ export function hydrateProducts(
       normalizedType === "sunglasses" ||
       normalizedType === ProductTypeEnum.sunglasses
     ) {
-      return SunglassesProduct.deser(record as SunglassesProductArgs);
+      return deserializeProductRecord({
+        ...record,
+        type: ProductTypeEnum.sunglasses,
+      } as SunglassesProductArgs);
     }
 
-    return EyeglassesProduct.deser(record as EyeglassesProductArgs);
+    return deserializeProductRecord({
+      ...record,
+      type: ProductTypeEnum.eyeglasses,
+    } as EyeglassesProductArgs);
   });
 }
