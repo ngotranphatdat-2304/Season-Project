@@ -24,9 +24,12 @@ import {
   splitDescription,
   type AccordionSection,
 } from "./utils";
+import { RelatedProductGrid } from "./related-product-grid";
 
 type ProductDetailViewProps = {
   product: SerializedProductRecord;
+  relatedProducts?: SerializedProductRecord[];
+  collectionSlug?: string;
 };
 
 type AccordionProps = {
@@ -75,7 +78,11 @@ function ProductAccordion({
   );
 }
 
-export function ProductDetailView({ product }: ProductDetailViewProps) {
+export function ProductDetailView({
+  product,
+  relatedProducts = [],
+  collectionSlug,
+}: ProductDetailViewProps) {
   const hydratedProduct = useMemo(
     () => deserializeProductRecord(product),
     [product],
@@ -390,6 +397,10 @@ export function ProductDetailView({ product }: ProductDetailViewProps) {
           </aside>
         </div>
       </div>
+      <RelatedProductGrid
+        products={relatedProducts}
+        collectionSlug={collectionSlug}
+      />
     </main>
   );
 }
