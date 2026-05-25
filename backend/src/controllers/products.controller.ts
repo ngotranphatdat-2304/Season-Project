@@ -5,12 +5,17 @@ import {
   getProductById,
   getProductsByFilters,
 } from "../services/products.service.js";
+import { searchProducts } from "../services/product-search.service.js";
 import type {
   ErrorResponse,
   ProductResponse,
+  ProductSearchResponseData,
   ProductsResponseData,
 } from "../types/product.types.js";
-import type { ProductValidatedRequest } from "../middleware/products.validation.js";
+import type {
+  ProductSearchValidatedRequest,
+  ProductValidatedRequest,
+} from "../middleware/products.validation.js";
 
 export async function getProducts(
   req: ProductValidatedRequest,
@@ -42,4 +47,17 @@ export async function getProduct(
   }
 
   res.status(200).json(product);
+}
+
+export async function searchProductsByQuery(
+  req: ProductSearchValidatedRequest,
+  res: Response<ProductSearchResponseData | ErrorResponse>,
+): Promise<void> {
+  const validatedQuery = req.validatedQuery;
+
+  if (validatedQuery === undefined) {
+    throw AppError.badRequest("Invalid search query parameters");
+  }
+
+  res.status(200).json(await searchProducts(validatedQuery));
 }

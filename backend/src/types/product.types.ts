@@ -89,6 +89,13 @@ export interface ProductQueryParams extends BaseQueryParams {
   sort?: string;
 }
 
+export interface ProductSearchQueryParams extends BaseQueryParams {
+  q?: string;
+  type?: string;
+  gender?: string;
+  sale?: string;
+}
+
 export interface SortableQuery {
   sort: ProductSort;
 }
@@ -98,6 +105,15 @@ export interface ValidatedProductQuery extends SortableQuery {
   frameType: FrameMaterial | null;
   frameSize: FrameSize | null;
   collectionSlug: string | null;
+  gender: ProductGender | null;
+  sale: boolean;
+  offset: number;
+  limit: number;
+}
+
+export interface ValidatedProductSearchQuery {
+  q: string;
+  type: ProductType | null;
   gender: ProductGender | null;
   sale: boolean;
   offset: number;
@@ -140,8 +156,17 @@ export interface ProductResponse extends BaseProductResponse {
   specifications: IBaseSpecifications;
 }
 
+export interface SearchProductResponse extends ProductResponse {
+  score: number;
+}
+
 export interface ProductsResponseData {
   records: ProductResponse[];
+  total: number;
+}
+
+export interface ProductSearchResponseData {
+  records: SearchProductResponse[];
   total: number;
 }
 export interface ErrorResponse {

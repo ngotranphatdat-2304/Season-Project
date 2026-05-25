@@ -6,10 +6,12 @@ import {
   PRODUCT_SORTS,
   type CollectionProductsQueryParams,
   type ProductQueryParams,
+  type ProductSearchQueryParams,
   type ProductType,
   type ProductGender,
   type ValidatedCollectionProductsQuery,
   type ValidatedProductQuery,
+  type ValidatedProductSearchQuery,
 } from "../types/product.types.js";
 
 export interface ProductValidatedRequest extends Request {
@@ -18,6 +20,10 @@ export interface ProductValidatedRequest extends Request {
 
 export interface CollectionProductsValidatedRequest extends Request {
   validatedQuery?: ValidatedCollectionProductsQuery;
+}
+
+export interface ProductSearchValidatedRequest extends Request {
+  validatedQuery?: ValidatedProductSearchQuery;
 }
 
 export function parsePagination(query: {
@@ -118,6 +124,22 @@ function parseGenderParam(
   }
 
   return { error: "Invalid gender. Use Male, Female, or Unisex." };
+}
+
+function parseSearchQueryParam(
+  value?: string,
+): { q: string } | { error: string } {
+  const normalized = value?.trim() ?? "";
+
+  if (normalized === "") {
+    return { error: "Search query is required." };
+  }
+
+  if (normalized.length < 2) {
+    return { error: "Search query must be at least 2 characters." };
+  }
+
+  return { q: normalized };
 }
 
 function normalizeCollectionSlug(value?: string): string | null {
@@ -280,6 +302,55 @@ export function validateProductQuery(
     offset: pagination.offset,
     limit: pagination.limit,
     sort: sort.sort,
+  };
+
+  next();
+}
+
+export function validateProductSearchQuery(
+  req: ProductSearchValidatedRequest,
+  _res: Response,
+  next: NextFunction,
+): void {
+  const query = req.query as ProductSearchQueryParams;
+  const pagination = parsePagination(query);
+
+  if ("error" in pagination) {
+    next(AppError.badRequest(pagination.error, "VALIDATION_ERROR"));
+    return;
+  }
+
+  const q = parseSearchQueryParam(query.q);
+  if ("error" in q) {
+    next(AppError.badRequest(q.error, "VALIDATION_ERROR"));
+    return;
+  }
+
+  const type = parseTypeParam(query.type);
+  if ("error" in type) {
+    next(AppError.badRequest(type.error, "VALIDATION_ERROR"));
+    return;
+  }
+
+  const gender = parseGenderParam(query.gender);
+  if ("error" in gender) {
+    next(AppError.badRequest(gender.error, "VALIDATION_ERROR"));
+    return;
+  }
+
+  const sale = parseSaleParam(query.sale);
+  if ("error" in sale) {
+    next(AppError.badRequest(sale.error, "VALIDATION_ERROR"));
+    return;
+  }
+
+  req.validatedQuery = {
+    q: q.q,
+    type: type.type,
+    gender: gender.gender,
+    sale: sale.sale,
+    offset: pagination.offset,
+    limit: pagination.limit,
   };
 
   next();

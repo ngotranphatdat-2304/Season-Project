@@ -81,3 +81,14 @@ export async function fetchProductsBatchByCategory(
 export async function fetchProductById(id: string): Promise<Product> {
   return fetchOne(`/products/${id}`, Product);
 }
+
+export async function searchProducts(
+  q: string,
+  offset: number = 0,
+  limit: number = PAGE_SIZE,
+): Promise<ListResponse<Product>> {
+  return fetchList("/products/search", Product, {
+    q,
+    ...serializePaginationQuery({ offset, limit }),
+  });
+}
