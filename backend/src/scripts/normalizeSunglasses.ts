@@ -85,6 +85,22 @@ type FrameMaterialName =
 type FrameSizeName =
   (typeof FRAME_SIZE_BY_NAME)[keyof typeof FRAME_SIZE_BY_NAME];
 
+const OFFICE_COLLECTION_ALIASES = new Set([
+  "the paper knife",
+  "the ruler",
+  "the set square",
+]);
+
+const normalizeCollectionName = (value?: string) => {
+  const normalized = value?.trim().toLowerCase() ?? "";
+
+  if (OFFICE_COLLECTION_ALIASES.has(normalized)) {
+    return "the office";
+  }
+
+  return normalized;
+};
+
 const assignGenderBySplit = <
   T extends { slug: string; specifications: { gender: string } },
 >(
@@ -310,9 +326,10 @@ const seedDatabase = async () => {
   for (const product of source.products) {
     const baseName = toBaseName(product.name);
     const slugBase = product.slug;
-    const collectionKey = (product.collection ?? "").toLowerCase().replace(/\s+/g, "-");
+    const normalizedCollectionName = normalizeCollectionName(product.collection);
+    const collectionKey = normalizedCollectionName.replace(/\s+/g, "-");
     const matchingCollection =
-      collectionByName.get((product.collection ?? "").toLowerCase()) ??
+      collectionByName.get(normalizedCollectionName) ??
       collectionBySlug.get(collectionKey);
     const fallbackCollectionId = existingCollectionIdByName.get(baseName);
 

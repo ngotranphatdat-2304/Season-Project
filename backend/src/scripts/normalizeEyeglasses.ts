@@ -51,6 +51,27 @@ const outputPath = path.resolve(
 );
 
 type FrameSize = keyof typeof sizeGuideRoots;
+type NormalizedCollection = {
+  _id: string;
+  name: string;
+  slug: string;
+};
+
+const OFFICE_COLLECTION_ALIASES = new Set([
+  "the paper knife",
+  "the ruler",
+  "the set square",
+]);
+
+const normalizeCollectionName = (value?: string) => {
+  const normalized = value?.trim().toLowerCase() ?? "";
+
+  if (OFFICE_COLLECTION_ALIASES.has(normalized)) {
+    return "the office";
+  }
+
+  return normalized;
+};
 
 const pickRandomItem = <T,>(items: T[]): T => {
   const index = Math.floor(Math.random() * items.length);
@@ -144,7 +165,15 @@ const normalizeNewData = async () => {
   const data = JSON.parse(rawData);
 
   // Load collections data
-  const collectionsData = JSON.parse(fs.readFileSync(collectionsPath, "utf8"));
+  const collectionsData = JSON.parse(
+    fs.readFileSync(collectionsPath, "utf8"),
+  ) as NormalizedCollection[];
+  const collectionByName = new Map(
+    collectionsData.map((collection) => [collection.name.toLowerCase(), collection]),
+  );
+  const collectionBySlug = new Map(
+    collectionsData.map((collection) => [collection.slug, collection]),
+  );
   const clearanceSaleData = JSON.parse(fs.readFileSync(clearanceSalePath, "utf8"));
   
   const groupedProducts: Record<string, any> = {};
@@ -183,28 +212,31 @@ const normalizeNewData = async () => {
     let collectionId = null;
     let matchingCollection = null;
     
-    for (const collection of collectionsData) {
-      if (product.name.toLowerCase().startsWith(collection.name.toLowerCase())) {
-        matchingCollection = collection;
-        collectionId = collection._id;
-        
-        // Check if product name contains "SUNGLASSES"
-        if (product.name.toUpperCase().includes(" SUNGLASSES")) {
-          const sunglassesIndex = product.name.toUpperCase().indexOf(" SUNGLASSES");
-          baseName = product.name.substring(0, sunglassesIndex).trim();
-          // For SUNGLASSES products, don't extract color from name - use variant SKU instead
-          color = "";
-        } else {
-          // Extract everything up to the first " - "
-          const dashIndex = product.name.indexOf(" - ");
-          if (dashIndex !== -1) {
-            baseName = product.name.substring(0, dashIndex).trim();
-            color = product.name.substring(dashIndex + 3).trim();
-          } else {
-            baseName = product.name;
-          }
-        }
-        break;
+    const normalizedCollectionName = normalizeCollectionName(product.collection);
+    const normalizedCollectionSlug = normalizedCollectionName.replace(/\s+/g, "-");
+    matchingCollection =
+      collectionByName.get(normalizedCollectionName) ??
+      collectionBySlug.get(normalizedCollectionSlug) ??
+      null;
+
+    if (matchingCollection !== null) {
+      collectionId = matchingCollection._id;
+    }
+
+    // Check if product name contains "SUNGLASSES"
+    if (product.name.toUpperCase().includes(" SUNGLASSES")) {
+      const sunglassesIndex = product.name.toUpperCase().indexOf(" SUNGLASSES");
+      baseName = product.name.substring(0, sunglassesIndex).trim();
+      // For SUNGLASSES products, don't extract color from name - use variant SKU instead
+      color = "";
+    } else {
+      // Extract everything up to the first " - "
+      const dashIndex = product.name.indexOf(" - ");
+      if (dashIndex !== -1) {
+        baseName = product.name.substring(0, dashIndex).trim();
+        color = product.name.substring(dashIndex + 3).trim();
+      } else {
+        baseName = product.name;
       }
     }
 
@@ -250,7 +282,7 @@ const normalizeNewData = async () => {
       // e.g., "the-paper-knife-01-brown" -> remove "the-paper-knife" prefix -> "01-brown"
       // Then skip numeric parts -> "brown"
       
-      const collectionSlug = matchingCollection.slug;
+      const collectionSlug = baseName.toLowerCase().replace(/\s+/g, "-");
       
       if (product.slug.startsWith(collectionSlug + "-")) {
         // Remove collection slug and separator

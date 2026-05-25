@@ -11,6 +11,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
+import { useState } from "react";
 
 export type CartDrawerItem = {
   id: string;
@@ -103,9 +104,15 @@ export function CartDrawer({ children }: CartDrawerProps) {
   const cartItems: CartDrawerItem[] = [];
   const isEmpty = cartItems.length === 0;
   const itemCount = cartItems.reduce((count, item) => count + item.quantity, 0);
+  const [open, setOpen] = useState(false);
 
   return (
-    <Drawer direction="right" shouldScaleBackground={false}>
+    <Drawer
+      direction="right"
+      shouldScaleBackground={false}
+      open={open}
+      onOpenChange={setOpen}
+    >
       <DrawerTrigger asChild>{children}</DrawerTrigger>
 
       <DrawerContent
@@ -135,7 +142,12 @@ export function CartDrawer({ children }: CartDrawerProps) {
                 asChild
                 className="mt-10 h-12 rounded-none bg-black px-8 font-afacad text-[0.95rem] font-semibold uppercase tracking-[0.08em] text-white hover:bg-black/88"
               >
-                <Link href="/collections/the-athletes">
+                <Link
+                  href="/collections/the-athletes"
+                  onClick={() => {
+                    setOpen(false);
+                  }}
+                >
                   KHÁM PHÁ THIẾT KẾ DÀNH CHO BẠN
                 </Link>
               </Button>

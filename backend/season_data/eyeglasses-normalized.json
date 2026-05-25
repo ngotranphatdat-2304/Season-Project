@@ -1,8 +1,8 @@
 [
   {
-    "name": "THE PAPER KNIFE 01 - Brown",
-    "slug": "the-paper-knife-01---brown",
-    "collectionId": null,
+    "name": "THE PAPER KNIFE 01",
+    "slug": "the-paper-knife-01",
+    "collectionId": "69d267a4dd0dd4ea810abc8b",
     "brand": "SEESONvn",
     "salePercent": 0,
     "availability": "in_stock",
@@ -13,15 +13,15 @@
         "material": "Acetate",
         "size": {
           "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/big/size58.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/big/size55.png"
         }
       },
-      "gender": "Male"
+      "gender": "Female"
     },
     "variants": [
       {
         "sku": "the-paper-knife-01-brown",
-        "color": "",
+        "color": "brown",
         "price": 2500000,
         "images": [
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332288/kinh-can/the-paper-knife-01-brown/image_01.jpg",
@@ -30,7 +30,37 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332288/kinh-can/the-paper-knife-01-brown/image_04.png"
         ],
         "isDefault": true,
+        "stock": 4
+      },
+      {
+        "sku": "the-paper-knife-01-dark-grey",
+        "color": "dark-grey",
+        "price": 2500000,
+        "images": [
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332318/kinh-can/the-paper-knife-01-dark-grey/image_01.png",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332318/kinh-can/the-paper-knife-01-dark-grey/image_02.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332317/kinh-can/the-paper-knife-01-dark-grey/image_03.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332317/kinh-can/the-paper-knife-01-dark-grey/image_04.png",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332317/kinh-can/the-paper-knife-01-dark-grey/image_05.png",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332317/kinh-can/the-paper-knife-01-dark-grey/image_06.png"
+        ],
+        "isDefault": false,
         "stock": 9
+      },
+      {
+        "sku": "the-paper-knife-01-black",
+        "color": "black",
+        "price": 2500000,
+        "images": [
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332342/kinh-can/the-paper-knife-01-black/image_01.png",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332343/kinh-can/the-paper-knife-01-black/image_02.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332343/kinh-can/the-paper-knife-01-black/image_03.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332342/kinh-can/the-paper-knife-01-black/image_04.png",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332342/kinh-can/the-paper-knife-01-black/image_05.png",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332342/kinh-can/the-paper-knife-01-black/image_06.png"
+        ],
+        "isDefault": false,
+        "stock": 10
       }
     ],
     "rating": {
@@ -40,9 +70,9 @@
     "isActive": true
   },
   {
-    "name": "THE RULER 07 - Green",
-    "slug": "the-ruler-07---green",
-    "collectionId": null,
+    "name": "THE RULER 07",
+    "slug": "the-ruler-07",
+    "collectionId": "69d267a4dd0dd4ea810abc8b",
     "brand": "SEESONvn",
     "salePercent": 0,
     "availability": "in_stock",
@@ -53,7 +83,7 @@
         "material": "Acetate",
         "size": {
           "label": "Small",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652699/MyProject/size-guides/eyewear/small/size45.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/small/size47.png"
         }
       },
       "gender": "Female"
@@ -61,7 +91,7 @@
     "variants": [
       {
         "sku": "the-ruler-07-green",
-        "color": "",
+        "color": "green",
         "price": 2550000,
         "images": [
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332306/kinh-can/the-ruler-07-green/image_01.jpg",
@@ -70,7 +100,33 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332307/kinh-can/the-ruler-07-green/image_04.jpg"
         ],
         "isDefault": true,
-        "stock": 6
+        "stock": 5
+      },
+      {
+        "sku": "the-ruler-07-grey",
+        "color": "grey",
+        "price": 2550000,
+        "images": [
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332323/kinh-can/the-ruler-07-grey/image_01.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332323/kinh-can/the-ruler-07-grey/image_02.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332323/kinh-can/the-ruler-07-grey/image_03.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332323/kinh-can/the-ruler-07-grey/image_04.jpg"
+        ],
+        "isDefault": false,
+        "stock": 7
+      },
+      {
+        "sku": "the-ruler-07-beige",
+        "color": "beige",
+        "price": 2550000,
+        "images": [
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332353/kinh-can/the-ruler-07-beige/image_01.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332353/kinh-can/the-ruler-07-beige/image_02.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332353/kinh-can/the-ruler-07-beige/image_03.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332353/kinh-can/the-ruler-07-beige/image_04.jpg"
+        ],
+        "isDefault": false,
+        "stock": 3
       }
     ],
     "rating": {
@@ -80,9 +136,9 @@
     "isActive": true
   },
   {
-    "name": "THE PAPER KNIFE 02 - Havana",
-    "slug": "the-paper-knife-02---havana",
-    "collectionId": null,
+    "name": "THE PAPER KNIFE 02",
+    "slug": "the-paper-knife-02",
+    "collectionId": "69d267a4dd0dd4ea810abc8b",
     "brand": "SEESONvn",
     "salePercent": 0,
     "availability": "in_stock",
@@ -101,7 +157,7 @@
     "variants": [
       {
         "sku": "the-paper-knife-02-havana",
-        "color": "",
+        "color": "havana",
         "price": 2500000,
         "images": [
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332308/kinh-can/the-paper-knife-02-havana/image_01.jpg",
@@ -112,7 +168,37 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332309/kinh-can/the-paper-knife-02-havana/image_06.jpg"
         ],
         "isDefault": true,
-        "stock": 5
+        "stock": 10
+      },
+      {
+        "sku": "the-paper-knife-02-black",
+        "color": "black",
+        "price": 2500000,
+        "images": [
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_01.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_02.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_03.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_04.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_05.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_06.jpg"
+        ],
+        "isDefault": false,
+        "stock": 2
+      },
+      {
+        "sku": "the-paper-knife-02-grey",
+        "color": "grey",
+        "price": 2500000,
+        "images": [
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332350/kinh-can/the-paper-knife-02-grey/image_01.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332351/kinh-can/the-paper-knife-02-grey/image_02.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332351/kinh-can/the-paper-knife-02-grey/image_03.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332351/kinh-can/the-paper-knife-02-grey/image_04.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332351/kinh-can/the-paper-knife-02-grey/image_05.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332351/kinh-can/the-paper-knife-02-grey/image_06.jpg"
+        ],
+        "isDefault": false,
+        "stock": 9
       }
     ],
     "rating": {
@@ -122,9 +208,9 @@
     "isActive": true
   },
   {
-    "name": "THE RULER 06 - Brown",
-    "slug": "the-ruler-06---brown",
-    "collectionId": null,
+    "name": "THE RULER 06",
+    "slug": "the-ruler-06",
+    "collectionId": "69d267a4dd0dd4ea810abc8b",
     "brand": "SEESONvn",
     "salePercent": 0,
     "availability": "in_stock",
@@ -135,7 +221,7 @@
         "material": "Acetate",
         "size": {
           "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/big/size54.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/big/size58.png"
         }
       },
       "gender": "Female"
@@ -143,7 +229,7 @@
     "variants": [
       {
         "sku": "the-ruler-06-brown",
-        "color": "",
+        "color": "brown",
         "price": 2550000,
         "images": [
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332311/kinh-can/the-ruler-06-brown/image_01.jpg",
@@ -152,7 +238,50 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332311/kinh-can/the-ruler-06-brown/image_04.jpg"
         ],
         "isDefault": true,
-        "stock": 4
+        "stock": 2
+      },
+      {
+        "sku": "the-ruler-06-grey",
+        "color": "grey",
+        "price": 2550000,
+        "images": [
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332330/kinh-can/the-ruler-06-grey/image_01.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332332/kinh-can/the-ruler-06-grey/image_02.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332332/kinh-can/the-ruler-06-grey/image_03.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332330/kinh-can/the-ruler-06-grey/image_04.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332330/kinh-can/the-ruler-06-grey/image_05.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332330/kinh-can/the-ruler-06-grey/image_06.jpg"
+        ],
+        "isDefault": false,
+        "stock": 6
+      },
+      {
+        "sku": "the-ruler-06-black",
+        "color": "black",
+        "price": 2550000,
+        "images": [
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332334/kinh-can/the-ruler-06-black/image_01.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332335/kinh-can/the-ruler-06-black/image_02.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332335/kinh-can/the-ruler-06-black/image_03.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332334/kinh-can/the-ruler-06-black/image_04.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332334/kinh-can/the-ruler-06-black/image_05.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332334/kinh-can/the-ruler-06-black/image_06.jpg"
+        ],
+        "isDefault": false,
+        "stock": 3
+      },
+      {
+        "sku": "the-ruler-06-dark-grey",
+        "color": "dark-grey",
+        "price": 2550000,
+        "images": [
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332952/kinh-can/the-ruler-06-dark-grey/image_01.png",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332952/kinh-can/the-ruler-06-dark-grey/image_02.png",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332952/kinh-can/the-ruler-06-dark-grey/image_03.png",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332953/kinh-can/the-ruler-06-dark-grey/image_04.png"
+        ],
+        "isDefault": false,
+        "stock": 10
       }
     ],
     "rating": {
@@ -192,7 +321,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332312/kinh-can/the-soap-11-light-grey/image_04.jpg"
         ],
         "isDefault": true,
-        "stock": 5
+        "stock": 7
       },
       {
         "sku": "the-soap-11-green",
@@ -205,7 +334,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332344/kinh-can/the-soap-11-green/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 5
+        "stock": 2
       }
     ],
     "rating": {
@@ -215,9 +344,9 @@
     "isActive": true
   },
   {
-    "name": "THE SET SQUARE 02 - Black",
-    "slug": "the-set-square-02---black",
-    "collectionId": null,
+    "name": "THE SET SQUARE 02",
+    "slug": "the-set-square-02",
+    "collectionId": "69d267a4dd0dd4ea810abc8b",
     "brand": "SEESONvn",
     "salePercent": 0,
     "availability": "in_stock",
@@ -236,7 +365,7 @@
     "variants": [
       {
         "sku": "the-set-square-02-black",
-        "color": "",
+        "color": "black",
         "price": 2600000,
         "images": [
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332315/kinh-can/the-set-square-02-black/image_01.jpg",
@@ -247,49 +376,22 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332315/kinh-can/the-set-square-02-black/image_06.jpg"
         ],
         "isDefault": true,
-        "stock": 3
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE PAPER KNIFE 01 - Dark Grey",
-    "slug": "the-paper-knife-01---dark-grey",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "Dáng kính vuông bo tròn với viền gọng dày dặn. Chi tiết càng kính được khắc rãnh dứt khoát, gợi hình ảnh lưỡi dao rọc giấy – chi tiết mang lại cảm giác sắc sảo và góc cạnh cho tổng thể thiết kế.",
-    "specifications": {
-      "frameType": {
-        "material": "Acetate",
-        "size": {
-          "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/big/size58.png"
-        }
+        "stock": 1
       },
-      "gender": "Female"
-    },
-    "variants": [
       {
-        "sku": "the-paper-knife-01-dark-grey",
-        "color": "",
-        "price": 2500000,
+        "sku": "the-set-square-02-sunglasses-grey-rhino",
+        "color": "grey-rhino",
+        "price": 2600000,
         "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332318/kinh-can/the-paper-knife-01-dark-grey/image_01.png",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332318/kinh-can/the-paper-knife-01-dark-grey/image_02.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332317/kinh-can/the-paper-knife-01-dark-grey/image_03.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332317/kinh-can/the-paper-knife-01-dark-grey/image_04.png",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332317/kinh-can/the-paper-knife-01-dark-grey/image_05.png",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332317/kinh-can/the-paper-knife-01-dark-grey/image_06.png"
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332348/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_01.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332348/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_02.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332348/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_03.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332347/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_04.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332347/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_05.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332347/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_06.jpg"
         ],
-        "isDefault": true,
-        "stock": 7
+        "isDefault": false,
+        "stock": 5
       }
     ],
     "rating": {
@@ -312,7 +414,7 @@
         "material": "Acetate",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/medium/size48.png"
         }
       },
       "gender": "Female"
@@ -329,7 +431,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332319/kinh-can/the-soap-10-dark-grey/image_04.jpg"
         ],
         "isDefault": true,
-        "stock": 9
+        "stock": 2
       },
       {
         "sku": "the-soap-10-black",
@@ -342,7 +444,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332328/kinh-can/the-soap-10-black/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 8
+        "stock": 9
       }
     ],
     "rating": {
@@ -352,9 +454,9 @@
     "isActive": true
   },
   {
-    "name": "THE RULER 03 - Gunmetal",
-    "slug": "the-ruler-03---gunmetal",
-    "collectionId": null,
+    "name": "THE RULER 03",
+    "slug": "the-ruler-03",
+    "collectionId": "69d267a4dd0dd4ea810abc8b",
     "brand": "SEESONvn",
     "salePercent": 0,
     "availability": "in_stock",
@@ -365,7 +467,7 @@
         "material": "Metal",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/medium/size50.png"
         }
       },
       "gender": "Female"
@@ -373,7 +475,7 @@
     "variants": [
       {
         "sku": "the-ruler-03-gunmetal",
-        "color": "",
+        "color": "gunmetal",
         "price": 2750000,
         "images": [
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332322/kinh-can/the-ruler-03-gunmetal/image_01.jpg",
@@ -383,47 +485,22 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332322/kinh-can/the-ruler-03-gunmetal/image_05.jpg"
         ],
         "isDefault": true,
-        "stock": 5
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE RULER 07 - Grey",
-    "slug": "the-ruler-07---grey",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "The Ruler 07 sở hữu dáng kính tròn mềm mại với độ dày vừa phải, mang lại hiệu ứng thị giác hài hòa và cảm giác đeo nhẹ nhàng. Chi tiết càng kính gợi nhắc hình dáng quen thuộc của thước đo tỷ lệ – một điểm nhấn tinh tế trong tổng thể tối giản.",
-    "specifications": {
-      "frameType": {
-        "material": "Acetate",
-        "size": {
-          "label": "Small",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/small/size47.png"
-        }
+        "stock": 3
       },
-      "gender": "Female"
-    },
-    "variants": [
       {
-        "sku": "the-ruler-07-grey",
-        "color": "",
-        "price": 2550000,
+        "sku": "the-ruler-03-silver",
+        "color": "silver",
+        "price": 2750000,
         "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332323/kinh-can/the-ruler-07-grey/image_01.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332323/kinh-can/the-ruler-07-grey/image_02.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332323/kinh-can/the-ruler-07-grey/image_03.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332323/kinh-can/the-ruler-07-grey/image_04.jpg"
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332337/kinh-can/the-ruler-03-silver/image_01.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332337/kinh-can/the-ruler-03-silver/image_02.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332338/kinh-can/the-ruler-03-silver/image_03.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332337/kinh-can/the-ruler-03-silver/image_04.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332337/kinh-can/the-ruler-03-silver/image_05.jpg",
+          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332337/kinh-can/the-ruler-03-silver/image_06.jpg"
         ],
-        "isDefault": true,
-        "stock": 4
+        "isDefault": false,
+        "stock": 3
       }
     ],
     "rating": {
@@ -433,9 +510,9 @@
     "isActive": true
   },
   {
-    "name": "THE RULER 04 - Silver",
-    "slug": "the-ruler-04---silver",
-    "collectionId": null,
+    "name": "THE RULER 04",
+    "slug": "the-ruler-04",
+    "collectionId": "69d267a4dd0dd4ea810abc8b",
     "brand": "SEESONvn",
     "salePercent": 0,
     "availability": "in_stock",
@@ -454,7 +531,7 @@
     "variants": [
       {
         "sku": "the-ruler-04-silver",
-        "color": "",
+        "color": "silver",
         "price": 2750000,
         "images": [
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332325/kinh-can/the-ruler-04-silver/image_01.jpg",
@@ -465,164 +542,11 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332325/kinh-can/the-ruler-04-silver/image_06.jpg"
         ],
         "isDefault": true,
-        "stock": 1
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE RULER 06 - Grey",
-    "slug": "the-ruler-06---grey",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "Dáng kính vuông bo tròn, độ cao tròng lớn và viền gọng tinh chỉnh tạo nên một silhouette cân đối. Càng kính tam giác dẹt cùng lõi kim loại dập vạch chia hiện lên như một thước đo tỷ lệ.",
-    "specifications": {
-      "frameType": {
-        "material": "Acetate",
-        "size": {
-          "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/big/size54.png"
-        }
+        "stock": 7
       },
-      "gender": "Female"
-    },
-    "variants": [
-      {
-        "sku": "the-ruler-06-grey",
-        "color": "",
-        "price": 2550000,
-        "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332330/kinh-can/the-ruler-06-grey/image_01.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332332/kinh-can/the-ruler-06-grey/image_02.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332332/kinh-can/the-ruler-06-grey/image_03.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332330/kinh-can/the-ruler-06-grey/image_04.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332330/kinh-can/the-ruler-06-grey/image_05.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332330/kinh-can/the-ruler-06-grey/image_06.jpg"
-        ],
-        "isDefault": true,
-        "stock": 3
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE RULER 06 - Black",
-    "slug": "the-ruler-06---black",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "Dáng kính vuông bo tròn, độ cao tròng lớn và viền gọng tinh chỉnh tạo nên một silhouette cân đối. Càng kính tam giác dẹt cùng lõi kim loại dập vạch chia hiện lên như một thước đo tỷ lệ.",
-    "specifications": {
-      "frameType": {
-        "material": "Acetate",
-        "size": {
-          "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/big/size55.png"
-        }
-      },
-      "gender": "Female"
-    },
-    "variants": [
-      {
-        "sku": "the-ruler-06-black",
-        "color": "",
-        "price": 2550000,
-        "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332334/kinh-can/the-ruler-06-black/image_01.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332335/kinh-can/the-ruler-06-black/image_02.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332335/kinh-can/the-ruler-06-black/image_03.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332334/kinh-can/the-ruler-06-black/image_04.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332334/kinh-can/the-ruler-06-black/image_05.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332334/kinh-can/the-ruler-06-black/image_06.jpg"
-        ],
-        "isDefault": true,
-        "stock": 6
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE RULER 03 - Silver",
-    "slug": "the-ruler-03---silver",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "Dáng kính tròn với cấu trúc kim loại tối giản, nhẹ và dễ đeo. Càng kính được khắc dọc các đường kẻ tuyến tính – chi tiết lấy cảm hứng từ thước kẻ, vừa mang tính thẩm mỹ, vừa nhấn mạnh dấu ấn thiết kế của bộ sưu tập.",
-    "specifications": {
-      "frameType": {
-        "material": "Metal",
-        "size": {
-          "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/medium/size50.png"
-        }
-      },
-      "gender": "Female"
-    },
-    "variants": [
-      {
-        "sku": "the-ruler-03-silver",
-        "color": "",
-        "price": 2750000,
-        "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332337/kinh-can/the-ruler-03-silver/image_01.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332337/kinh-can/the-ruler-03-silver/image_02.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332338/kinh-can/the-ruler-03-silver/image_03.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332337/kinh-can/the-ruler-03-silver/image_04.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332337/kinh-can/the-ruler-03-silver/image_05.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332337/kinh-can/the-ruler-03-silver/image_06.jpg"
-        ],
-        "isDefault": true,
-        "stock": 1
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE RULER 04 - Gunmetal",
-    "slug": "the-ruler-04---gunmetal",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "Dáng mắt vuông cổ điển được tinh chỉnh kỹ lưỡng trên nền chất liệu titanium cao cấp, đem lại cảm giác nhẹ nhàng vượt trội khi sử dụng. Cấu trúc tinh gọn làm nổi bật những đường kẻ dọc theo càng kính, gợi nhắc tới hình ảnh chiếc thước kẻ quen thuộc.",
-    "specifications": {
-      "frameType": {
-        "material": "Metal",
-        "size": {
-          "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
-        }
-      },
-      "gender": "Female"
-    },
-    "variants": [
       {
         "sku": "the-ruler-04-gunmetal",
-        "color": "",
+        "color": "gunmetal",
         "price": 2750000,
         "images": [
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332339/kinh-can/the-ruler-04-gunmetal/image_01.jpg",
@@ -631,49 +555,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332341/kinh-can/the-ruler-04-gunmetal/image_04.jpg",
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332340/kinh-can/the-ruler-04-gunmetal/image_05.jpg"
         ],
-        "isDefault": true,
-        "stock": 4
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE PAPER KNIFE 01 - Black",
-    "slug": "the-paper-knife-01---black",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "Dáng kính vuông bo tròn với viền gọng dày dặn. Chi tiết càng kính được khắc rãnh dứt khoát, gợi hình ảnh lưỡi dao rọc giấy – chi tiết mang lại cảm giác sắc sảo và góc cạnh cho tổng thể thiết kế.",
-    "specifications": {
-      "frameType": {
-        "material": "Acetate",
-        "size": {
-          "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/big/size55.png"
-        }
-      },
-      "gender": "Male"
-    },
-    "variants": [
-      {
-        "sku": "the-paper-knife-01-black",
-        "color": "",
-        "price": 2500000,
-        "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332342/kinh-can/the-paper-knife-01-black/image_01.png",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332343/kinh-can/the-paper-knife-01-black/image_02.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332343/kinh-can/the-paper-knife-01-black/image_03.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332342/kinh-can/the-paper-knife-01-black/image_04.png",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332342/kinh-can/the-paper-knife-01-black/image_05.png",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332342/kinh-can/the-paper-knife-01-black/image_06.png"
-        ],
-        "isDefault": true,
+        "isDefault": false,
         "stock": 7
       }
     ],
@@ -684,56 +566,14 @@
     "isActive": true
   },
   {
-    "name": "THE PAPER KNIFE 02 - Black",
-    "slug": "the-paper-knife-02---black",
-    "collectionId": null,
+    "name": "THE RULER 01",
+    "slug": "the-ruler-01",
+    "collectionId": "69d267a4dd0dd4ea810abc8b",
     "brand": "SEESONvn",
     "salePercent": 0,
     "availability": "in_stock",
     "type": "Eyeglasses",
-    "description": "Dáng mắt tròn mềm với viền gọng mảnh và độ dày vừa phải, mang lại cảm giác nhẹ nhàng khi đeo. Càng kính kim loại khắc rãnh, lấy cảm hứng từ dao rọc giấy – chi tiết tạo điểm nhấn thẩm mỹ cho thiết kế tối giản.",
-    "specifications": {
-      "frameType": {
-        "material": "Acetate",
-        "size": {
-          "label": "Small",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/small/size46.png"
-        }
-      },
-      "gender": "Female"
-    },
-    "variants": [
-      {
-        "sku": "the-paper-knife-02-black",
-        "color": "",
-        "price": 2500000,
-        "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_01.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_02.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_03.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_04.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_05.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332345/kinh-can/the-paper-knife-02-black/image_06.jpg"
-        ],
-        "isDefault": true,
-        "stock": 8
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE SET SQUARE 02 SUNGLASSES - Grey - Rhino",
-    "slug": "the-set-square-02-sunglasses---grey---rhino",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "Dáng kính chữ nhật bo tròn với viền gọng được tinh chỉnh vừa vặn, làm nổi bật đường nét kim loại sắc sảo ở càng kính. Chi tiết lấy cảm hứng từ thước eke, cân bằng giữa tinh thần khái niệm và tính ứng dụng trong thiết kế.",
+    "description": "The Ruler 01 sở hữu thiết kế half-rim với tỷ lệ cân đối, kết hợp dáng tròng vuông bo góc mềm mại. Những đường kẻ dọc theo phần càng kính được phát triển từ chiếc thước kẻ đo tỷ lệ, vừa lưu giữ công năng nguyên bản, vừa mang lại điểm nhấn cho thiết kế.",
     "specifications": {
       "frameType": {
         "material": "Acetate",
@@ -746,50 +586,8 @@
     },
     "variants": [
       {
-        "sku": "the-set-square-02-sunglasses-grey-rhino",
-        "color": "",
-        "price": 2600000,
-        "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332348/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_01.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332348/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_02.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332348/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_03.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332347/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_04.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332347/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_05.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332347/kinh-can/the-set-square-02-sunglasses-grey-rhino/image_06.jpg"
-        ],
-        "isDefault": true,
-        "stock": 5
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE RULER 01 - Marble Black",
-    "slug": "the-ruler-01---marble-black",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "The Ruler 01 sở hữu thiết kế half-rim với tỷ lệ cân đối, kết hợp dáng tròng vuông bo góc mềm mại. Những đường kẻ dọc theo phần càng kính được phát triển từ chiếc thước kẻ đo tỷ lệ, vừa lưu giữ công năng nguyên bản, vừa mang lại điểm nhấn cho thiết kế.",
-    "specifications": {
-      "frameType": {
-        "material": "Acetate",
-        "size": {
-          "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/medium/size50.png"
-        }
-      },
-      "gender": "Female"
-    },
-    "variants": [
-      {
         "sku": "the-ruler-01-marble-black",
-        "color": "",
+        "color": "marble-black",
         "price": 2850000,
         "images": [
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332349/kinh-can/the-ruler-01-marble-black/image_01.jpg",
@@ -800,49 +598,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332349/kinh-can/the-ruler-01-marble-black/image_06.jpg"
         ],
         "isDefault": true,
-        "stock": 8
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE PAPER KNIFE 02 - Grey",
-    "slug": "the-paper-knife-02---grey",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "Dáng mắt tròn mềm với viền gọng mảnh và độ dày vừa phải, mang lại cảm giác nhẹ nhàng khi đeo. Càng kính kim loại khắc rãnh, lấy cảm hứng từ dao rọc giấy – chi tiết tạo điểm nhấn thẩm mỹ cho thiết kế tối giản.",
-    "specifications": {
-      "frameType": {
-        "material": "Acetate",
-        "size": {
-          "label": "Small",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652699/MyProject/size-guides/eyewear/small/size45.png"
-        }
-      },
-      "gender": "Female"
-    },
-    "variants": [
-      {
-        "sku": "the-paper-knife-02-grey",
-        "color": "",
-        "price": 2500000,
-        "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332350/kinh-can/the-paper-knife-02-grey/image_01.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332351/kinh-can/the-paper-knife-02-grey/image_02.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332351/kinh-can/the-paper-knife-02-grey/image_03.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332351/kinh-can/the-paper-knife-02-grey/image_04.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332351/kinh-can/the-paper-knife-02-grey/image_05.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332351/kinh-can/the-paper-knife-02-grey/image_06.jpg"
-        ],
-        "isDefault": true,
-        "stock": 1
+        "stock": 6
       }
     ],
     "rating": {
@@ -865,7 +621,7 @@
         "material": "Acetate",
         "size": {
           "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/big/size55.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/big/size54.png"
         }
       },
       "gender": "Female"
@@ -882,7 +638,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332352/kinh-can/the-soap-07-sunglasses-grey-rhino/image_04.jpg"
         ],
         "isDefault": true,
-        "stock": 7
+        "stock": 9
       },
       {
         "sku": "the-soap-07-grey",
@@ -895,47 +651,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332711/kinh-can/the-soap-07-grey/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 9
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE RULER 07 - Beige",
-    "slug": "the-ruler-07---beige",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "The Ruler 07 sở hữu dáng kính tròn mềm mại với độ dày vừa phải, mang lại hiệu ứng thị giác hài hòa và cảm giác đeo nhẹ nhàng. Chi tiết càng kính gợi nhắc hình dáng quen thuộc của thước đo tỷ lệ – một điểm nhấn tinh tế trong tổng thể tối giản.",
-    "specifications": {
-      "frameType": {
-        "material": "Acetate",
-        "size": {
-          "label": "Small",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/small/size47.png"
-        }
-      },
-      "gender": "Female"
-    },
-    "variants": [
-      {
-        "sku": "the-ruler-07-beige",
-        "color": "",
-        "price": 2550000,
-        "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332353/kinh-can/the-ruler-07-beige/image_01.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332353/kinh-can/the-ruler-07-beige/image_02.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332353/kinh-can/the-ruler-07-beige/image_03.jpg",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332353/kinh-can/the-ruler-07-beige/image_04.jpg"
-        ],
-        "isDefault": true,
-        "stock": 4
+        "stock": 3
       }
     ],
     "rating": {
@@ -958,10 +674,10 @@
         "material": "Acetate",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/medium/size50.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/medium/size48.png"
         }
       },
-      "gender": "Male"
+      "gender": "Female"
     },
     "variants": [
       {
@@ -977,7 +693,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332355/kinh-can/the-obsidian-02-black/image_06.jpg"
         ],
         "isDefault": true,
-        "stock": 8
+        "stock": 6
       },
       {
         "sku": "the-obsidian-02-matte-black",
@@ -991,7 +707,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332362/kinh-can/the-obsidian-02-matte-black/image_05.jpg"
         ],
         "isDefault": false,
-        "stock": 5
+        "stock": 3
       }
     ],
     "rating": {
@@ -1014,7 +730,7 @@
         "material": "Acetate",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/medium/size50.png"
         }
       },
       "gender": "Female"
@@ -1032,7 +748,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332356/kinh-can/the-soap-02-sunglasses-grey-rhino/image_05.jpg"
         ],
         "isDefault": true,
-        "stock": 5
+        "stock": 3
       }
     ],
     "rating": {
@@ -1046,7 +762,7 @@
     "slug": "the-snorkel-02",
     "collectionId": "69d267a4dd0dd4ea810abc8f",
     "brand": "SEESONvn",
-    "salePercent": 14,
+    "salePercent": 6,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "Thêm lựa chọn cho dòng kính Combination giữa kim loại và acetate, The Snorkel 02 mỏng nhẹkết hợp với nét mềm mại phù hợp với nhiều dáng mặt.",
@@ -1055,7 +771,7 @@
         "material": "Metal",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/medium/size48.png"
         }
       },
       "gender": "Female"
@@ -1089,7 +805,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332366/kinh-can/the-snorkel-02-black/image_06.jpg"
         ],
         "isDefault": false,
-        "stock": 3
+        "stock": 4
       },
       {
         "sku": "the-snorkel-02-crystal",
@@ -1104,7 +820,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332387/kinh-can/the-snorkel-02-crystal/image_06.jpg"
         ],
         "isDefault": false,
-        "stock": 10
+        "stock": 6
       }
     ],
     "rating": {
@@ -1118,7 +834,7 @@
     "slug": "the-snorkel-01",
     "collectionId": "69d267a4dd0dd4ea810abc8f",
     "brand": "SEESONvn",
-    "salePercent": 10,
+    "salePercent": 17,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "Được phát triển từnhững dáng mắt cơbảnđược yêu thích tại SEESON, The Snorkel 01 edgy hơn với hiệuứng Sharp- edgeđặc trưng.",
@@ -1146,7 +862,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332361/kinh-can/the-snorkel-01-crystal/image_06.jpg"
         ],
         "isDefault": true,
-        "stock": 4
+        "stock": 5
       },
       {
         "sku": "the-snorkel-01-black",
@@ -1160,7 +876,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332389/kinh-can/the-snorkel-01-black/image_05.jpg"
         ],
         "isDefault": false,
-        "stock": 9
+        "stock": 8
       }
     ],
     "rating": {
@@ -1183,7 +899,7 @@
         "material": "Acetate",
         "size": {
           "label": "Small",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/small/size46.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652699/MyProject/size-guides/eyewear/small/size45.png"
         }
       },
       "gender": "Female"
@@ -1200,7 +916,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332364/kinh-can/the-soap-08-sunglasses-grey-rhino/image_04.jpg"
         ],
         "isDefault": true,
-        "stock": 7
+        "stock": 5
       },
       {
         "sku": "the-soap-08-green",
@@ -1213,7 +929,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332369/kinh-can/the-soap-08-green/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 4
+        "stock": 9
       },
       {
         "sku": "the-soap-08-grey",
@@ -1226,7 +942,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332401/kinh-can/the-soap-08-grey/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 7
+        "stock": 8
       }
     ],
     "rating": {
@@ -1249,7 +965,7 @@
         "material": "Metal",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/medium/size50.png"
         }
       },
       "gender": "Female"
@@ -1266,7 +982,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332371/kinh-can/the-soap-09-grey/image_04.jpg"
         ],
         "isDefault": true,
-        "stock": 1
+        "stock": 9
       },
       {
         "sku": "the-soap-09-brown",
@@ -1279,7 +995,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332391/kinh-can/the-soap-09-brown/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 4
+        "stock": 2
       },
       {
         "sku": "the-soap-09-faded-ash",
@@ -1292,7 +1008,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332405/kinh-can/the-soap-09-faded-ash/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 1
+        "stock": 6
       }
     ],
     "rating": {
@@ -1315,7 +1031,7 @@
         "material": "Acetate",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/medium/size50.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
         }
       },
       "gender": "Male"
@@ -1337,7 +1053,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332393/kinh-can/the-assembled-02-transparent-beige/image_09.jpg"
         ],
         "isDefault": true,
-        "stock": 3
+        "stock": 9
       }
     ],
     "rating": {
@@ -1360,7 +1076,7 @@
         "material": "Acetate",
         "size": {
           "label": "Small",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/small/size47.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/small/size46.png"
         }
       },
       "gender": "Male"
@@ -1378,7 +1094,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332397/kinh-can/the-athletes-03-silver/image_05.png"
         ],
         "isDefault": true,
-        "stock": 3
+        "stock": 10
       }
     ],
     "rating": {
@@ -1401,7 +1117,7 @@
         "material": "Acetate",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/medium/size50.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
         }
       },
       "gender": "Male"
@@ -1418,7 +1134,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332399/kinh-can/the-athletes-02-beige-rhino/image_04.png"
         ],
         "isDefault": true,
-        "stock": 2
+        "stock": 5
       },
       {
         "sku": "the-athletes-02-milky-grey",
@@ -1432,7 +1148,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332403/kinh-can/the-athletes-02-milky-grey/image_05.png"
         ],
         "isDefault": false,
-        "stock": 6
+        "stock": 3
       }
     ],
     "rating": {
@@ -1455,7 +1171,7 @@
         "material": "Acetate",
         "size": {
           "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/big/size54.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/big/size58.png"
         }
       },
       "gender": "Male"
@@ -1473,7 +1189,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332713/kinh-can/the-athletes-11-dark-grey-rhino/image_05.png"
         ],
         "isDefault": true,
-        "stock": 2
+        "stock": 7
       },
       {
         "sku": "the-athletes-11-green-rhino",
@@ -1487,7 +1203,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332724/kinh-can/the-athletes-11-green-rhino/image_05.png"
         ],
         "isDefault": false,
-        "stock": 4
+        "stock": 5
       },
       {
         "sku": "the-athletes-11-black-rhino",
@@ -1501,7 +1217,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332941/kinh-can/the-athletes-11-black-rhino/image_05.png"
         ],
         "isDefault": false,
-        "stock": 8
+        "stock": 4
       }
     ],
     "rating": {
@@ -1524,7 +1240,7 @@
         "material": "Acetate",
         "size": {
           "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/big/size55.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/big/size58.png"
         }
       },
       "gender": "Male"
@@ -1542,7 +1258,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332716/kinh-can/the-athletes-10-milky-grey/image_05.png"
         ],
         "isDefault": true,
-        "stock": 6
+        "stock": 1
       },
       {
         "sku": "the-athletes-10-brown-rhino",
@@ -1555,7 +1271,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332728/kinh-can/the-athletes-10-brown-rhino/image_04.png"
         ],
         "isDefault": false,
-        "stock": 2
+        "stock": 10
       },
       {
         "sku": "the-athletes-10-blue-rhino",
@@ -1568,7 +1284,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332729/kinh-can/the-athletes-10-blue-rhino/image_04.png"
         ],
         "isDefault": false,
-        "stock": 9
+        "stock": 2
       },
       {
         "sku": "the-athletes-10-grey-rhino",
@@ -1581,7 +1297,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332947/kinh-can/the-athletes-10-grey-rhino/image_04.png"
         ],
         "isDefault": false,
-        "stock": 1
+        "stock": 8
       }
     ],
     "rating": {
@@ -1621,7 +1337,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332720/kinh-can/the-athletes-14-faded-ash/image_04.png"
         ],
         "isDefault": true,
-        "stock": 5
+        "stock": 4
       },
       {
         "sku": "the-athletes-14-black-rhino",
@@ -1634,7 +1350,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332722/kinh-can/the-athletes-14-black-rhino/image_04.png"
         ],
         "isDefault": false,
-        "stock": 6
+        "stock": 10
       },
       {
         "sku": "the-athletes-14-grey-rhino",
@@ -1647,7 +1363,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332735/kinh-can/the-athletes-14-grey-rhino/image_04.png"
         ],
         "isDefault": false,
-        "stock": 7
+        "stock": 6
       }
     ],
     "rating": {
@@ -1670,7 +1386,7 @@
         "material": "Acetate",
         "size": {
           "label": "Small",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/small/size47.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/small/size46.png"
         }
       },
       "gender": "Male"
@@ -1687,7 +1403,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332730/kinh-can/the-athletes-13-olive-rhino/image_04.png"
         ],
         "isDefault": true,
-        "stock": 8
+        "stock": 10
       },
       {
         "sku": "the-athletes-13-black",
@@ -1700,7 +1416,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332737/kinh-can/the-athletes-13-black/image_04.png"
         ],
         "isDefault": false,
-        "stock": 8
+        "stock": 5
       },
       {
         "sku": "the-athletes-13-brown",
@@ -1713,7 +1429,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332937/kinh-can/the-athletes-13-brown/image_04.png"
         ],
         "isDefault": false,
-        "stock": 7
+        "stock": 4
       },
       {
         "sku": "the-athletes-13-grey-rhino",
@@ -1727,7 +1443,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332951/kinh-can/the-athletes-13-grey-rhino/image_05.png"
         ],
         "isDefault": false,
-        "stock": 1
+        "stock": 5
       }
     ],
     "rating": {
@@ -1750,7 +1466,7 @@
         "material": "Acetate",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/medium/size50.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
         }
       },
       "gender": "Male"
@@ -1790,7 +1506,7 @@
         "material": "Acetate",
         "size": {
           "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/big/size54.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/big/size58.png"
         }
       },
       "gender": "Male"
@@ -1807,7 +1523,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332738/kinh-can/the-athletes-12-green-rhino/image_04.png"
         ],
         "isDefault": true,
-        "stock": 7
+        "stock": 8
       },
       {
         "sku": "the-athletes-12-faded-ash",
@@ -1820,7 +1536,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332742/kinh-can/the-athletes-12-faded-ash/image_04.png"
         ],
         "isDefault": false,
-        "stock": 6
+        "stock": 9
       },
       {
         "sku": "the-athletes-12-brown",
@@ -1833,7 +1549,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332939/kinh-can/the-athletes-12-brown/image_04.png"
         ],
         "isDefault": false,
-        "stock": 9
+        "stock": 5
       },
       {
         "sku": "the-athletes-12-grey-rhino",
@@ -1846,7 +1562,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332948/kinh-can/the-athletes-12-grey-rhino/image_04.png"
         ],
         "isDefault": false,
-        "stock": 8
+        "stock": 9
       }
     ],
     "rating": {
@@ -1869,7 +1585,7 @@
         "material": "Acetate",
         "size": {
           "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/big/size54.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/big/size55.png"
         }
       },
       "gender": "Male"
@@ -1901,7 +1617,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332744/kinh-can/the-athletes-08-milky-grey/image_05.png"
         ],
         "isDefault": false,
-        "stock": 3
+        "stock": 5
       },
       {
         "sku": "the-athletes-08-dark-grey",
@@ -1915,7 +1631,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332944/kinh-can/the-athletes-08-dark-grey/image_05.png"
         ],
         "isDefault": false,
-        "stock": 9
+        "stock": 6
       }
     ],
     "rating": {
@@ -1956,7 +1672,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332930/kinh-can/the-athletes-06-silver/image_05.png"
         ],
         "isDefault": true,
-        "stock": 7
+        "stock": 6
       }
     ],
     "rating": {
@@ -1979,7 +1695,7 @@
         "material": "Acetate",
         "size": {
           "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/big/size55.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/big/size54.png"
         }
       },
       "gender": "Male"
@@ -1996,47 +1712,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332935/kinh-can/the-athletes-07-silver/image_04.png"
         ],
         "isDefault": true,
-        "stock": 5
-      }
-    ],
-    "rating": {
-      "avg": 0,
-      "count": 0
-    },
-    "isActive": true
-  },
-  {
-    "name": "THE RULER 06 - Dark Grey",
-    "slug": "the-ruler-06---dark-grey",
-    "collectionId": null,
-    "brand": "SEESONvn",
-    "salePercent": 0,
-    "availability": "in_stock",
-    "type": "Eyeglasses",
-    "description": "Dáng kính vuông bo tròn, độ cao tròng lớn và viền gọng tinh chỉnh tạo nên một silhouette cân đối. Càng kính tam giác dẹt cùng lõi kim loại dập vạch chia hiện lên như một thước đo tỷ lệ.",
-    "specifications": {
-      "frameType": {
-        "material": "Acetate",
-        "size": {
-          "label": "Big",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/big/size54.png"
-        }
-      },
-      "gender": "Female"
-    },
-    "variants": [
-      {
-        "sku": "the-ruler-06-dark-grey",
-        "color": "",
-        "price": 2550000,
-        "images": [
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332952/kinh-can/the-ruler-06-dark-grey/image_01.png",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332952/kinh-can/the-ruler-06-dark-grey/image_02.png",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332952/kinh-can/the-ruler-06-dark-grey/image_03.png",
-          "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332953/kinh-can/the-ruler-06-dark-grey/image_04.png"
-        ],
-        "isDefault": true,
-        "stock": 9
+        "stock": 7
       }
     ],
     "rating": {
@@ -2059,7 +1735,7 @@
         "material": "Acetate",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/medium/size48.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
         }
       },
       "gender": "Male"
@@ -2076,7 +1752,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332954/kinh-can/the-athletes-15-black-rhino/image_04.png"
         ],
         "isDefault": true,
-        "stock": 7
+        "stock": 9
       },
       {
         "sku": "the-athletes-15-brown-rhino",
@@ -2089,7 +1765,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332958/kinh-can/the-athletes-15-brown-rhino/image_04.png"
         ],
         "isDefault": false,
-        "stock": 8
+        "stock": 7
       },
       {
         "sku": "the-athletes-15-grey",
@@ -2102,7 +1778,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332961/kinh-can/the-athletes-15-grey/image_04.png"
         ],
         "isDefault": false,
-        "stock": 3
+        "stock": 2
       },
       {
         "sku": "the-athletes-15-grey-rhino",
@@ -2115,7 +1791,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332962/kinh-can/the-athletes-15-grey-rhino/image_04.png"
         ],
         "isDefault": false,
-        "stock": 5
+        "stock": 3
       }
     ],
     "rating": {
@@ -2129,7 +1805,7 @@
     "slug": "the-layered-09",
     "collectionId": "69d267a4dd0dd4ea810abc89",
     "brand": "SEESONvn",
-    "salePercent": 2,
+    "salePercent": 14,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "Càng kính chất liệu B-titanium cùng cải tiến mới giúp giảm 15% trọng lượng so với bộ sưu tập tiền nhiệm, tăng độ thoải mái khi đeo.",
@@ -2141,7 +1817,7 @@
           "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
         }
       },
-      "gender": "Male"
+      "gender": "Female"
     },
     "variants": [
       {
@@ -2157,7 +1833,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332967/kinh-can/the-layered-09-layered-grey/image_07.jpg"
         ],
         "isDefault": true,
-        "stock": 9
+        "stock": 3
       },
       {
         "sku": "the-layered-09-crystal-green",
@@ -2173,7 +1849,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332989/kinh-can/the-layered-09-crystal-green/image_07.jpg"
         ],
         "isDefault": false,
-        "stock": 10
+        "stock": 6
       },
       {
         "sku": "the-layered-09-denim",
@@ -2188,7 +1864,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332998/kinh-can/the-layered-09-denim/image_07.jpg"
         ],
         "isDefault": false,
-        "stock": 10
+        "stock": 3
       }
     ],
     "rating": {
@@ -2202,7 +1878,7 @@
     "slug": "the-edge-04",
     "collectionId": "69d267a4dd0dd4ea810abc87",
     "brand": "SEESONvn",
-    "salePercent": 8,
+    "salePercent": 26,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "The Edge 04 sở hữu shape kính vuông cơ bản, độ cao tròng lớn kết hợp với các đường viền mỏng đem lại một tổng quan sắc cạnh và thời trang hơn.",
@@ -2229,7 +1905,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332969/kinh-can/the-edge-04-black/image_05.jpg"
         ],
         "isDefault": true,
-        "stock": 9
+        "stock": 7
       },
       {
         "sku": "the-edge-04-beige",
@@ -2243,7 +1919,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332971/kinh-can/the-edge-04-beige/image_05.jpg"
         ],
         "isDefault": false,
-        "stock": 8
+        "stock": 10
       },
       {
         "sku": "the-edge-04-purple",
@@ -2257,7 +1933,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332984/kinh-can/the-edge-04-purple/image_05.jpg"
         ],
         "isDefault": false,
-        "stock": 9
+        "stock": 7
       }
     ],
     "rating": {
@@ -2280,7 +1956,7 @@
         "material": "Acetate",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/medium/size50.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
         }
       },
       "gender": "Male"
@@ -2298,7 +1974,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332981/kinh-can/the-edge-01-purple/image_05.jpg"
         ],
         "isDefault": true,
-        "stock": 9
+        "stock": 8
       }
     ],
     "rating": {
@@ -2312,7 +1988,7 @@
     "slug": "the-flow-02",
     "collectionId": "69d267a4dd0dd4ea810abc88",
     "brand": "SEESONvn",
-    "salePercent": 25,
+    "salePercent": 26,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "The Flow 02 với thiết kế gọng vuông cùng độ cao mắt lớn và cầu mũi phẳng đem đến một edgy-look.",
@@ -2321,10 +1997,10 @@
         "material": "Metal",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/medium/size48.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
         }
       },
-      "gender": "Male"
+      "gender": "Female"
     },
     "variants": [
       {
@@ -2340,7 +2016,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332985/kinh-can/the-flow-02-matte-gunmetal/image_06.jpg"
         ],
         "isDefault": true,
-        "stock": 2
+        "stock": 7
       },
       {
         "sku": "the-flow-02-matte-silver",
@@ -2354,7 +2030,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332992/kinh-can/the-flow-02-matte-silver/image_05.jpg"
         ],
         "isDefault": false,
-        "stock": 3
+        "stock": 4
       },
       {
         "sku": "the-flow-02-matte-black",
@@ -2382,7 +2058,7 @@
     "slug": "the-edge-05",
     "collectionId": "69d267a4dd0dd4ea810abc87",
     "brand": "SEESONvn",
-    "salePercent": 15,
+    "salePercent": 29,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "Shape kính vuông kết hợp với độdàymặt gọng được giảm tối đa, mang lại một tổng thể hài hoà hơn về mặt thẩm mỹ và tăng độ thoải mái cho người đeo.",
@@ -2391,7 +2067,7 @@
         "material": "Acetate",
         "size": {
           "label": "Small",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652700/MyProject/size-guides/eyewear/small/size46.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/small/size47.png"
         }
       },
       "gender": "Male"
@@ -2409,7 +2085,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775332993/kinh-can/the-edge-05-transparent-green/image_05.jpg"
         ],
         "isDefault": true,
-        "stock": 2
+        "stock": 6
       }
     ],
     "rating": {
@@ -2423,7 +2099,7 @@
     "slug": "the-cut-15",
     "collectionId": "69d267a4dd0dd4ea810abc85",
     "brand": "SEESONvn",
-    "salePercent": 26,
+    "salePercent": 19,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "Shape kính chữ nhật hẹp đặc trưng trong design của SEESON quay trở lại với phần front-end được thiết kế bo góc mềm mại, bớt sắc cạnh. Sự kết hợp màu sắc mới của lõi kim loại và acetate cũng góp phần giữ lại tinh thần edgy-look của The Cut 15.",
@@ -2462,7 +2138,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775333011/kinh-can/the-cut-15-green/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 1
+        "stock": 4
       },
       {
         "sku": "the-cut-15-matte-black-black",
@@ -2475,7 +2151,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775333014/kinh-can/the-cut-15-matte-black-black/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 5
+        "stock": 7
       },
       {
         "sku": "the-cut-15-faded-ash-black",
@@ -2489,7 +2165,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775333017/kinh-can/the-cut-15-faded-ash-black/image_05.jpg"
         ],
         "isDefault": false,
-        "stock": 6
+        "stock": 9
       }
     ],
     "rating": {
@@ -2503,7 +2179,7 @@
     "slug": "the-cut-16",
     "collectionId": "69d267a4dd0dd4ea810abc85",
     "brand": "SEESONvn",
-    "salePercent": 10,
+    "salePercent": 27,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "The Cut 16 với dáng kính chữ nhật flat top với phần cầu mũi được thiết kế thoải mái cùng các đường viền mỏng giúp trải đều trọng lượng.",
@@ -2529,7 +2205,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775333007/kinh-can/the-cut-16-black-black/image_04.jpg"
         ],
         "isDefault": true,
-        "stock": 8
+        "stock": 2
       },
       {
         "sku": "the-cut-16-denim-black",
@@ -2542,7 +2218,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775333009/kinh-can/the-cut-16-denim-black/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 2
+        "stock": 9
       },
       {
         "sku": "the-cut-16-matte-black-black",
@@ -2555,7 +2231,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775333021/kinh-can/the-cut-16-matte-black-black/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 2
+        "stock": 4
       }
     ],
     "rating": {
@@ -2569,7 +2245,7 @@
     "slug": "the-cut-09",
     "collectionId": "69d267a4dd0dd4ea810abc85",
     "brand": "SEESONvn",
-    "salePercent": 11,
+    "salePercent": 21,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "The Cut 09 là sựkết hợp thú vịcủa nét cổ điển trong thiết kếgọng trònđặc trưng những năm 1920s với tinh thần hiệnđại của The Cut.",
@@ -2578,7 +2254,7 @@
         "material": "Acetate",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/medium/size48.png"
         }
       },
       "gender": "Male"
@@ -2597,7 +2273,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775333013/kinh-can/the-cut-09-crystal-beige/image_06.jpg"
         ],
         "isDefault": true,
-        "stock": 5
+        "stock": 2
       }
     ],
     "rating": {
@@ -2611,7 +2287,7 @@
     "slug": "the-cut-18",
     "collectionId": "69d267a4dd0dd4ea810abc85",
     "brand": "SEESONvn",
-    "salePercent": 22,
+    "salePercent": 5,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "Tương phản dày mỏng giữa các phần của mặt gọng trong The Cut 18 được tiết chế ở mức vừa phải, trong khi hiệu ứng sharp-edge đại diện cho tính hiện đại đặc trưng của SEESON vẫn được duy trì.",
@@ -2620,7 +2296,7 @@
         "material": "Acetate",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/medium/size48.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
         }
       },
       "gender": "Male"
@@ -2637,7 +2313,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775333018/kinh-can/the-cut-18-black-black/image_04.jpg"
         ],
         "isDefault": true,
-        "stock": 5
+        "stock": 1
       },
       {
         "sku": "the-cut-18-matte-black-black",
@@ -2650,7 +2326,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775333023/kinh-can/the-cut-18-matte-black-black/image_04.jpg"
         ],
         "isDefault": false,
-        "stock": 6
+        "stock": 4
       }
     ],
     "rating": {
@@ -2664,7 +2340,7 @@
     "slug": "the-flow-01",
     "collectionId": "69d267a4dd0dd4ea810abc88",
     "brand": "SEESONvn",
-    "salePercent": 2,
+    "salePercent": 21,
     "availability": "in_stock",
     "type": "Eyeglasses",
     "description": "Lấy cảm hứng từ thiết kế gọng tròn cổ điển của những năm 1920s, The Flow 01 được nghiên cứu tập trung vào form dáng để tìm ra đường lens tròn với tỷ lệ tốt nhất.",
@@ -2673,10 +2349,10 @@
         "material": "Metal",
         "size": {
           "label": "Medium",
-          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652698/MyProject/size-guides/eyewear/medium/size48.png"
+          "image": "https://res.cloudinary.com/dzpflddlo/image/upload/v1779652702/MyProject/size-guides/eyewear/medium/size53.png"
         }
       },
-      "gender": "Male"
+      "gender": "Female"
     },
     "variants": [
       {
@@ -2692,7 +2368,7 @@
           "https://res.cloudinary.com/ddjjdi6qo/image/upload/v1775333020/kinh-can/the-flow-01-matte-silver/image_06.jpg"
         ],
         "isDefault": true,
-        "stock": 3
+        "stock": 10
       }
     ],
     "rating": {

@@ -25,25 +25,6 @@ type SeedProduct = {
   availability: string;
 };
 
-const toCollectionName = (productName: string) => {
-  const baseName =
-    productName
-      .replace(/\s+SUNGLASSES$/i, "")
-      .split(" - ")[0]
-      ?.trim() ?? productName.trim();
-
-  const withoutSuffix = baseName.replace(/\s+\d+$/, "").trim();
-
-  return withoutSuffix
-    .toLowerCase()
-    .split(/\s+/)
-    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join(" ");
-};
-
-const toCollectionSlug = (collectionName: string) =>
-  collectionName.trim().toLowerCase().replace(/\s+/g, "-");
-
 const seedDatabase = async () => {
   try {
     const mongoUri = process.env.MONGO_URI;
@@ -87,32 +68,21 @@ const seedDatabase = async () => {
       collection.inStockCount = 0;
     }
 
-    const collectionBySlug = new Map(
-      collections.map((collection) => [collection.slug, collection]),
+    const collectionById = new Map(
+      collections.map((collection) => [collection._id, collection]),
     );
 
     for (const product of uniqueProducts) {
-      const inferredCollectionName = toCollectionName(product.name);
-      const inferredCollectionSlug = toCollectionSlug(inferredCollectionName);
-
-      if (!collectionBySlug.has(inferredCollectionSlug)) {
-        const collection = {
-          _id: new mongoose.Types.ObjectId().toString(),
-          name: inferredCollectionName,
-          slug: inferredCollectionSlug,
-          inStockCount: 0,
-        };
-
-        collections.push(collection);
-        collectionBySlug.set(inferredCollectionSlug, collection);
+      if (product.collectionId === undefined || product.collectionId === null) {
+        throw new Error(`Missing normalized collectionId for ${product.name}`);
       }
 
-      const collection = collectionBySlug.get(inferredCollectionSlug);
+      const collection = collectionById.get(product.collectionId);
       if (collection === undefined) {
-        throw new Error(`Missing collection for ${product.name}`);
+        throw new Error(
+          `Unknown collectionId ${product.collectionId} for ${product.name}`,
+        );
       }
-
-      product.collectionId = collection._id;
 
       if (product.availability === "in_stock") {
         collection.inStockCount += 1;
