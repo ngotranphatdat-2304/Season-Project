@@ -1,15 +1,14 @@
-import type { Response } from "express";
+import type { Request, Response } from "express";
+import type { CollectionProductsValidatedRequest } from "../middleware/products.validation.js";
 import {
   getCollectionFilters as getCollectionFiltersData,
   getCollectionProductsBySlug,
-} from "../services/collectionsService.js";
+} from "../services/collections.service.js";
 import type {
   CollectionFiltersResponseData,
   ErrorResponse,
   ProductsResponseData,
-} from "../types/eyewear.js";
-import type { Request } from "express";
-import type { CollectionProductsValidatedRequest } from "../middleware/validation.js";
+} from "../types/product.types.js";
 
 export async function getCollectionFilters(
   _req: Request,
@@ -21,7 +20,13 @@ export async function getCollectionFilters(
   } catch (error) {
     console.error("Error in getCollectionFilters controller:", error);
     res.status(500).json({
-      error: error instanceof Error ? error.message : "Internal server error",
+      success: false,
+      error: {
+        statusCode: 500,
+        code: "INTERNAL_SERVER_ERROR",
+        message:
+          error instanceof Error ? error.message : "Internal server error",
+      },
     });
   }
 }
@@ -35,7 +40,14 @@ export async function getCollectionProducts(
     const query = req.validatedQuery;
 
     if (slug === undefined || Array.isArray(slug) || query === undefined) {
-      res.status(400).json({ error: "Missing collection slug or query." });
+      res.status(400).json({
+        success: false,
+        error: {
+          statusCode: 400,
+          code: "BAD_REQUEST",
+          message: "Missing collection slug or query.",
+        },
+      });
       return;
     }
 
@@ -44,7 +56,13 @@ export async function getCollectionProducts(
   } catch (error) {
     console.error("Error in getCollectionProducts controller:", error);
     res.status(500).json({
-      error: error instanceof Error ? error.message : "Internal server error",
+      success: false,
+      error: {
+        statusCode: 500,
+        code: "INTERNAL_SERVER_ERROR",
+        message:
+          error instanceof Error ? error.message : "Internal server error",
+      },
     });
   }
 }

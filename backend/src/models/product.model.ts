@@ -7,11 +7,11 @@ import type {
   ProductAvailability,
   ProductGender,
   ProductType,
-} from "../types/eyewear.js";
+} from "../types/product.types.js";
 import {
   PRODUCT_AVAILABILITIES,
   PRODUCT_GENDERS,
-} from "../types/eyewear.js";
+} from "../types/product.types.js";
 
 export enum FrameMaterial {
   Acetate = "Acetate",

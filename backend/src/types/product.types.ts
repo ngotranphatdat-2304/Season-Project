@@ -1,7 +1,7 @@
 import {
   type FrameMaterial,
   type FrameSize,
-} from "../models/Product.js";
+} from "../models/product.model.js";
 import type { Types } from "mongoose";
 
 export const PRODUCT_AVAILABILITIES = [
@@ -145,7 +145,13 @@ export interface ProductsResponseData {
   total: number;
 }
 export interface ErrorResponse {
-  error?: string;
+  success: false;
+  error: {
+    statusCode: number;
+    code: string;
+    message: string;
+    details?: unknown;
+  };
 }
 
 export interface ValidatedCollectionProductsQuery extends SortableQuery {

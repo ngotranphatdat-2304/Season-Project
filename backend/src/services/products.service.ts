@@ -1,12 +1,12 @@
-import { Collection } from "../models/Collection.js";
-import { Product } from "../models/Product.js";
+import { Collection } from "../models/collection.model.js";
+import { Product } from "../models/product.model.js";
 import type {
   DatabaseProduct,
   ProductResponse,
   ProductsResponseData,
   ValidatedProductQuery,
-} from "../types/eyewear.js";
-import { buildProductSort } from "./utils.js";
+} from "../types/product.types.js";
+import { buildProductSort } from "./product-sort.util.js";
 
 const PRODUCT_SELECT_FIELDS =
   "name slug type collectionId brand salePercent availability description specifications variants rating isActive";

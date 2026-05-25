@@ -1,13 +1,13 @@
-import { Collection } from "../models/Collection.js";
-import { Product } from "../models/Product.js";
+import { Collection } from "../models/collection.model.js";
+import { Product } from "../models/product.model.js";
 import type {
   CollectionFiltersResponseData,
   DatabaseProduct,
   ProductResponse,
   ProductsResponseData,
   ValidatedCollectionProductsQuery,
-} from "../types/eyewear.js";
-import { buildProductSort } from "./utils.js";
+} from "../types/product.types.js";
+import { buildProductSort } from "./product-sort.util.js";
 import type { Types } from "mongoose";
 
 export async function getCollectionFilters(): Promise<CollectionFiltersResponseData> {

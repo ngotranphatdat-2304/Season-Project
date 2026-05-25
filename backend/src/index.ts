@@ -1,14 +1,10 @@
-import dotenv from "dotenv";
 import { connectDB } from "./database.js";
-import { PORT } from "./config/constants.js";
+import { assertRuntimeConfig, PORT } from "./config/constants.js";
 import app from "./app.js";
-
-dotenv.config({
-  path: "../.env.backend",
-});
 
 const startServer = async () => {
   try {
+    assertRuntimeConfig();
     await connectDB();
     const server = app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);

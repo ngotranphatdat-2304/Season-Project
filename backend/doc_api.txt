@@ -1,0 +1,895 @@
+TAI LIEU API BACKEND
+====================
+
+Tai lieu nay duoc doc tu code backend hien tai trong `src/app.ts`, cac route,
+middleware validation, controller, service, type va model. Backend la Express
+TypeScript su dung MongoDB/Mongoose.
+
+
+1. THONG TIN CHUNG
+------------------
+
+Server:
+- Cong mac dinh: 3001 neu bien moi truong PORT khong duoc dat.
+- Entry point kiem tra song: GET /
+- Request body cua cac endpoint ghi du lieu la JSON (`express.json()`).
+- CORS doc origin tu bien moi truong ALLOWED_ORIGIN/ALLOWED_ORIGINS va bat
+  credentials.
+
+Backend dung mot nhom prefix API:
+- `/api/...`
+
+Cac route chinh dang duoc mount trong code:
+- GET    /
+- GET    /api
+- GET    /api/collections
+- GET    /api/eyeglasses
+- GET    /api/sunglasses
+- POST   /api/auth/register
+- POST   /api/auth/login
+- GET    /api/auth/me
+- POST   /api/auth/refresh-token
+- POST   /api/auth/logout
+- POST   /api/auth/forgot-password
+- POST   /api/auth/reset-password
+- GET    /api/users/profile
+- PUT    /api/users/profile
+- PUT    /api/users/change-password
+- GET    /api/users/addresses
+- POST   /api/users/addresses
+- PUT    /api/users/addresses/:addressId/set-default
+- PUT    /api/users/addresses/:addressId
+- DELETE /api/users/addresses/:addressId
+- DELETE /api/users/me
+- GET    /api/categories
+- GET    /api/categories/slug/:slug
+- GET    /api/categories/:categoryId
+- POST   /api/categories
+- PUT    /api/categories/:categoryId
+- DELETE /api/categories/:categoryId
+- GET    /api/cart
+- POST   /api/cart
+- POST   /api/cart/items
+- PATCH  /api/cart/items/:productId
+- DELETE /api/cart/items/:productId
+- PUT    /api/cart/:sku
+- DELETE /api/cart/:sku
+- DELETE /api/cart
+- POST   /api/orders
+- GET    /api/orders
+- GET    /api/orders/:orderId
+- PUT    /api/orders/:orderId/cancel
+- POST   /api/reviews/:reviewId/like
+- PUT    /api/reviews/:reviewId
+- DELETE /api/reviews/:reviewId
+- GET    /api/inventory/check
+- GET    /api/admin/users
+- GET    /api/admin/users/:userId
+- PUT    /api/admin/users/:userId/toggle-status
+- GET    /api/admin/orders
+- GET    /api/admin/orders/:orderId
+- PUT    /api/admin/orders/:orderId/status
+- DELETE /api/admin/reviews/:reviewId
+- GET    /api/admin/inventory
+- GET    /api/admin/inventory/:sku
+- PUT    /api/admin/inventory/:sku
+- GET    /api/admin/stats/top-products
+- GET    /api/admin/stats/overview
+- POST   /api/orders/checkout
+- POST   /api/reviews
+- POST   /api/admin/categories
+- PATCH  /api/admin/categories/:categoryId
+- DELETE /api/admin/categories/:categoryId
+- PATCH  /api/admin/orders/:orderId/status
+
+Nhom CRUD/upload `/api/products` khong duoc mount trong `src/app.ts`.
+Nhom nay duoc bo qua khi bo sung API tu tai lieu IE213 theo yeu cau hien tai.
+
+
+2. XAC THUC VA PHAN QUYEN
+-------------------------
+
+Endpoint co `requireAuth` can header:
+
+  Authorization: Bearer <accessToken>
+
+Access token phai:
+- La JWT access token hop le va chua het han.
+- Co user tuong ung trong DB.
+- User co status `active`.
+
+Neu thieu token:
+- HTTP 401
+- Message: `Access token is required`
+
+Neu token sai hoac het han:
+- HTTP 401
+- Message: `Access token is invalid or expired`
+
+Admin route nam duoi `/api/admin/...` can them role `admin`.
+Neu access token hop le nhung role khong phai admin:
+- HTTP 403
+- Message: `Admin access is required`
+
+Token:
+- Login tra ve accessToken va refreshToken.
+- Refresh endpoint tra ve accessToken va refreshToken moi; refresh token cu bi rotate.
+- Refresh token duoc luu DB dang hash va co TTL.
+- TTL mac dinh tu code: access token 15 phut, refresh token 7 ngay neu cac
+  bien JWT_ACCESS_TTL_SECONDS va JWT_REFRESH_TTL_SECONDS khong duoc dat.
+
+
+3. LOI CHUNG
+------------
+
+Thanh cong khong boc trong envelope `success`. Moi endpoint tra object response
+rieng cua endpoint do.
+
+Loi qua global error handler co shape:
+
+  {
+    "success": false,
+    "error": {
+      "statusCode": 400,
+      "code": "VALIDATION_ERROR",
+      "message": "Mo ta loi",
+      "details": "co the co hoac khong"
+    }
+  }
+
+Code loi thuong gap:
+- VALIDATION_ERROR: body, query hoac path param khong hop le.
+- BAD_REQUEST: loi request 400 khac.
+- UNAUTHORIZED: 401.
+- FORBIDDEN: 403.
+- NOT_FOUND: 404.
+- CONFLICT: 409 tu service.
+- DUPLICATE_KEY: duplicate key MongoDB chua duoc service chuyen doi.
+- CAST_ERROR: Mongoose cast loi.
+- INTERNAL_SERVER_ERROR: loi 5xx; message tra ve client la
+  `Internal server error`.
+
+Route khong ton tai tra 404 theo cung error shape, vi du message:
+`Route GET /duong-dan-sai not found`.
+
+Path/body productId, categoryId va orderId o cac endpoint co validation phai la
+MongoDB ObjectId hop le.
+
+
+4. CAC SHAPE RESPONSE DUNG CHUNG
+---------------------------------
+
+4.1 Auth user
+
+  {
+    "id": "string",
+    "email": "string",
+    "name": "string",
+    "role": "admin | customer",
+    "status": "active | banned"
+  }
+
+4.2 Category
+
+  {
+    "id": "string",
+    "name": "string",
+    "slug": "string",
+    "description": "string, optional",
+    "parentCategoryId": "string, optional",
+    "isActive": true
+  }
+
+4.3 Cart
+
+  {
+    "id": "string",
+    "userId": "string",
+    "items": [
+      {
+        "productId": "string",
+        "productModel": "Eyeglasses | Sunglasses",
+        "variantSku": "string",
+        "quantity": 1
+      }
+    ]
+  }
+
+4.4 Order
+
+  {
+    "id": "string",
+    "userId": "string",
+    "items": [
+      {
+        "productId": "string",
+        "productModel": "Eyeglasses | Sunglasses",
+        "productName": "string",
+        "variantSku": "string",
+        "quantity": 1,
+        "unitPrice": 0,
+        "lineTotal": 0
+      }
+    ],
+    "status": "pending | confirmed | processing | shipped | delivered | cancelled",
+    "paymentStatus": "unpaid | paid | failed | refunded",
+    "paymentMethod": "cash_on_delivery | bank_transfer | card | e_wallet, optional",
+    "shippingAddress": {
+      "recipientName": "string",
+      "phone": "string",
+      "line1": "string",
+      "line2": "string, optional",
+      "ward": "string, optional",
+      "district": "string, optional",
+      "city": "string",
+      "province": "string, optional",
+      "postalCode": "string, optional",
+      "country": "string"
+    },
+    "subtotalAmount": 0,
+    "totalAmount": 0,
+    "currency": "VND"
+  }
+
+4.5 Review
+
+  {
+    "id": "string",
+    "userId": "string",
+    "orderId": "string",
+    "productId": "string",
+    "productModel": "Eyeglasses | Sunglasses",
+    "rating": 5,
+    "comment": "string, optional",
+    "isVerifiedPurchase": true,
+    "isActive": true
+  }
+
+4.6 Product list item
+
+Eyeglasses va sunglasses cung co base fields:
+
+  {
+    "id": "string",
+    "name": "string",
+    "slug": "string",
+    "type": "Eyeglasses | Sunglasses",
+    "brand": "string",
+    "collectionId": "string",
+    "salePercent": 0,
+    "availability": "in_stock | out_of_stock | pre_order",
+    "description": "string",
+    "variants": [
+      {
+        "sku": "string",
+        "color": "string, optional",
+        "size": "string, optional",
+        "price": 0,
+        "images": ["string"],
+        "isDefault": true,
+        "stock": 0
+      }
+    ],
+    "rating": {
+      "avg": 0,
+      "count": 0
+    },
+    "isActive": true,
+    "specifications": {}
+  }
+
+Eyeglasses specifications:
+
+  {
+    "gender": "Male | Female | Unisex",
+    "frameType": {
+      "material": "Acetate | Metal",
+      "size": "Small | Medium | Big"
+    }
+  }
+
+Sunglasses specifications:
+
+  {
+    "gender": "Male | Female | Unisex"
+  }
+
+
+5. HEALTH CHECK
+---------------
+
+GET /
+
+Access:
+- Public.
+
+Response:
+- HTTP 200 text/plain
+- Body: `TypeScript Express Backend is running!`
+
+
+6. AUTH API
+-----------
+
+6.1 Dang ky
+
+POST /api/auth/register
+
+Access:
+- Public.
+
+Body:
+
+  {
+    "email": "user@example.com",
+    "password": "mat-khau-it-nhat-8-ky-tu",
+    "name": "Nguyen Van A"
+  }
+
+Validation va hanh vi:
+- `email`, `password`, `name` bat buoc la string khong rong.
+- `password` can toi thieu 8 ky tu.
+- User model kiem tra dinh dang email.
+- Email duoc trim va lowercase truoc khi luu.
+- Name duoc trim truoc khi luu.
+- Role moi mac dinh `customer`; status moi mac dinh `active`.
+
+Success:
+- HTTP 201
+
+  {
+    "user": <Auth user>
+  }
+
+Loi nghiep vu dang thay trong code:
+- 409 neu email da dang ky.
+
+6.2 Dang nhap
+
+POST /api/auth/login
+
+Access:
+- Public.
+
+Body:
+
+  {
+    "email": "user@example.com",
+    "password": "mat-khau"
+  }
+
+Validation va hanh vi:
+- `email`, `password` bat buoc la string khong rong.
+- Email duoc trim va lowercase de tim user.
+
+Success:
+- HTTP 200
+
+  {
+    "user": <Auth user>,
+    "accessToken": "string",
+    "refreshToken": "string"
+  }
+
+Loi nghiep vu dang thay trong code:
+- 401 neu email hoac password sai.
+- 403 neu account bi banned.
+
+6.3 Lam moi access token
+
+POST /api/auth/refresh-token
+
+Access:
+- Public; refresh token di trong body.
+
+Body:
+
+  {
+    "refreshToken": "string"
+  }
+
+Success:
+- HTTP 200
+
+  {
+    "accessToken": "string",
+    "refreshToken": "string"
+  }
+
+Loi nghiep vu dang thay trong code:
+- 401 neu refresh token sai, het han, khong con record hop le trong DB hoac
+  user khong con dung duoc.
+
+6.4 Dang xuat session refresh token
+
+POST /api/auth/logout
+
+Access:
+- Public; refresh token di trong body.
+
+Body:
+
+  {
+    "refreshToken": "string"
+  }
+
+Success:
+- HTTP 200
+
+  {
+    "message": "Logged out"
+  }
+
+Ghi chu:
+- Service xoa record co hash trung voi refreshToken nhan duoc.
+- Endpoint khong can Authorization header va khong verify JWT refresh token
+  truoc khi delete record.
+
+
+7. COLLECTION VA PRODUCT CATALOG API
+-------------------------------------
+
+7.1 Collection filter
+
+GET /api/collections?productType=eyeglasses
+
+Access:
+- Public.
+
+Query:
+- `productType` bat buoc.
+- Gia tri hop le: `eyeglasses` hoac `sunglasses`.
+- Value duoc trim va lowercase truoc khi validate.
+
+Success:
+- HTTP 200
+
+  {
+    "records": [
+      {
+        "id": "string",
+        "name": "string",
+        "slug": "string",
+        "inStockCount": 0
+      }
+    ]
+  }
+
+Ghi chu:
+- Chi tra collection co in-stock count > 0 theo productType da chon.
+- Records duoc sort theo name tang dan.
+
+7.2 Danh sach eyeglasses
+
+GET /api/eyeglasses
+
+Access:
+- Public.
+
+Query optional:
+- `offset`: pagination offset. Mac dinh 0.
+- `limit`: so record. Mac dinh 12; gioi han tren 100.
+- `frameType`: `Acetate` hoac `Metal`.
+- `collectionSlug`: slug collection; input duoc trim, lowercase va chuan hoa
+  khoang trang/underscore thanh dau `-`.
+- `gender`: filter chi nhan male/men hoac female/women, khong phan biet hoa
+  thuong. Filter database duoc doi thanh `Male` hoac `Female`.
+- `sale`: `true`, `1`, `yes`, `false`, `0`, `no`, khong phan biet hoa
+  thuong. Mac dinh false. Khi true chi lay san pham co salePercent > 0.
+
+Success:
+- HTTP 200
+
+  {
+    "records": [<Eyeglasses product list item>],
+    "total": 0
+  }
+
+Ghi chu:
+- Query san pham chi lay `isActive: true`.
+- Neu collectionSlug khong ton tai thi tra `{ "records": [], "total": 0 }`.
+- `total` la tong record match filter truoc pagination.
+
+7.3 Danh sach sunglasses
+
+GET /api/sunglasses
+
+Access:
+- Public.
+
+Query optional:
+- `offset`: pagination offset. Mac dinh 0.
+- `limit`: so record. Mac dinh 12; gioi han tren 100.
+- `collectionSlug`: duoc chuan hoa nhu eyeglasses.
+- `gender`: male/men hoac female/women, khong phan biet hoa thuong.
+- `sale`: true/1/yes hoac false/0/no, khong phan biet hoa thuong.
+
+Success:
+- HTTP 200
+
+  {
+    "records": [<Sunglasses product list item>],
+    "total": 0
+  }
+
+Ghi chu:
+- Query san pham chi lay `isActive: true`.
+- Neu collectionSlug khong ton tai thi tra `{ "records": [], "total": 0 }`.
+- Sunglasses khong co query `frameType`.
+
+
+8. CATEGORY API
+---------------
+
+8.1 Danh sach category
+
+GET /api/categories
+
+Access:
+- Public.
+
+Success:
+- HTTP 200
+
+  {
+    "records": [<Category>]
+  }
+
+Ghi chu:
+- Service dang `Category.find()` va sort theo `name`, khong loc isActive.
+
+8.2 Chi tiet category
+
+GET /api/categories/:categoryId
+
+Access:
+- Public.
+
+Path:
+- `categoryId`: MongoDB ObjectId.
+
+Success:
+- HTTP 200 `<Category>`
+
+Loi nghiep vu dang thay trong code:
+- 404 neu category khong ton tai.
+
+8.3 Tao category
+
+POST /api/admin/categories
+
+Access:
+- Bearer access token cua admin.
+
+Body:
+
+  {
+    "name": "Eyeglasses",
+    "slug": "eyeglasses",
+    "description": "Mo ta, optional",
+    "parentCategoryId": "ObjectId, optional",
+    "isActive": true
+  }
+
+Validation va hanh vi:
+- `name` va `slug` bat buoc la string khong rong.
+- Slug duoc trim, lowercase va chuan hoa khoang trang/underscore thanh `-`.
+- `description` optional nhung neu gui phai la string khong rong.
+- `parentCategoryId` optional nhung neu gui phai la ObjectId va parent phai ton
+  tai.
+- `isActive` optional boolean.
+
+Success:
+- HTTP 201 `<Category>`
+
+Loi nghiep vu dang thay trong code:
+- 400 neu parent category khong ton tai.
+- 409 neu slug da ton tai.
+
+8.4 Cap nhat category
+
+PATCH /api/admin/categories/:categoryId
+
+Access:
+- Bearer access token cua admin.
+
+Path:
+- `categoryId`: MongoDB ObjectId.
+
+Body:
+- Gui it nhat mot field trong danh sach:
+
+  {
+    "name": "Ten moi, optional",
+    "slug": "slug-moi, optional",
+    "description": "string hoac null de xoa, optional",
+    "parentCategoryId": "ObjectId hoac null de xoa, optional",
+    "isActive": false
+  }
+
+Success:
+- HTTP 200 `<Category>`
+
+Loi nghiep vu dang thay trong code:
+- 400 neu body khong co field update hop le.
+- 400 neu category tu lam parent cua chinh no.
+- 400 neu parent category khong ton tai.
+- 404 neu category khong ton tai.
+- 409 neu slug moi trung slug cua category khac.
+
+8.5 Xoa category
+
+DELETE /api/admin/categories/:categoryId
+
+Access:
+- Bearer access token cua admin.
+
+Success:
+- HTTP 200
+
+  {
+    "message": "Category deleted"
+  }
+
+Loi nghiep vu dang thay trong code:
+- 404 neu category khong ton tai.
+- 409 neu category dang duoc product gan vao.
+- 409 neu category con child category.
+
+
+9. CART API
+-----------
+
+Cart route deu can Bearer access token hop le.
+
+9.1 Them san pham vao cart
+
+POST /api/cart/items
+
+Body:
+
+  {
+    "productId": "MongoDB ObjectId",
+    "quantity": 1
+  }
+
+Validation va hanh vi:
+- `quantity` la integer > 0.
+- Product co the nam trong collection Eyeglasses hoac Sunglasses.
+- Product phai active va availability phai la `in_stock`.
+- Backend chon variant default (`isDefault: true`); neu khong co thi chon
+  variant dau tien.
+- Neu item cung product/model/variant da co trong cart thi quantity moi duoc
+  cong don voi quantity dang co.
+- Quantity sau khi cong khong duoc vuot stock cua variant.
+
+Success:
+- HTTP 200 `<Cart>`
+
+Loi nghiep vu dang thay trong code:
+- 404 neu product khong ton tai.
+- 409 neu product khong san sang ban.
+- 409 neu product khong co variant ban duoc.
+- 409 neu quantity vuot stock.
+
+9.2 Dat lai quantity cua cart item
+
+PATCH /api/cart/items/:productId
+
+Path:
+- `productId`: MongoDB ObjectId.
+
+Body:
+
+  {
+    "quantity": 2
+  }
+
+Validation va hanh vi:
+- `quantity` la integer > 0.
+- Quantity duoc set bang gia tri body, khong cong don.
+- Service tim item theo product/model va default variant hien tai cua product.
+
+Success:
+- HTTP 200 `<Cart>`
+
+Loi nghiep vu dang thay trong code:
+- 404 neu cart item khong ton tai.
+- 404 neu product khong ton tai.
+- 409 neu product khong san sang ban.
+- 409 neu quantity vuot stock.
+
+9.3 Xoa cart item
+
+DELETE /api/cart/items/:productId
+
+Path:
+- `productId`: MongoDB ObjectId.
+
+Success:
+- HTTP 200 `<Cart>`
+
+Loi nghiep vu dang thay trong code:
+- 404 neu cart hoac item khong ton tai.
+
+
+10. ORDER API
+-------------
+
+10.1 Checkout cart
+
+POST /api/orders/checkout
+
+Access:
+- Bearer access token.
+
+Body:
+
+  {
+    "shippingAddress": {
+      "recipientName": "Nguyen Van A",
+      "phone": "0900000000",
+      "line1": "123 Duong A",
+      "line2": "optional",
+      "ward": "optional",
+      "district": "optional",
+      "city": "Ho Chi Minh",
+      "province": "optional",
+      "postalCode": "optional",
+      "country": "Vietnam"
+    },
+    "paymentMethod": "cash_on_delivery"
+  }
+
+Validation:
+- `shippingAddress` bat buoc.
+- Address field bat buoc: `recipientName`, `phone`, `line1`, `city`.
+- Address field optional: `line2`, `ward`, `district`, `province`,
+  `postalCode`, `country`.
+- Neu khong gui country, middleware dat country mac dinh `Vietnam`.
+- Moi field address duoc gui phai la string khong rong.
+- `paymentMethod` optional; gia tri hop le:
+  `cash_on_delivery`, `bank_transfer`, `card`, `e_wallet`.
+
+Hanh vi:
+- Checkout chay trong MongoDB transaction.
+- Cart phai co item.
+- Moi product/variant trong cart phai con ton tai, active, in_stock va du stock.
+- Backend tru stock variant, tao order, tinh lineTotal/subtotal/total tu gia
+  variant hien tai, sau do clear cart.
+- Order moi mac dinh status `pending`, paymentStatus `unpaid`, currency `VND`.
+
+Success:
+- HTTP 201 `<Order>`
+
+Loi nghiep vu dang thay trong code:
+- 400 neu cart rong.
+- 409 neu product trong cart khong con ton tai.
+- 409 neu product/variant khong con ban duoc hoac khong du stock.
+- 409 neu checkout xung dot voi stock update khac; client nen retry.
+
+10.2 Admin cap nhat order status
+
+PATCH /api/admin/orders/:orderId/status
+
+Access:
+- Bearer access token cua admin.
+
+Path:
+- `orderId`: MongoDB ObjectId.
+
+Body:
+
+  {
+    "status": "processing"
+  }
+
+Status hop le:
+- `pending`
+- `confirmed`
+- `processing`
+- `shipped`
+- `delivered`
+- `cancelled`
+
+Transition duoc service cho phep:
+- pending -> confirmed | processing | shipped | delivered | cancelled
+- confirmed -> processing | shipped | delivered | cancelled
+- processing -> shipped | delivered | cancelled
+- shipped -> delivered | cancelled
+- delivered -> khong chuyen sang status khac
+- cancelled -> khong chuyen sang status khac
+- Gui lai dung status hien tai duoc chap nhan va tra order hien tai.
+
+Success:
+- HTTP 200 `<Order>`
+
+Loi nghiep vu dang thay trong code:
+- 404 neu order khong ton tai.
+- 409 neu transition status khong hop le.
+
+
+11. REVIEW API
+-------------
+
+11.1 Tao verified review
+
+POST /api/reviews
+
+Access:
+- Bearer access token.
+
+Body:
+
+  {
+    "productId": "MongoDB ObjectId",
+    "rating": 5,
+    "comment": "Cam nhan, optional"
+  }
+
+Validation va hanh vi:
+- `rating` la integer tu 1 den 5.
+- `comment` optional; neu gui phai la string trim khong rong, toi da 1000 ky
+  tu.
+- Product co the la Eyeglasses hoac Sunglasses.
+- User chi review duoc neu da co order `delivered` chua product do.
+- Review tao tu route nay luon gan orderId va `isVerifiedPurchase: true`.
+- Moi user chi co mot review cho mot product/model.
+
+Success:
+- HTTP 201 `<Review>`
+
+Loi nghiep vu dang thay trong code:
+- 404 neu product khong ton tai.
+- 403 neu user khong co delivered order chua product.
+- 409 neu user da review product do.
+
+
+12. BIEN MOI TRUONG LIEN QUAN API
+---------------------------------
+
+Bien moi truong doc trong backend:
+- PORT
+- MONGO_URI
+- MONGO_DB
+- ALLOWED_ORIGIN hoac ALLOWED_ORIGINS
+- JWT_ACCESS_SECRET
+- JWT_REFRESH_SECRET
+- JWT_ACCESS_TTL_SECONDS
+- JWT_REFRESH_TTL_SECONDS
+- CLOUDINARY_URL
+
+Luu y:
+- JWT_ACCESS_SECRET va JWT_REFRESH_SECRET bat buoc khi tao/verify token.
+- MONGO_URI bat buoc khi backend khoi dong ket noi DB.
+- CLOUDINARY_URL da co config/service trong backend nhung hien chua thay route
+  upload anh nao duoc mount vao app.
+
+
+13. API BO SUNG THEO TAI LIEU IE213
+-----------------------------------
+
+Ngoai cac endpoint o cac muc tren, backend co cac nhom API sau de phu hop voi
+tai lieu IE213:
+- Auth: GET /api/auth/me, POST /api/auth/forgot-password,
+  POST /api/auth/reset-password.
+- User: /api/users/profile, /api/users/change-password,
+  /api/users/addresses va DELETE /api/users/me.
+- Category alias: /api/categories, bao gom GET theo slug va admin mutation
+  POST/PUT/DELETE.
+- Cart alias theo SKU: GET/POST/DELETE /api/cart va PUT/DELETE /api/cart/:sku.
+- Order alias: POST/GET /api/orders, GET /api/orders/:orderId va
+  PUT /api/orders/:orderId/cancel.
+- Review interaction: POST /api/reviews/:reviewId/like,
+  PUT /api/reviews/:reviewId va DELETE /api/reviews/:reviewId.
+- Inventory: GET /api/inventory/check cho user; admin doc/cap nhat inventory
+  qua /api/admin/inventory.
+- Admin: doc user, doc order, update order status, xoa review va stats qua
+  /api/admin/users, /api/admin/orders, /api/admin/reviews va /api/admin/stats.
+
+Ghi chu tuong thich:
+- Inventory hien duoc suy ra tu `variants.stock` cua Eyeglasses/Sunglasses.
+  Backend chua co reservation collection, nen `reserved` luon la 0.
+- Forgot-password tao reset token trong DB. Khi chua co mail provider, token
+  duoc log ra console o moi truong khong phai production de test reset flow.
+- Product API `/api/products` khong duoc them theo yeu cau.

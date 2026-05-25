@@ -1,11 +1,10 @@
-import mongoose from "mongoose";
-import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
-
-import { Collection } from "../models/Collection.js";
-import { Product } from "../models/Product.js";
+import dotenv from "dotenv";
+import mongoose from "mongoose";
+import { Collection } from "../models/collection.model.js";
+import { Product } from "../models/product.model.js";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env.backend") });
 
@@ -27,10 +26,11 @@ type SeedProduct = {
 };
 
 const toCollectionName = (productName: string) => {
-  const baseName = productName
-    .replace(/\s+SUNGLASSES$/i, "")
-    .split(" - ")[0]
-    ?.trim() ?? productName.trim();
+  const baseName =
+    productName
+      .replace(/\s+SUNGLASSES$/i, "")
+      .split(" - ")[0]
+      ?.trim() ?? productName.trim();
 
   const withoutSuffix = baseName.replace(/\s+\d+$/, "").trim();
 
@@ -54,7 +54,6 @@ const seedDatabase = async () => {
     await mongoose.connect(mongoUri);
     console.log("✅ Connected to MongoDB");
 
-    // 1. Read the normalized JSON files
     const collectionsPath = path.join(
       __dirname,
       "../../season_data/collections-normalized.json",
@@ -120,7 +119,6 @@ const seedDatabase = async () => {
       }
     }
 
-    // 2. Clear entire database (drop all schemas and data)
     if (mongoose.connection.db) {
       await mongoose.connection.db.dropDatabase();
       console.log(
@@ -130,7 +128,6 @@ const seedDatabase = async () => {
       console.log("Could not drop database: connection.db is undefined");
     }
 
-    // 3. Insert the normalized data
     await Collection.insertMany(collections);
     console.log(`Successfully seeded ${collections.length} collections!`);
 

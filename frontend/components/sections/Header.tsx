@@ -2,6 +2,7 @@
 import Link from "next/link";
 import { Search, Heart, User, ShoppingBag } from "lucide-react";
 import { MegaMenu } from "../menu/MegaMenu";
+import { CartDrawer } from "../cart/cart-drawer";
 
 export function Header() {
   return (
@@ -44,12 +45,14 @@ export function Header() {
           >
             <User className="w-4 h-4 stroke-[1.5]" />
           </button>
-          <button
-            aria-label="Cart"
-            className="hover:opacity-60 transition-opacity duration-300"
-          >
-            <ShoppingBag className="w-4 h-4 stroke-[1.5]" />
-          </button>
+          <CartDrawer>
+            <button
+              aria-label="Cart"
+              className="hover:opacity-60 transition-opacity duration-300"
+            >
+              <ShoppingBag className="w-4 h-4 stroke-[1.5]" />
+            </button>
+          </CartDrawer>
         </div>
       </nav>
     </header>

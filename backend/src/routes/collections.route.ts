@@ -2,8 +2,8 @@ import { Router } from "express";
 import {
   getCollectionFilters,
   getCollectionProducts,
-} from "../controllers/collectionsController.js";
-import { validateCollectionProductsQuery } from "../middleware/validation.js";
+} from "../controllers/collections.controller.js";
+import { validateCollectionProductsQuery } from "../middleware/products.validation.js";
 
 const router = Router();
 

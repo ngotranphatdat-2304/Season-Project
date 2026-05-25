@@ -1,4 +1,4 @@
-import type { ProductSort } from "../types/eyewear.js";
+import type { ProductSort } from "../types/product.types.js";
 
 export function buildProductSort(sort: ProductSort): Record<string, 1 | -1> {
   if (sort === "title-desc") {

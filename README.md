@@ -81,7 +81,9 @@ The backend reads:
 - `MONGO_URI`
 - `MONGO_DB`
 - `PORT`
-- `ALLOWED_ORIGIN`
+- `ALLOWED_ORIGIN` or comma-separated `ALLOWED_ORIGINS`
+- `JWT_ACCESS_SECRET`
+- `JWT_REFRESH_SECRET`
 - `CLOUDINARY_URL` if you are using media operations that depend on it
 
 ## Initial Setup
@@ -154,12 +156,12 @@ After MongoDB is running, seed the backend data:
 
 ```bash
 cd backend
-npm run seed
+ALLOW_DESTRUCTIVE_SEED=true npm run seed
 ```
 
 Important notes:
 
-- `npm run seed` clears the current database before inserting fresh data
+- `npm run seed` clears the current database before inserting fresh data and requires `ALLOW_DESTRUCTIVE_SEED=true`
 - seed reads from `season_data/`
 - run it again whenever you want to reset the local database to the normalized project data
 
@@ -223,7 +225,7 @@ Use this order for local development:
 1. Install frontend and backend dependencies
 2. Put the shared env files in `backend/.env.backend` and `frontend/.env.local`
 3. Start MongoDB with Docker
-4. Seed the backend data with `cd backend && npm run seed`
+4. Seed the backend data with `cd backend && ALLOW_DESTRUCTIVE_SEED=true npm run seed`
 5. Start the backend
 6. Start the frontend
 7. Open `http://localhost:3000`
@@ -274,7 +276,7 @@ Your `backend/.env.backend` is missing or `MONGO_URI` is not set correctly.
 Check these:
 
 1. MongoDB is running
-2. you already ran `cd backend && npm run seed`
+2. you already ran `cd backend && ALLOW_DESTRUCTIVE_SEED=true npm run seed`
 3. the seed command finished without errors
 4. the backend is pointing at the same MongoDB database you seeded
 
