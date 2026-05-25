@@ -8,7 +8,7 @@ export function CategoryGrid() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-0.4">
         {/* Product 1 */}
         <Link
-          href="/products/sunglasses/view-all"
+          href="/sunglasses/view-all"
           className="group relative relativeblock h-[60vh] md:h-[85vh]  w-full overflow-hidden"
         >
           <Image
@@ -30,7 +30,7 @@ export function CategoryGrid() {
 
         {/* Product 2 */}
         <Link
-          href="/products/eyeglasses/view-all"
+          href="/eyeglasses/view-all"
           className="group relative relativeblock h-[60vh] md:h-[85vh]  w-full overflow-hidden"
         >
           <Image

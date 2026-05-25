@@ -67,9 +67,7 @@ function CollectionCard({ collection }: CollectionCardProps) {
               variant="default"
               className="rounded-full bg-season-dark text-white px-8 py-6 uppercase text-xs tracking-widest hover:bg-season-dark/80 transition-colors duration-300"
             >
-              <Link href={`/products/collections/${collection.slug}/`}>
-                Explore Now
-              </Link>
+              <Link href={`/collections/${collection.slug}/`}>Explore Now</Link>
             </Button>
           </div>
         </div>
@@ -97,9 +95,7 @@ function CollectionCard({ collection }: CollectionCardProps) {
               variant="default"
               className="rounded-full bg-transparent border border-white text-white uppercase text-xs tracking-widest hover:bg-season-gray transition-colors duration-300 "
             >
-              <Link href={`/products/collections/${collection.slug}/`}>
-                Explore Now
-              </Link>
+              <Link href={`/collections/${collection.slug}/`}>Explore Now</Link>
             </Button>
           </div>
         </div>
