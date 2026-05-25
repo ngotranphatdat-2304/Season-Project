@@ -77,7 +77,7 @@ export function Hero() {
           New Collections
         </h1>
         <Link
-          href="/products/collections/the-athletes/"
+          href="/collections/the-athletes/"
           className="rounded-none outline border-white bg-transparent px-6 py-5 md:px-8 md:py-6 font-sans text-[10px] md:text-xs uppercase tracking-widest text-white hover:bg-white hover:text-black transition-colors duration-300 backdrop-blur-sm pointer-events-auto"
         >
           Shop Now
