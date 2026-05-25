@@ -4,6 +4,8 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Header } from "@/components/sections/Header";
 import { Footer } from "@/components/sections/Footer";
+import { CartSessionBootstrap } from "@/components/cart/cart-session-bootstrap";
+import { Toaster } from "@/components/ui/sonner";
 
 const crimsonPro = Crimson_Pro({
   subsets: ["latin"],
@@ -34,7 +36,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           "min-h-screen bg-background font-serif antialiased",
@@ -42,6 +44,8 @@ export default function RootLayout({
           afacad.variable,
         )}
       >
+        <CartSessionBootstrap />
+        <Toaster />
         <Header />
         {children}
         <Footer />

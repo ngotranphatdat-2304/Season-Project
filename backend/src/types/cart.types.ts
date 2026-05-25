@@ -15,13 +15,17 @@ export interface CartSkuInput {
 
 export interface CartItemResponse {
   productId: string;
+  productName: string;
   variantSku: string;
+  price: number;
   quantity: number;
+  stock: number;
+  image: string;
 }
 
 export interface CartResponseData {
-  id: string;
-  ownerType: "user" | "guest";
+  id?: string;
+  ownerType?: "user" | "guest";
   userId?: string;
   guestId?: string;
   expiresAt?: string;

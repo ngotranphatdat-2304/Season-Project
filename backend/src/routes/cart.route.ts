@@ -2,6 +2,7 @@ import { Router } from "express";
 import {
   addCartItem,
   addCartSkuItem,
+  bootstrapGuestCartSession,
   clearCart,
   getCart,
   removeCartItem,
@@ -23,7 +24,8 @@ import { guestSession } from "../middleware/guest-session.js";
 const cartRouter = Router();
 
 cartRouter.use(optionalAuth);
-cartRouter.use(guestSession({ createIfMissing: true }));
+cartRouter.get("/bootstrap", guestSession({ createIfMissing: true }), bootstrapGuestCartSession);
+cartRouter.use(guestSession({ createIfMissing: false }));
 cartRouter.get("/", getCart);
 cartRouter.post("/", validateAddCartSkuBody, addCartSkuItem);
 cartRouter.put("/:sku", validateCartSkuParam, validateUpdateCartSkuBody, updateCartSkuItem);

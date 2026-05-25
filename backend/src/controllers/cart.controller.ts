@@ -39,6 +39,18 @@ function getCartOwner(req: CartOwnerRequest): { userId?: string; guestId?: strin
   throw AppError.badRequest("Invalid cart request");
 }
 
+function getOptionalCartOwner(req: CartOwnerRequest): { userId?: string; guestId?: string } {
+  if (req.authUserId !== undefined) {
+    return { userId: req.authUserId };
+  }
+
+  if (req.guestId !== undefined) {
+    return { guestId: req.guestId };
+  }
+
+  return {};
+}
+
 export async function addCartItem(
   req: AddCartItemRequest,
   res: Response<CartResponseData | ErrorResponse>,
@@ -80,7 +92,7 @@ export async function getCart(
   req: CartOwnerRequest,
   res: Response<CartResponseData | ErrorResponse>,
 ): Promise<void> {
-  res.status(200).json(await getCartForOwner(getCartOwner(req)));
+  res.status(200).json(await getCartForOwner(getOptionalCartOwner(req)));
 }
 
 export async function addCartSkuItem(
@@ -127,4 +139,11 @@ export async function clearCart(
   res: Response<CartResponseData | ErrorResponse>,
 ): Promise<void> {
   res.status(200).json(await clearCartForOwner(getCartOwner(req)));
+}
+
+export async function bootstrapGuestCartSession(
+  _req: CartOwnerRequest,
+  res: Response<void>,
+): Promise<void> {
+  res.status(204).end();
 }

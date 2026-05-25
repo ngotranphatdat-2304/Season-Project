@@ -74,7 +74,7 @@ export function Hero() {
 
       <div className="absolute inset-0 z-10 flex flex-col  items-center justify-end mb-10 md:justify-center text-center gap-6 md:gap-8 animate-in fade-in zoom-in duration-700 pointer-events-none px-4">
         <h1 className="text-2xl sm:text-4xl md:text-6xl font-serif text-white uppercase tracking-[0.20em] font-extralight drop-shadow-md">
-          New Collections
+          New Collection
         </h1>
         <Link
           href="/collections/the-athletes/"

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import { isAxiosError } from "axios";
 import { Bookmark, Minus, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -11,6 +12,8 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/components/ui/sonner";
+import { notifyCartUpdated } from "@/lib/cart/cart-sync";
 import {
   deserializeProductRecord,
   type SerializedProductRecord,
@@ -25,6 +28,7 @@ import {
   type AccordionSection,
 } from "./utils";
 import { RelatedProductGrid } from "./related-product-grid";
+import { addVariantToGuestCart } from "@/lib/cart/cart-api";
 
 type ProductDetailViewProps = {
   product: SerializedProductRecord;
@@ -78,6 +82,10 @@ function ProductAccordion({
   );
 }
 
+function isDuplicateCartItemError(message: string, status?: number): boolean {
+  return status === 409 && message.trim() === "Product already added to cart";
+}
+
 export function ProductDetailView({
   product,
   relatedProducts = [],
@@ -95,6 +103,7 @@ export function ProductDetailView({
   );
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [activeSlide, setActiveSlide] = useState(0);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   const selectedVariant =
     hydratedProduct.variants[selectedVariantIndex] ??
@@ -107,6 +116,8 @@ export function ProductDetailView({
   const productFacts = buildProductFacts(hydratedProduct);
   const descriptionParagraphs = splitDescription(hydratedProduct.description);
   const displayName = formatDisplayName(hydratedProduct.name);
+  const canAddToCart =
+    selectedVariant !== undefined && isAddingToCart === false;
 
   useEffect(() => {
     if (!carouselApi) {
@@ -129,6 +140,43 @@ export function ProductDetailView({
 
   const toggleSection = (section: AccordionSection) => {
     setOpenSection((current) => (current === section ? null : section));
+  };
+
+  const handleAddToCart = async () => {
+    if (selectedVariant === undefined || isAddingToCart === true) {
+      return;
+    }
+
+    setIsAddingToCart(true);
+
+    try {
+      await addVariantToGuestCart(selectedVariant.sku);
+      toast.success(displayName.replace(/\n/g, " "), {
+        eyebrow: "ĐÃ THÊM VÀO GIỎ HÀNG THÀNH CÔNG",
+        caption: selectedColor,
+        imageSrc: selectedVariant.images[0] ?? "",
+        duration: 4200,
+      });
+      notifyCartUpdated();
+    } catch (error) {
+      const status = isAxiosError(error) ? error.response?.status : undefined;
+      const message = isAxiosError(error)
+        ? ((error.response?.data as { message?: string } | undefined)
+            ?.message ?? "Could not add item to cart")
+        : error instanceof Error
+          ? error.message
+          : "Could not add item to cart";
+
+      if (isDuplicateCartItemError(message, status)) {
+        toast.error("Product already added to cart");
+      } else {
+        toast.error("Unable to add to cart", {
+          description: message,
+        });
+      }
+    } finally {
+      setIsAddingToCart(false);
+    }
   };
 
   const renderSummary = (className?: string) => (
@@ -198,10 +246,16 @@ export function ProductDetailView({
 
         <button
           type="button"
-          className="flex w-full items-center justify-between bg-[#111111] px-5 py-5 text-[15px] font-normal uppercase tracking-normal text-white transition-colors duration-200 hover:bg-black/85"
+          disabled={canAddToCart === false}
+          className="flex w-full items-center justify-between bg-[#111111] px-5 py-5 text-[15px] font-normal uppercase tracking-normal text-white transition-colors duration-200 hover:bg-black/85 disabled:cursor-not-allowed disabled:bg-black/60"
+          onClick={() => {
+            void handleAddToCart();
+          }}
         >
-          <span>Thêm Vào Giỏ</span>
-          <span>+ {selectedVariant?.price.toLocaleString("vi-VN")} VND</span>
+          <span>{isAddingToCart ? "Adding to cart..." : "Add to cart"}</span>
+          <span>
+            + {selectedVariant?.price.toLocaleString("vi-VN") ?? "0"} VND
+          </span>
         </button>
       </div>
     </div>
@@ -312,7 +366,7 @@ export function ProductDetailView({
 
           <div>
             <ProductAccordion
-              title="THÔNG TIN SẢN PHẨM"
+              title="PRODUCTS INFORMATION"
               isOpen={openSection === "info"}
               onToggle={() => {
                 toggleSection("info");
@@ -322,7 +376,7 @@ export function ProductDetailView({
             </ProductAccordion>
 
             <ProductAccordion
-              title="KÍCH THƯỚC"
+              title="SIZE CHART"
               isOpen={openSection === "size"}
               onToggle={() => {
                 toggleSection("size");
@@ -337,7 +391,7 @@ export function ProductDetailView({
           <aside className="md:sticky md:top-[25vh] md:[align-self:start]">
             <div className="max-w-75 space-y-2">
               <ProductAccordion
-                title="THÔNG TIN SẢN PHẨM"
+                title="PRODUCTS INFORMATION"
                 isOpen={openSection === "info"}
                 onToggle={() => {
                   toggleSection("info");
@@ -348,7 +402,7 @@ export function ProductDetailView({
               </ProductAccordion>
 
               <ProductAccordion
-                title="KÍCH THƯỚC"
+                title="SIZE CHART"
                 isOpen={openSection === "size"}
                 onToggle={() => {
                   toggleSection("size");

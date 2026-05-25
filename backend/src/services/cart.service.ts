@@ -4,7 +4,6 @@ import { Product } from "../models/product.model.js";
 import type { IVariant, ProductAvailability } from "../types/product.types.js";
 import type {
   AddCartItemInput,
-  CartItemResponse,
   CartResponseData,
   CartSkuInput,
   UpdateCartItemInput,
@@ -31,7 +30,14 @@ interface CartSkuProduct extends CartProduct {
   variant: IVariant;
 }
 
+interface CartDisplayProduct {
+  _id: Types.ObjectId;
+  name: string;
+  variants: IVariant[];
+}
+
 const GUEST_CART_TTL_DAYS = 7;
+const DUPLICATE_CART_ITEM_MESSAGE = "Product already added to cart";
 
 export class CartServiceError extends Error {
   statusCode: number;
@@ -93,22 +99,55 @@ async function findCartProductBySku(sku: string): Promise<CartSkuProduct | null>
   return { ...product, variant };
 }
 
-function toCartItemResponse(item: ICartItem): CartItemResponse {
-  return {
-    productId: item.productId.toString(),
-    variantSku: item.variantSku,
-    quantity: item.quantity,
-  };
+async function findCartDisplayProducts(
+  items: ICartItem[],
+): Promise<Map<string, CartDisplayProduct>> {
+  const productIds = [...new Set(items.map((item) => item.productId.toString()))];
+
+  if (productIds.length === 0) {
+    return new Map<string, CartDisplayProduct>();
+  }
+
+  const products = await Product.find({ _id: { $in: productIds } })
+    .select("name variants")
+    .lean<CartDisplayProduct[]>();
+
+  return new Map(
+    products.map((product) => [product._id.toString(), product] as const),
+  );
 }
 
-function toCartResponse(cart: ICart): CartResponseData {
+async function toCartResponse(cart: ICart): Promise<CartResponseData> {
+  const displayProducts = await findCartDisplayProducts(cart.items);
+
   return {
     id: cart._id.toString(),
     ownerType: cart.userId !== undefined ? "user" : "guest",
     ...(cart.userId === undefined ? {} : { userId: cart.userId.toString() }),
     ...(cart.guestId === undefined ? {} : { guestId: cart.guestId }),
     ...(cart.expiresAt === undefined ? {} : { expiresAt: cart.expiresAt.toISOString() }),
-    items: cart.items.map(toCartItemResponse),
+    items: cart.items.flatMap((item) => {
+      const product = displayProducts.get(item.productId.toString());
+      const variant = product?.variants.find(
+        (candidate) => candidate.sku === item.variantSku,
+      );
+
+      if (product === undefined || variant === undefined) {
+        return [];
+      }
+
+      return [
+        {
+          productId: item.productId.toString(),
+          productName: product.name,
+          variantSku: item.variantSku,
+          price: variant.price,
+          quantity: item.quantity,
+          stock: variant.stock,
+          image: variant.images[0] ?? "",
+        },
+      ];
+    }),
   };
 }
 
@@ -146,6 +185,12 @@ function assertQuantityWithinStock(quantity: number, stock: number): void {
   }
 }
 
+function assertCartItemNotAlreadyAdded(existingItem: ICartItem | undefined): void {
+  if (existingItem !== undefined) {
+    throw new CartServiceError(DUPLICATE_CART_ITEM_MESSAGE, 409);
+  }
+}
+
 function findMatchingCartItem(
   cart: ICart,
   productId: Types.ObjectId,
@@ -158,36 +203,39 @@ function findMatchingCartItem(
   );
 }
 
-async function getOrCreateCart(ownerInput: CartOwnerInput): Promise<ICart> {
+async function findCart(ownerInput: CartOwnerInput): Promise<ICart | null> {
   const owner = resolveCartOwner(ownerInput);
-  let cart: ICart | null;
 
   if (owner.userId !== undefined) {
-    cart = await Cart.findOne({ userId: owner.userId });
-  } else {
-    if (owner.guestId === undefined) {
-      throw new CartServiceError("Guest cart owner is invalid", 400);
+    return Cart.findOne({ userId: owner.userId });
+  }
+
+  if (owner.guestId === undefined) {
+    throw new CartServiceError("Guest cart owner is invalid", 400);
+  }
+
+  return Cart.findOne({ guestId: owner.guestId });
+}
+
+async function getOrCreateCart(ownerInput: CartOwnerInput): Promise<ICart> {
+  const owner = resolveCartOwner(ownerInput);
+  const existingCart = await findCart(ownerInput);
+
+  if (existingCart !== null) {
+    if (owner.guestId !== undefined) {
+      existingCart.expiresAt = guestCartExpiryDate();
+      await existingCart.save();
     }
 
-    cart = await Cart.findOne({ guestId: owner.guestId });
+    return existingCart;
   }
 
-  if (cart === null) {
-    cart = await Cart.create({
-      ...(owner.userId === undefined ? {} : { userId: owner.userId }),
-      ...(owner.guestId === undefined ? {} : { guestId: owner.guestId }),
-      ...guestCartExpiryUpdate(owner),
-      items: [],
-    });
-    return cart;
-  }
-
-  if (owner.guestId !== undefined) {
-    cart.expiresAt = guestCartExpiryDate();
-    await cart.save();
-  }
-
-  return cart;
+  return Cart.create({
+    ...(owner.userId === undefined ? {} : { userId: owner.userId }),
+    ...(owner.guestId === undefined ? {} : { guestId: owner.guestId }),
+    ...guestCartExpiryUpdate(owner),
+    items: [],
+  });
 }
 
 async function requireCart(ownerInput: CartOwnerInput): Promise<ICart> {
@@ -269,26 +317,37 @@ export async function addItemToCart(
   const variant = assertProductCanBeAddedToCart(product);
   const cart = await requireCart(owner);
   const existingItem = findMatchingCartItem(cart, product._id, variant.sku);
-  const nextQuantity = existingItem === undefined ? input.quantity : existingItem.quantity + input.quantity;
+  assertCartItemNotAlreadyAdded(existingItem);
+  assertQuantityWithinStock(input.quantity, variant.stock);
 
-  assertQuantityWithinStock(nextQuantity, variant.stock);
-
-  if (existingItem !== undefined) {
-    existingItem.quantity = nextQuantity;
-  } else {
-    cart.items.push({
-      productId: product._id,
-      variantSku: variant.sku,
-      quantity: input.quantity,
-    });
-  }
+  cart.items.push({
+    productId: product._id,
+    variantSku: variant.sku,
+    quantity: input.quantity,
+  });
 
   await cart.save();
   return toCartResponse(cart);
 }
 
 export async function getCartForOwner(owner: CartOwnerInput): Promise<CartResponseData> {
-  return toCartResponse(await getOrCreateCart(owner));
+  if (owner.userId === undefined && (owner.guestId === undefined || owner.guestId.trim() === "")) {
+    return {
+      items: [],
+    };
+  }
+
+  const cart = await findCart(owner);
+
+  if (cart === null) {
+    return {
+      ...(owner.userId === undefined ? {} : { ownerType: "user" as const, userId: owner.userId }),
+      ...(owner.guestId === undefined ? {} : { ownerType: "guest" as const, guestId: owner.guestId }),
+      items: [],
+    };
+  }
+
+  return toCartResponse(cart);
 }
 
 export async function addSkuItemToCart(
@@ -301,19 +360,14 @@ export async function addSkuItemToCart(
   const variant = assertSkuProductCanBeAddedToCart(product);
   const cart = await requireCart(owner);
   const existingItem = findMatchingCartItem(cart, product._id, variant.sku);
-  const nextQuantity = existingItem === undefined ? input.quantity : existingItem.quantity + input.quantity;
+  assertCartItemNotAlreadyAdded(existingItem);
+  assertQuantityWithinStock(input.quantity, variant.stock);
 
-  assertQuantityWithinStock(nextQuantity, variant.stock);
-
-  if (existingItem === undefined) {
-    cart.items.push({
-      productId: product._id,
-      variantSku: variant.sku,
-      quantity: input.quantity,
-    });
-  } else {
-    existingItem.quantity = nextQuantity;
-  }
+  cart.items.push({
+    productId: product._id,
+    variantSku: variant.sku,
+    quantity: input.quantity,
+  });
 
   await cart.save();
   return toCartResponse(cart);
@@ -383,7 +437,12 @@ export async function removeSkuItemFromCart(
 }
 
 export async function clearCartForOwner(owner: CartOwnerInput): Promise<CartResponseData> {
-  const cart = await requireCart(owner);
+  const cart = await findCart(owner);
+
+  if (cart === null) {
+    return getCartForOwner(owner);
+  }
+
   cart.items = [];
   await cart.save();
   return toCartResponse(cart);
