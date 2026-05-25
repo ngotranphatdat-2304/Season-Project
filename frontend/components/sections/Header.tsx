@@ -114,9 +114,9 @@ export function Header() {
 
             setIsSearchOpen(false);
           }}
-          className="mx-auto flex w-full max-w-[52rem] items-center justify-center gap-4 px-6 py-5 md:px-8"
+          className="mx-auto flex w-full max-w-208 items-center justify-center gap-4 px-6 py-5 md:px-8"
         >
-          <div className="flex h-12 min-w-0 w-full max-w-[38rem] items-center border-b border-[#cfc8bf] bg-transparent">
+          <div className="flex h-12 min-w-0 w-full max-w-152 items-center border-b border-[#cfc8bf] bg-transparent">
             <Input
               ref={inputRef}
               type="text"
