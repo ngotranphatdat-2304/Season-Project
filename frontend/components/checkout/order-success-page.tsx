@@ -49,11 +49,20 @@ export function OrderSuccessPage({ token }: OrderSuccessPageProps) {
       try {
         const response = await fetchCheckoutSession(token);
 
+        console.info("[order-success] checkout session loaded", {
+          token,
+          status: response.status,
+        });
+
         if (isCancelled) {
           return;
         }
 
         if (response.status !== "completed") {
+          console.info("[order-success] session is not completed; redirecting", {
+            token,
+            status: response.status,
+          });
           router.replace(`/checkout/${encodeURIComponent(token)}`);
           return;
         }
@@ -65,8 +74,15 @@ export function OrderSuccessPage({ token }: OrderSuccessPageProps) {
         }
 
         if (isAxiosError(error) && error.response?.status === 404) {
+          console.info("[order-success] completed session lookup returned 404", {
+            token,
+          });
           toast.error("Checkout session has expired");
         } else {
+          console.info("[order-success] completed session lookup failed", {
+            token,
+            status: isAxiosError(error) ? error.response?.status : undefined,
+          });
           toast.error("Unable to load order");
         }
 

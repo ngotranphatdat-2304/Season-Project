@@ -24,6 +24,10 @@ function formatVnd(amount: number): string {
   return `${amount.toLocaleString("vi-VN")} VND`;
 }
 
+function getCheckoutSuccessPath(token: string): string {
+  return `/order/success/${encodeURIComponent(token)}`;
+}
+
 function CheckoutProductRow({ item }: { item: CheckoutSessionItem }) {
   return (
     <article className="grid grid-cols-[4.75rem_minmax(0,1fr)] gap-3 rounded-lg border border-[#ded9d2] bg-white/62 p-2.5 shadow-[0_12px_28px_rgba(0,0,0,0.04)] sm:grid-cols-[5.25rem_minmax(0,1fr)_auto] md:grid-cols-[5.75rem_minmax(0,1fr)_auto] md:gap-4 md:p-3">
@@ -173,7 +177,13 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
 
     try {
       const response = await completeCheckoutSession(token, payload);
-      router.push(`/order/success/${encodeURIComponent(response.token)}`);
+      const successPath = getCheckoutSuccessPath(response.token);
+
+      console.info("[checkout] complete response received", {
+        token: response.token,
+        successPath,
+      });
+      router.replace(successPath);
     } catch (error) {
       if (isAxiosError(error)) {
         const status = error.response?.status;
@@ -189,7 +199,13 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
         }
 
         if (status === 409 && message === "Đơn hàng đã được đặt") {
-          router.push(`/order/success/${encodeURIComponent(token)}`);
+          const successPath = getCheckoutSuccessPath(token);
+
+          console.info("[checkout] already completed; redirecting", {
+            token,
+            successPath,
+          });
+          router.replace(successPath);
           return;
         }
 
