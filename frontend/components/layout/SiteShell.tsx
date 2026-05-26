@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { usePathname } from "next/navigation";
 import { CartSessionBootstrap } from "@/components/cart/cart-session-bootstrap";
 import { Footer } from "@/components/sections/Footer";
@@ -20,7 +21,9 @@ export function SiteShell({ children }: SiteShellProps) {
   return (
     <>
       <CartSessionBootstrap />
-      <Header />
+      <Suspense fallback={null}>
+        <Header />
+      </Suspense>
       {children}
       <Footer />
     </>
