@@ -11,6 +11,7 @@ import {
   validateCartSkuParam,
 } from "./cart.validation.js";
 import { validateRegisterBody } from "./auth.validation.js";
+import { validateCheckoutCompleteBody } from "./checkout.validation.js";
 import {
   validateCheckoutBody,
   validateOrderIdParam,
@@ -43,6 +44,9 @@ async function listenValidationApp(): Promise<{
     res.status(204).end();
   });
   router.post("/orders", validateCheckoutBody, (_req, res) => {
+    res.status(204).end();
+  });
+  router.post("/checkout/:token/complete", validateCheckoutCompleteBody, (_req, res) => {
     res.status(204).end();
   });
   router.get("/orders/:orderId", validateOrderIdParam, (_req, res) => {
@@ -81,7 +85,7 @@ test("validation middleware returns normalized 400 for malformed cart and order 
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ sku: "", quantity: "abc" }),
     });
-    const badCartParam = await fetch(`${app.baseUrl}/cart/   `, {
+    const badCartParam = await fetch(`${app.baseUrl}/cart/%20%20%20`, {
       method: "PUT",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({ sku: "SKU-01", quantity: 1 }),
@@ -92,6 +96,24 @@ test("validation middleware returns normalized 400 for malformed cart and order 
       body: JSON.stringify({ shippingAddress: "bad" }),
     });
     const badOrderParam = await fetch(`${app.baseUrl}/orders/not-an-id`);
+    const badCheckoutCompleteBody = await fetch(
+      `${app.baseUrl}/checkout/token/complete`,
+      {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          customerEmail: "not-an-email",
+          shippingAddress: {
+            recipientName: "",
+            phone: "0900000000",
+            line1: "1 Test Street",
+            city: "Ho Chi Minh",
+            country: "Vietnam",
+          },
+          paymentMethod: "cod",
+        }),
+      },
+    );
 
     assert.equal(badCartBody.status, 400);
     assert.equal((await readErrorJson(badCartBody)).error.message, "sku is required");
@@ -101,6 +123,11 @@ test("validation middleware returns normalized 400 for malformed cart and order 
     assert.equal((await readErrorJson(badOrderBody)).error.message, "shippingAddress is invalid");
     assert.equal(badOrderParam.status, 400);
     assert.equal((await readErrorJson(badOrderParam)).error.message, "orderId is invalid");
+    assert.equal(badCheckoutCompleteBody.status, 400);
+    assert.equal(
+      (await readErrorJson(badCheckoutCompleteBody)).error.message,
+      "Invalid checkout payload",
+    );
   } finally {
     await app.close();
   }

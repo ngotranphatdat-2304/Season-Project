@@ -21,7 +21,10 @@ export interface CheckoutOrderItemResponse {
 
 export interface CheckoutOrderResponse {
   id: string;
-  userId: string;
+  userId?: string;
+  guestId?: string;
+  customerEmail?: string;
+  checkoutToken?: string;
   items: CheckoutOrderItemResponse[];
   status: OrderStatus;
   paymentStatus: PaymentStatus;

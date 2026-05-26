@@ -25,17 +25,22 @@ export function CartDrawerItemCard({
   const plusDisabled = isPending || item.quantity >= item.stock;
 
   return (
-    <article className="grid grid-cols-[7rem_minmax(0,1fr)] gap-5 border-b border-[#d8d2cb] pb-6 pt-2">
-      <div className="relative aspect-1.5/1 overflow-hidden bg-[#f2efea]">
-        {item.image !== "" ? (
-          <Image
-            src={item.image}
-            alt={item.productName}
-            fill
-            className="scale-[2] object-contain object-center"
-            sizes="112px"
-          />
-        ) : null}
+    <article className="grid grid-cols-[5rem_minmax(0,1fr)] gap-5 border-b border-[#d8d2cb] pb-6 pt-2">
+      <div className="relative aspect-square overflow-visible rounded-md border border-[#ded9d2] bg-white">
+        <div className="absolute inset-0 overflow-hidden rounded-md">
+          {item.image !== "" ? (
+            <Image
+              src={item.image}
+              alt={item.productName}
+              fill
+              className="scale-[1.55] object-contain object-center"
+              sizes="80px"
+            />
+          ) : null}
+        </div>
+        <span className="absolute -right-1.5 -top-1.5 z-10 flex size-6 items-center justify-center rounded-md bg-black font-afacad text-[12px] font-semibold leading-none text-white">
+          {item.quantity}
+        </span>
       </div>
 
       <div className="flex min-w-0 flex-col justify-between gap-4">

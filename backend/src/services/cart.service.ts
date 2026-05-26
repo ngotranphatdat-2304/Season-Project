@@ -37,7 +37,6 @@ interface CartDisplayProduct {
 }
 
 const GUEST_CART_TTL_DAYS = 7;
-const DUPLICATE_CART_ITEM_MESSAGE = "Product already added to cart";
 
 export class CartServiceError extends Error {
   statusCode: number;
@@ -185,12 +184,6 @@ function assertQuantityWithinStock(quantity: number, stock: number): void {
   }
 }
 
-function assertCartItemNotAlreadyAdded(existingItem: ICartItem | undefined): void {
-  if (existingItem !== undefined) {
-    throw new CartServiceError(DUPLICATE_CART_ITEM_MESSAGE, 409);
-  }
-}
-
 function findMatchingCartItem(
   cart: ICart,
   productId: Types.ObjectId,
@@ -201,6 +194,30 @@ function findMatchingCartItem(
       item.productId.toString() === productId.toString() &&
       item.variantSku === variantSku,
   );
+}
+
+function addOrIncrementCartItem(
+  cart: ICart,
+  productId: Types.ObjectId,
+  variantSku: string,
+  quantity: number,
+  stock: number,
+): void {
+  const existingItem = findMatchingCartItem(cart, productId, variantSku);
+
+  if (existingItem === undefined) {
+    assertQuantityWithinStock(quantity, stock);
+    cart.items.push({
+      productId,
+      variantSku,
+      quantity,
+    });
+    return;
+  }
+
+  const nextQuantity = existingItem.quantity + quantity;
+  assertQuantityWithinStock(nextQuantity, stock);
+  existingItem.quantity = nextQuantity;
 }
 
 async function findCart(ownerInput: CartOwnerInput): Promise<ICart | null> {
@@ -316,15 +333,13 @@ export async function addItemToCart(
 
   const variant = assertProductCanBeAddedToCart(product);
   const cart = await requireCart(owner);
-  const existingItem = findMatchingCartItem(cart, product._id, variant.sku);
-  assertCartItemNotAlreadyAdded(existingItem);
-  assertQuantityWithinStock(input.quantity, variant.stock);
-
-  cart.items.push({
-    productId: product._id,
-    variantSku: variant.sku,
-    quantity: input.quantity,
-  });
+  addOrIncrementCartItem(
+    cart,
+    product._id,
+    variant.sku,
+    input.quantity,
+    variant.stock,
+  );
 
   await cart.save();
   return toCartResponse(cart);
@@ -359,15 +374,13 @@ export async function addSkuItemToCart(
 
   const variant = assertSkuProductCanBeAddedToCart(product);
   const cart = await requireCart(owner);
-  const existingItem = findMatchingCartItem(cart, product._id, variant.sku);
-  assertCartItemNotAlreadyAdded(existingItem);
-  assertQuantityWithinStock(input.quantity, variant.stock);
-
-  cart.items.push({
-    productId: product._id,
-    variantSku: variant.sku,
-    quantity: input.quantity,
-  });
+  addOrIncrementCartItem(
+    cart,
+    product._id,
+    variant.sku,
+    input.quantity,
+    variant.stock,
+  );
 
   await cart.save();
   return toCartResponse(cart);

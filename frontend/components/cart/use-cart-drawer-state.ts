@@ -11,8 +11,8 @@ import {
 } from "@/lib/cart/cart-api";
 import {
   buildStockErrors,
+  getCartStockReconciliationActions,
   getItemCount,
-  getOverstockedItems,
   getTotalAmount,
   STOCK_LIMIT_ERROR,
 } from "./cart-drawer.helpers";
@@ -83,28 +83,28 @@ export function useCartDrawerState(): UseCartDrawerStateResult {
 
   const reconcileOverstockedItems = useCallback(
     async (items: CartDrawerItem[]): Promise<CartDrawerItem[]> => {
-      const overstockedItems = getOverstockedItems(items);
+      const reconciliationActions = getCartStockReconciliationActions(items);
 
-      if (overstockedItems.length === 0) {
+      if (reconciliationActions.length === 0) {
         return items;
       }
 
-      for (const item of overstockedItems) {
-        setSkuPending(item.variantSku, true);
+      for (const action of reconciliationActions) {
+        setSkuPending(action.sku, true);
       }
 
       let latestItems = items;
 
       try {
-        for (const item of overstockedItems) {
-          if (item.stock > 0) {
+        for (const action of reconciliationActions) {
+          if (action.type === "update") {
             const updatedCart = await updateGuestCartItemQuantity(
-              item.variantSku,
-              item.stock,
+              action.sku,
+              action.quantity,
             );
             latestItems = updatedCart.items ?? [];
           } else {
-            const updatedCart = await removeGuestCartItem(item.variantSku);
+            const updatedCart = await removeGuestCartItem(action.sku);
             latestItems = updatedCart.items ?? [];
           }
         }
@@ -112,8 +112,8 @@ export function useCartDrawerState(): UseCartDrawerStateResult {
         const fallbackCart = await fetchGuestCart();
         latestItems = fallbackCart.items ?? [];
       } finally {
-        for (const item of overstockedItems) {
-          setSkuPending(item.variantSku, false);
+        for (const action of reconciliationActions) {
+          setSkuPending(action.sku, false);
         }
       }
 

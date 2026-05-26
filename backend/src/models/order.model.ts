@@ -58,7 +58,10 @@ export interface IOrderItem {
 }
 
 export interface IOrder extends Document {
-  userId: Types.ObjectId;
+  userId?: Types.ObjectId;
+  guestId?: string;
+  customerEmail?: string;
+  checkoutToken?: string;
   items: IOrderItem[];
   status: OrderStatus;
   paymentStatus: PaymentStatus;
@@ -138,9 +141,11 @@ const OrderSchema = new Schema<IOrder>(
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
       index: true,
     },
+    guestId: { type: String, trim: true, index: true },
+    customerEmail: { type: String, trim: true, lowercase: true },
+    checkoutToken: { type: String, trim: true, unique: true, sparse: true },
     items: {
       type: [OrderItemSchema],
       required: true,
@@ -178,7 +183,17 @@ const OrderSchema = new Schema<IOrder>(
   { timestamps: true, optimisticConcurrency: true },
 );
 
+OrderSchema.pre("validate", function validateOrderOwner() {
+  const hasUserId = this.userId !== undefined;
+  const hasGuestId = this.guestId !== undefined && this.guestId.trim() !== "";
+
+  if (hasUserId === hasGuestId) {
+    throw new Error("Order must belong to exactly one user or guest");
+  }
+});
+
 OrderSchema.index({ userId: 1, createdAt: -1 });
+OrderSchema.index({ guestId: 1, createdAt: -1 });
 OrderSchema.index({ status: 1, createdAt: -1 });
 OrderSchema.index({ "items.productId": 1, "items.variantSku": 1 });
 

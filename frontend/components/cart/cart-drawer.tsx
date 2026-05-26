@@ -11,7 +11,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { subscribeToCartUpdates } from "@/lib/cart/cart-sync";
 import { CartDrawerEmptyState } from "./cart-drawer-empty-state";
 import { CartDrawerFooter } from "./cart-drawer-footer";
 import { CartDrawerItemCard } from "./cart-drawer-item-card";
@@ -43,14 +42,6 @@ export function CartDrawer({ children }: CartDrawerProps) {
     if (open === true) {
       refreshCart();
     }
-  }, [open, refreshCart]);
-
-  useEffect(() => {
-    return subscribeToCartUpdates(() => {
-      if (open === true) {
-        refreshCart();
-      }
-    });
   }, [open, refreshCart]);
 
   const isEmpty = isLoading === false && cartItems.length === 0;
@@ -126,7 +117,12 @@ export function CartDrawer({ children }: CartDrawerProps) {
                 </div>
               </div>
 
-              <CartDrawerFooter totalAmount={totalAmount} />
+              <CartDrawerFooter
+                totalAmount={totalAmount}
+                onCheckoutSuccess={() => {
+                  setOpen(false);
+                }}
+              />
             </>
           )}
         </div>

@@ -1,5 +1,7 @@
 import type { CartDrawerItem } from "@/lib/cart/cart-api";
 
+export type { CartDrawerItem };
+
 export const STOCK_LIMIT_ERROR = "Không thể vượt quá số lượng trong kho";
 
 export function getItemCount(items: CartDrawerItem[]): number {
@@ -14,6 +16,34 @@ export function getOverstockedItems(
   items: CartDrawerItem[],
 ): CartDrawerItem[] {
   return items.filter((item) => item.quantity > item.stock);
+}
+
+export type CartStockReconciliationAction =
+  | {
+      type: "update";
+      sku: string;
+      quantity: number;
+    }
+  | {
+      type: "remove";
+      sku: string;
+    };
+
+export function getCartStockReconciliationActions(
+  items: CartDrawerItem[],
+): CartStockReconciliationAction[] {
+  return getOverstockedItems(items).map((item) =>
+    item.stock > 0
+      ? {
+          type: "update",
+          sku: item.variantSku,
+          quantity: item.stock,
+        }
+      : {
+          type: "remove",
+          sku: item.variantSku,
+        },
+  );
 }
 
 export function buildStockErrors(

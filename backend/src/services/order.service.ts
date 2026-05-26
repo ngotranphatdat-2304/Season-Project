@@ -191,7 +191,14 @@ async function restoreCancelledOrderStock(order: IOrder, session: ClientSession)
 function toCheckoutOrderResponse(order: IOrder): CheckoutOrderResponse {
   return {
     id: order._id.toString(),
-    userId: order.userId.toString(),
+    ...(order.userId === undefined ? {} : { userId: order.userId.toString() }),
+    ...(order.guestId === undefined ? {} : { guestId: order.guestId }),
+    ...(order.customerEmail === undefined
+      ? {}
+      : { customerEmail: order.customerEmail }),
+    ...(order.checkoutToken === undefined
+      ? {}
+      : { checkoutToken: order.checkoutToken }),
     items: order.items.map((item) => ({
       productId: item.productId.toString(),
       productName: item.productName,

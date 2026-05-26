@@ -82,10 +82,6 @@ function ProductAccordion({
   );
 }
 
-function isDuplicateCartItemError(message: string, status?: number): boolean {
-  return status === 409 && message.trim() === "Product already added to cart";
-}
-
 function readApiErrorMessage(error: unknown): string {
   if (isAxiosError(error)) {
     const responseData = error.response?.data as
@@ -105,6 +101,10 @@ function readApiErrorMessage(error: unknown): string {
   }
 
   return error instanceof Error ? error.message : "Could not add item to cart";
+}
+
+function isAddToCartStockLimitError(message: string): boolean {
+  return message.startsWith("Requested quantity exceeds available stock");
 }
 
 export function ProductDetailView({
@@ -180,11 +180,16 @@ export function ProductDetailView({
       });
       notifyCartUpdated();
     } catch (error) {
-      const status = isAxiosError(error) ? error.response?.status : undefined;
       const message = readApiErrorMessage(error);
 
-      if (isDuplicateCartItemError(message, status)) {
-        toast.error("Product already added to cart");
+      if (isAddToCartStockLimitError(message)) {
+        toast.error(displayName.replace(/\n/g, " "), {
+          eyebrow: "SỐ LƯỢNG TỐI ĐA ĐÃ ĐƯỢC THÊM",
+          caption:
+            "This item is already at the highest quantity currently available in your cart.",
+          imageSrc: selectedVariant.images[0] ?? "",
+          duration: 4200,
+        });
       } else {
         toast.error("Unable to add to cart", {
           description: message,

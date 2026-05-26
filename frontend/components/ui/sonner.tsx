@@ -142,7 +142,7 @@ export function Toaster() {
         const isError = item.variant === "error";
         const isSuccess = item.variant === "success";
         const hasProductPreview =
-          isSuccess &&
+          (isSuccess || isError) &&
           item.imageSrc !== undefined &&
           item.eyebrow !== undefined &&
           item.caption !== undefined;
@@ -156,7 +156,7 @@ export function Toaster() {
               hasProductPreview
                 ? "rounded-none border-[#b8b3ad] p-7"
                 : "rounded-2xl p-4",
-              isError && "border-red-200",
+              isError && !hasProductPreview && "border-red-200",
               isSuccess && "border-emerald-200",
               hasProductPreview && "border-[#b8b3ad]",
             )}

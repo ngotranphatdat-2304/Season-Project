@@ -3,6 +3,7 @@ import cors from "cors";
 import express, { type Request, type Response } from "express";
 import authRouter from "./routes/auth.route.js";
 import cartRouter from "./routes/cart.route.js";
+import checkoutRouter from "./routes/checkout.route.js";
 import collectionsRouter from "./routes/collections.route.js";
 import ordersRouter from "./routes/orders.route.js";
 import productsRouter from "./routes/products.route.js";
@@ -55,6 +56,7 @@ app.get("/api", (_req: Request, res: Response) => {
 
 app.use("/api/auth", authRouter);
 app.use("/api/cart", cartRouter);
+app.use("/api/checkout", checkoutRouter);
 app.use("/api/collections", collectionsRouter);
 app.use("/api/orders", ordersRouter);
 app.use("/api/products", productsRouter);
