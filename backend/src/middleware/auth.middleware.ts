@@ -92,3 +92,28 @@ export async function requireAuth(
 
   next();
 }
+
+export async function requireAdmin(
+  req: AuthenticatedRequest,
+  _res: Response,
+  next: NextFunction,
+): Promise<void> {
+  const authResult = await tryAuthenticateRequest(req);
+
+  if (authResult === "missing") {
+    next(AppError.unauthorized("Access token is required"));
+    return;
+  }
+
+  if (authResult === "invalid") {
+    next(AppError.unauthorized("Access token is invalid or expired"));
+    return;
+  }
+
+  if (req.authUserRole !== "admin") {
+    next(AppError.forbidden("Admin access is required"));
+    return;
+  }
+
+  next();
+}

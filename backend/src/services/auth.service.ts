@@ -1,6 +1,8 @@
+import { ADMIN_REGISTRATION_SECRET } from "../config/constants.js";
 import { RefreshToken } from "../models/refresh-token.model.js";
 import { User, type IUser } from "../models/user.model.js";
 import type {
+  AdminRegisterInput,
   AuthUserResponse,
   LoginInput,
   LoginResponseData,
@@ -53,8 +55,9 @@ export function toAuthUserResponse(user: IUser): AuthUserResponse {
   };
 }
 
-export async function registerUser(
+async function registerUserByRole(
   input: RegisterInput,
+  role: IUser["role"],
 ): Promise<RegisterResponseData> {
   const email = normalizeEmail(input.email);
   const existingUser = await User.exists({ email });
@@ -68,6 +71,7 @@ export async function registerUser(
       email,
       password: input.password,
       name: input.name.trim(),
+      role,
       ...(input.phone === undefined ? {} : { phone: input.phone }),
     });
 
@@ -79,6 +83,27 @@ export async function registerUser(
 
     throw error;
   }
+}
+
+export async function registerUser(input: RegisterInput): Promise<RegisterResponseData> {
+  return registerUserByRole(input, "customer");
+}
+
+export async function registerAdmin(
+  input: AdminRegisterInput,
+): Promise<RegisterResponseData> {
+  if (
+    ADMIN_REGISTRATION_SECRET === undefined ||
+    ADMIN_REGISTRATION_SECRET.trim() === ""
+  ) {
+    throw new AuthServiceError("Admin registration is not configured", 403);
+  }
+
+  if (input.adminSecret !== ADMIN_REGISTRATION_SECRET) {
+    throw new AuthServiceError("Admin registration secret is invalid", 403);
+  }
+
+  return registerUserByRole(input, "admin");
 }
 
 export async function loginUser(input: LoginInput): Promise<LoginResponseData> {
@@ -112,6 +137,16 @@ export async function loginUser(input: LoginInput): Promise<LoginResponseData> {
     accessToken: tokens.accessToken,
     refreshToken: tokens.refreshToken,
   };
+}
+
+export async function loginAdmin(input: LoginInput): Promise<LoginResponseData> {
+  const response = await loginUser(input);
+
+  if (response.user.role !== "admin") {
+    throw new AuthServiceError("Admin account is required", 403);
+  }
+
+  return response;
 }
 
 function invalidRefreshTokenError(): AuthServiceError {

@@ -3,7 +3,6 @@ import mongoose, { Document, Schema, Types } from "mongoose";
 export type OrderStatus =
   | "pending"
   | "confirmed"
-  | "processing"
   | "shipped"
   | "delivered"
   | "cancelled";
@@ -17,7 +16,6 @@ export type PaymentMethod =
 export const ORDER_STATUSES: OrderStatus[] = [
   "pending",
   "confirmed",
-  "processing",
   "shipped",
   "delivered",
   "cancelled",

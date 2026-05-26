@@ -1,5 +1,7 @@
 import { Router } from "express";
 import {
+  adminLogin,
+  adminRegister,
   login,
   logout,
   me,
@@ -8,6 +10,7 @@ import {
 } from "../controllers/auth.controller.js";
 import { optionalAuth } from "../middleware/auth.middleware.js";
 import {
+  validateAdminRegisterBody,
   validateLoginBody,
   validateRefreshTokenBody,
   validateRegisterBody,
@@ -22,6 +25,20 @@ const authRateLimit = createIpRateLimiter({
   message: "Too many authentication attempts. Try again later.",
 });
 
+router.post(
+  "/admin/register",
+  authRateLimit,
+  guestSession({ createIfMissing: false }),
+  validateAdminRegisterBody,
+  adminRegister,
+);
+router.post(
+  "/admin/login",
+  authRateLimit,
+  guestSession({ createIfMissing: false }),
+  validateLoginBody,
+  adminLogin,
+);
 router.post(
   "/register",
   authRateLimit,

@@ -14,6 +14,7 @@ export const DB_NAME = process.env.MONGO_DB;
 export const JWT_ACCESS_SECRET = process.env.JWT_ACCESS_SECRET;
 export const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET;
 export const CLOUDINARY_URL = process.env.CLOUDINARY_URL;
+export const ADMIN_REGISTRATION_SECRET = process.env.ADMIN_REGISTRATION_SECRET;
 export const RESEND_API_KEY = process.env.RESEND_API_KEY;
 export const RESEND_FROM_EMAIL =
   process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";

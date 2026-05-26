@@ -24,9 +24,8 @@ interface CheckoutProduct {
 }
 
 const ORDER_STATUS_TRANSITIONS: Record<OrderStatus, readonly OrderStatus[]> = {
-  pending: ["confirmed", "processing", "shipped", "delivered", "cancelled"],
-  confirmed: ["processing", "shipped", "delivered", "cancelled"],
-  processing: ["shipped", "delivered", "cancelled"],
+  pending: ["confirmed", "shipped", "delivered", "cancelled"],
+  confirmed: ["shipped", "delivered", "cancelled"],
   shipped: ["delivered", "cancelled"],
   delivered: [],
   cancelled: [],

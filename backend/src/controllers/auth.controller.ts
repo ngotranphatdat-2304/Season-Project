@@ -1,5 +1,6 @@
 import type { Response } from "express";
 import type {
+  AdminRegisterValidatedRequest,
   LoginValidatedRequest,
   RefreshTokenValidatedRequest,
   RegisterValidatedRequest,
@@ -12,10 +13,12 @@ import {
 import { AppError } from "../errors/app-error.js";
 import {
   getCurrentAuthUser,
+  loginAdmin,
   loginUser,
   logoutSession,
   mergeGuestCartForUser,
   refreshAccessToken,
+  registerAdmin,
   registerUser,
 } from "../services/auth.service.js";
 import type {
@@ -39,8 +42,12 @@ export async function register(
 
   const responseData = await registerUser(validatedBody);
 
-  if ((await mergeGuestCartForUser(responseData.user.id, req.guestId)) === true) {
-    clearGuestSessionCookie(res);
+  try {
+    if ((await mergeGuestCartForUser(responseData.user.id, req.guestId)) === true) {
+      clearGuestSessionCookie(res);
+    }
+  } catch (error) {
+    console.warn("Failed to merge guest cart after register:", error);
   }
 
   res.status(201).json(responseData);
@@ -58,8 +65,58 @@ export async function login(
 
   const responseData = await loginUser(validatedBody);
 
-  if ((await mergeGuestCartForUser(responseData.user.id, req.guestId)) === true) {
-    clearGuestSessionCookie(res);
+  try {
+    if ((await mergeGuestCartForUser(responseData.user.id, req.guestId)) === true) {
+      clearGuestSessionCookie(res);
+    }
+  } catch (error) {
+    console.warn("Failed to merge guest cart after login:", error);
+  }
+
+  res.status(200).json(responseData);
+}
+
+export async function adminRegister(
+  req: AdminRegisterValidatedRequest & GuestSessionRequest,
+  res: Response<RegisterResponseData | ErrorResponse>,
+): Promise<void> {
+  const validatedBody = req.validatedBody;
+
+  if (validatedBody === undefined) {
+    throw AppError.badRequest("Invalid admin register payload");
+  }
+
+  const responseData = await registerAdmin(validatedBody);
+
+  try {
+    if ((await mergeGuestCartForUser(responseData.user.id, req.guestId)) === true) {
+      clearGuestSessionCookie(res);
+    }
+  } catch (error) {
+    console.warn("Failed to merge guest cart after admin register:", error);
+  }
+
+  res.status(201).json(responseData);
+}
+
+export async function adminLogin(
+  req: LoginValidatedRequest & GuestSessionRequest,
+  res: Response<LoginResponseData | ErrorResponse>,
+): Promise<void> {
+  const validatedBody = req.validatedBody;
+
+  if (validatedBody === undefined) {
+    throw AppError.badRequest("Invalid admin login payload");
+  }
+
+  const responseData = await loginAdmin(validatedBody);
+
+  try {
+    if ((await mergeGuestCartForUser(responseData.user.id, req.guestId)) === true) {
+      clearGuestSessionCookie(res);
+    }
+  } catch (error) {
+    console.warn("Failed to merge guest cart after admin login:", error);
   }
 
   res.status(200).json(responseData);

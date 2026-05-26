@@ -7,6 +7,10 @@ export interface RegisterInput {
   phone?: string;
 }
 
+export interface AdminRegisterInput extends RegisterInput {
+  adminSecret: string;
+}
+
 export interface LoginInput {
   email: string;
   password: string;

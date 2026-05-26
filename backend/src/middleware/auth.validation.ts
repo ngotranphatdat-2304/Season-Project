@@ -1,6 +1,7 @@
 import type { NextFunction, Request, Response } from "express";
 import { AppError } from "../errors/app-error.js";
 import type {
+  AdminRegisterInput,
   LoginInput,
   RefreshTokenInput,
   RegisterInput,
@@ -18,6 +19,10 @@ export interface RegisterValidatedRequest extends Request {
 
 export interface LoginValidatedRequest extends Request {
   validatedBody?: LoginInput;
+}
+
+export interface AdminRegisterValidatedRequest extends Request {
+  validatedBody?: AdminRegisterInput;
 }
 
 export interface RefreshTokenValidatedRequest extends Request {
@@ -108,6 +113,44 @@ export function validateRegisterBody(
     email: email.value,
     password: password.value,
     name: name.value,
+    ...(phone.value === undefined ? {} : { phone: phone.value }),
+  };
+  next();
+}
+
+export function validateAdminRegisterBody(
+  req: AdminRegisterValidatedRequest & JsonBodyRequest,
+  _res: Response,
+  next: NextFunction,
+): void {
+  const email = readRequiredString(req.body, "email");
+  const password = readRequiredString(req.body, "password");
+  const name = readRequiredString(req.body, "name");
+  const phone = readOptionalString(req.body, "phone");
+  const adminSecret = readRequiredString(req.body, "adminSecret");
+
+  if ("error" in email) return next(AppError.badRequest(email.error, "VALIDATION_ERROR"));
+  if ("error" in password) return next(AppError.badRequest(password.error, "VALIDATION_ERROR"));
+  if ("error" in name) return next(AppError.badRequest(name.error, "VALIDATION_ERROR"));
+  if ("error" in phone) return next(AppError.badRequest(phone.error, "VALIDATION_ERROR"));
+  if ("error" in adminSecret) {
+    return next(AppError.badRequest(adminSecret.error, "VALIDATION_ERROR"));
+  }
+
+  if (password.value.length < 8) {
+    next(AppError.badRequest("password must be at least 8 characters", "VALIDATION_ERROR"));
+    return;
+  }
+
+  if (rejectLongPassword(password.value, "password", next) === true) {
+    return;
+  }
+
+  req.validatedBody = {
+    email: email.value,
+    password: password.value,
+    name: name.value,
+    adminSecret: adminSecret.value,
     ...(phone.value === undefined ? {} : { phone: phone.value }),
   };
   next();

@@ -232,12 +232,12 @@ export async function deactivateCurrentUser(
 ): Promise<UserMessageResponse> {
   const blockingOrder = await Order.exists({
     userId,
-    status: { $in: ["pending", "processing"] },
+    status: { $in: ["pending"] },
   });
 
   if (blockingOrder !== null) {
     throw new UserServiceError(
-      "Pending or processing orders must finish before deleting the account",
+      "Pending orders must finish before deleting the account",
       409,
     );
   }

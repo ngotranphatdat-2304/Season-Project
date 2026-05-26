@@ -2,6 +2,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import express, { type Request, type Response } from "express";
 import authRouter from "./routes/auth.route.js";
+import adminRouter from "./routes/admin.route.js";
 import cartRouter from "./routes/cart.route.js";
 import checkoutRouter from "./routes/checkout.route.js";
 import collectionsRouter from "./routes/collections.route.js";
@@ -55,6 +56,7 @@ app.get("/api", (_req: Request, res: Response) => {
 });
 
 app.use("/api/auth", authRouter);
+app.use("/api/admin", adminRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/checkout", checkoutRouter);
 app.use("/api/collections", collectionsRouter);

@@ -2,10 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Afacad, Crimson_Pro } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { Header } from "@/components/sections/Header";
-import { Footer } from "@/components/sections/Footer";
-import { CartSessionBootstrap } from "@/components/cart/cart-session-bootstrap";
 import { Toaster } from "@/components/ui/sonner";
+import { SiteShell } from "@/components/layout/SiteShell";
 
 const crimsonPro = Crimson_Pro({
   subsets: ["latin"],
@@ -44,11 +42,8 @@ export default function RootLayout({
           afacad.variable,
         )}
       >
-        <CartSessionBootstrap />
         <Toaster />
-        <Header />
-        {children}
-        <Footer />
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

@@ -76,12 +76,13 @@ export function Header() {
           >
             <Heart className="w-4 h-4 stroke-[1.5]" />
           </button>
-          <button
+          <Link
+            href="/admin/auth"
             aria-label="Account"
             className="hover:opacity-60 transition-opacity duration-300"
           >
             <User className="w-4 h-4 stroke-[1.5]" />
-          </button>
+          </Link>
           <CartDrawer>
             <button
               aria-label="Cart"
