@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { Suspense, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Eye, EyeOff, ShieldCheck } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -36,7 +36,7 @@ function readErrorMessage(error: unknown): string {
   return "Request failed";
 }
 
-export default function AdminAuthPage() {
+function AdminAuthContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const next = useMemo(() => searchParams.get("next") ?? "/admin", [searchParams]);
@@ -258,5 +258,13 @@ export default function AdminAuthPage() {
         </section>
       </div>
     </div>
+  );
+}
+
+export default function AdminAuthPage() {
+  return (
+    <Suspense fallback={null}>
+      <AdminAuthContent />
+    </Suspense>
   );
 }

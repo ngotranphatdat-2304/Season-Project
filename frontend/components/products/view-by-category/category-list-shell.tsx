@@ -34,6 +34,22 @@ export function CategoryListShell({
   view,
   initialData,
 }: CategoryListShellProps) {
+  return (
+    <Suspense fallback={<Spinner className="size-4" />}>
+      <CategoryListContent
+        category={category}
+        view={view}
+        initialData={initialData}
+      />
+    </Suspense>
+  );
+}
+
+function CategoryListContent({
+  category,
+  view,
+  initialData,
+}: CategoryListShellProps) {
   const searchParams = useSearchParams();
   const sortParam = searchParams.get("sort") ?? undefined;
   const frameTypeParam = searchParams.get("frameType") ?? undefined;
@@ -96,32 +112,30 @@ export function CategoryListShell({
 
   return (
     <div className="flex flex-col gap-8">
-      <Suspense fallback={<Spinner className="size-4" />}>
-        <div className="flex flex-col gap-4">
-          <div className="relative z-30 flex items-center justify-between gap-3">
-            <SortFilterControl
-              filterConfigKey={category}
-              onApplyingQueryChange={setIsApplyingQuery}
-            />
+      <div className="flex flex-col gap-4">
+        <div className="relative z-30 flex items-center justify-between gap-3">
+          <SortFilterControl
+            filterConfigKey={category}
+            onApplyingQueryChange={setIsApplyingQuery}
+          />
 
-            <Badge
-              variant="secondary"
-              className="w-fit rounded-full border border-[#ddd8d1] bg-white px-2.5 py-1 text-[11px] uppercase tracking-[0.18em] sm:px-3 sm:text-[12px] md:text-[14px]"
-            >
-              {initialData.total} Items
-            </Badge>
-          </div>
-
-          <div
-            className={cn(
-              "transition-opacity duration-200",
-              isApplyingQuery && "pointer-events-none opacity-50",
-            )}
+          <Badge
+            variant="secondary"
+            className="w-fit rounded-full border border-[#ddd8d1] bg-white px-2.5 py-1 text-[11px] uppercase tracking-[0.18em] sm:px-3 sm:text-[12px] md:text-[14px]"
           >
-            <ProductGrid products={products} />
-          </div>
+            {initialData.total} Items
+          </Badge>
         </div>
-      </Suspense>
+
+        <div
+          className={cn(
+            "transition-opacity duration-200",
+            isApplyingQuery && "pointer-events-none opacity-50",
+          )}
+        >
+          <ProductGrid products={products} />
+        </div>
+      </div>
 
       <div className="flex flex-col items-center gap-4 pb-8">
         <p className="text-center text-[15px] italic text-neutral-600">
