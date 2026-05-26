@@ -172,8 +172,8 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
     setIsSubmitting(true);
 
     try {
-      await completeCheckoutSession(token, payload);
-      router.push(`/order/success/${encodeURIComponent(token)}`);
+      const response = await completeCheckoutSession(token, payload);
+      router.push(`/order/success/${encodeURIComponent(response.token)}`);
     } catch (error) {
       if (isAxiosError(error)) {
         const status = error.response?.status;
