@@ -121,19 +121,6 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
   const [session, setSession] = useState<PendingCheckoutSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [successPath, setSuccessPath] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (successPath === null) {
-      return;
-    }
-
-    console.info("[checkout] redirecting to success page", {
-      successPath,
-    });
-    router.replace(successPath);
-    router.refresh();
-  }, [router, successPath]);
 
   useEffect(() => {
     let isCancelled = false;
@@ -196,7 +183,8 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
         token: response.token,
         successPath,
       });
-      setSuccessPath(successPath);
+      router.replace(successPath);
+      return;
     } catch (error) {
       if (isAxiosError(error)) {
         const status = error.response?.status;
@@ -218,7 +206,7 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
             token,
             successPath,
           });
-          setSuccessPath(successPath);
+          router.replace(successPath);
           return;
         }
 
