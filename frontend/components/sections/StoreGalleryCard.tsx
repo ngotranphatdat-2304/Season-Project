@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 
 type StoreGalleryCardProps = {
@@ -25,20 +25,6 @@ export function StoreGalleryCard({
   const [activeIndex, setActiveIndex] = useState(0);
   const hasMultipleImages = images.length > 1;
   const activeImage = images[activeIndex] ?? images[0] ?? "";
-
-  useEffect(() => {
-    if (hasMultipleImages === false) {
-      return;
-    }
-
-    const intervalId = window.setInterval(() => {
-      setActiveIndex((currentIndex) => (currentIndex + 1) % images.length);
-    }, 5200);
-
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [hasMultipleImages, images.length]);
 
   const goToPreviousImage = () => {
     setActiveIndex((currentIndex) =>
