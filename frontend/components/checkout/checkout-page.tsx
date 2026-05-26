@@ -132,6 +132,7 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
       successPath,
     });
     router.replace(successPath);
+    router.refresh();
   }, [router, successPath]);
 
   useEffect(() => {
@@ -228,9 +229,8 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
         }
       }
 
-      toast.error("Unable to place order");
-    } finally {
       setIsSubmitting(false);
+      toast.error("Unable to place order");
     }
   };
 
