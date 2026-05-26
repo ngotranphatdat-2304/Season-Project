@@ -194,7 +194,7 @@ export function ProductDetailView({
     try {
       await addVariantToGuestCart(selectedVariant.sku);
       toast.success(displayName.replace(/\n/g, " "), {
-        eyebrow: "ĐÃ THÊM VÀO GIỎ HÀNG THÀNH CÔNG",
+        eyebrow: "ADDED TO CART",
         caption: selectedColor,
         imageSrc: selectedVariant.images[0] ?? "",
         duration: 4200,
@@ -205,7 +205,7 @@ export function ProductDetailView({
 
       if (isAddToCartStockLimitError(message)) {
         toast.error(displayName.replace(/\n/g, " "), {
-          eyebrow: "SỐ LƯỢNG TỐI ĐA ĐÃ ĐƯỢC THÊM",
+          eyebrow: "MAXIMUM QUANTITY OF THIS PRODUCT REACHED",
           caption:
             "This item is already at the highest quantity currently available in your cart.",
           imageSrc: selectedVariant.images[0] ?? "",
