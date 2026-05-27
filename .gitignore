@@ -21,6 +21,7 @@ backend/dist/**/*.d.ts
 .env.development.local
 .env.test.local
 .env.production.local
+.env.backend
 
 # Logs
 npm-debug.log*
