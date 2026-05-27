@@ -6,12 +6,17 @@ import { AppError } from "../errors/app-error.js";
 import {
   completeCheckoutSession,
   createCheckoutSession,
+  createPayOSCheckoutSessionPayment,
   getCheckoutSessionByToken,
+  getCheckoutPaymentStatus,
+  handlePayOSWebhook,
 } from "../services/checkout-session.service.js";
 import type { ErrorResponse } from "../types/product.types.js";
 import type {
   CheckoutCompleteResponse,
   CheckoutInitResponse,
+  CheckoutPaymentStatusResponse,
+  CheckoutPayOSInitResponse,
   CheckoutSessionResponse,
 } from "../types/checkout.types.js";
 
@@ -72,4 +77,52 @@ export async function completeCheckout(
       req.validatedBody,
     ),
   );
+}
+
+export async function createPayOSCheckoutPayment(
+  req: CheckoutCompleteRequest,
+  res: Response<CheckoutPayOSInitResponse | ErrorResponse>,
+): Promise<void> {
+  const token = req.params.token;
+
+  if (req.validatedBody === undefined) {
+    throw AppError.badRequest("Invalid checkout payOS request");
+  }
+
+  const checkoutOwner = {
+    ...(req.guestId === undefined ? {} : { guestId: req.guestId }),
+  };
+
+  res.status(200).json(
+    await createPayOSCheckoutSessionPayment(
+      typeof token === "string" ? token : "",
+      checkoutOwner,
+      req.validatedBody,
+    ),
+  );
+}
+
+export async function getPayOSCheckoutPaymentStatus(
+  req: CheckoutRequest,
+  res: Response<CheckoutPaymentStatusResponse | ErrorResponse>,
+): Promise<void> {
+  const token =
+    typeof req.query.token === "string" ? req.query.token : "";
+  const orderId =
+    typeof req.query.orderId === "string" ? req.query.orderId : "";
+
+  const checkoutOwner = {
+    ...(req.guestId === undefined ? {} : { guestId: req.guestId }),
+  };
+
+  res.status(200).json(
+    await getCheckoutPaymentStatus(token, orderId, checkoutOwner),
+  );
+}
+
+export async function receivePayOSWebhook(
+  req: AuthenticatedRequest,
+  res: Response<{ success: true } | ErrorResponse>,
+): Promise<void> {
+  res.status(200).json(await handlePayOSWebhook(req.body));
 }

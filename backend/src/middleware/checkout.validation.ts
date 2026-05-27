@@ -47,7 +47,10 @@ const checkoutCompleteSchema = z.object({
     postalCode: optionalTrimmedString,
     country: z.string().trim().min(1).default("Vietnam"),
   }),
-  paymentMethod: z.literal("cash_on_delivery"),
+  paymentMethod: z.union([
+    z.literal("cash_on_delivery"),
+    z.literal("bank_transfer"),
+  ]),
 });
 
 function omitUndefinedOptionalFields(

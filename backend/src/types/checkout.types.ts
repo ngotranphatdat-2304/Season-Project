@@ -26,6 +26,7 @@ export interface CompletedCheckoutSessionResponse {
   order: {
     orderId: string;
     customerEmail: string;
+    paymentMethod?: PaymentMethod;
     shippingAddress: IShippingAddress;
     items: ICheckoutSessionItemSnapshot[];
     subtotalAmount: number;
@@ -35,17 +36,37 @@ export interface CompletedCheckoutSessionResponse {
   };
 }
 
+export interface PaymentPendingCheckoutSessionResponse {
+  status: "payment_pending";
+  redirectTo: string;
+}
+
 export type CheckoutSessionResponse =
   | PendingCheckoutSessionResponse
+  | PaymentPendingCheckoutSessionResponse
   | CompletedCheckoutSessionResponse;
 
 export interface CheckoutCompleteInput {
   customerEmail: string;
   shippingAddress: IShippingAddress;
-  paymentMethod: Extract<PaymentMethod, "cash_on_delivery">;
+  paymentMethod: Extract<PaymentMethod, "cash_on_delivery" | "bank_transfer">;
 }
 
 export interface CheckoutCompleteResponse {
   orderId: string;
   token: string;
+}
+
+export interface CheckoutPayOSInitResponse {
+  orderId: string;
+  token: string;
+  checkoutUrl: string;
+}
+
+export interface CheckoutPaymentStatusResponse {
+  status: "paid" | "pending" | "cancelled" | "failed" | "expired";
+  orderId: string;
+  token: string;
+  redirectTo?: string;
+  message?: string;
 }

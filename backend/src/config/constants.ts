@@ -22,6 +22,27 @@ export const JWT_AUDIENCE = process.env.JWT_AUDIENCE ?? "season-api";
 export const GMAIL_CLIENT_ID = process.env.GMAIL_CLIENT_ID?.trim();
 export const GMAIL_CLIENT_SECRET = process.env.GMAIL_CLIENT_SECRET?.trim();
 export const GMAIL_REFRESH_TOKEN = process.env.GMAIL_REFRESH_TOKEN?.trim();
+export const PAYOS_CLIENT_ID = process.env.PAYOS_CLIENT_ID?.trim();
+export const PAYOS_API_KEY = process.env.PAYOS_API_KEY?.trim();
+export const PAYOS_CHECKSUM_KEY = process.env.PAYOS_CHECKSUM_KEY?.trim();
+export const FRONTEND_PUBLIC_BASE_URL = process.env.FRONTEND_PUBLIC_BASE_URL?.trim();
+export const BACKEND_PUBLIC_BASE_URL = process.env.BACKEND_PUBLIC_BASE_URL?.trim();
+export const PAYOS_WEBHOOK_PATH =
+  process.env.PAYOS_WEBHOOK_PATH?.trim() || "/api/checkout/payos/webhook";
+
+function parsePositiveInteger(value: string | undefined, fallback: number): number {
+  if (value === undefined || value.trim() === "") {
+    return fallback;
+  }
+
+  const parsedValue = Number.parseInt(value, 10);
+  return Number.isInteger(parsedValue) && parsedValue > 0 ? parsedValue : fallback;
+}
+
+export const PAYOS_FIXED_QR_AMOUNT = parsePositiveInteger(
+  process.env.PAYOS_FIXED_QR_AMOUNT,
+  10000,
+);
 
 function parseAllowedOrigins(value: string | undefined): string[] {
   if (value === undefined || value.trim() === "") {

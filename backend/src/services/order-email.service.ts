@@ -45,6 +45,12 @@ function buildRawEmail(
     .replace(/=+$/, "");
 }
 
+function getOrderEmailSubject(order: IOrder): string {
+  return order.paymentMethod === "bank_transfer" || order.paymentStatus === "paid"
+    ? `Payment received ${order._id.toString()}`
+    : `Order confirmation ${order._id.toString()}`;
+}
+
 export async function sendOrderConfirmationEmail(order: IOrder): Promise<void> {
   if (!isConfigured()) {
     console.warn(
@@ -72,7 +78,7 @@ export async function sendOrderConfirmationEmail(order: IOrder): Promise<void> {
     const raw = buildRawEmail(
       order.customerEmail.trim(),
       GMAIL_USER!,
-      `Order confirmation ${order._id.toString()}`,
+      getOrderEmailSubject(order),
       html,
     );
 

@@ -18,9 +18,18 @@ import type {
   CheckoutCompleteInput,
   CheckoutCompleteResponse,
   CheckoutInitResponse,
+  CheckoutPaymentStatusResponse,
+  CheckoutPayOSInitResponse,
   CheckoutSessionResponse,
+  PaymentPendingCheckoutSessionResponse,
   PendingCheckoutSessionResponse,
 } from "../types/checkout.types.js";
+import {
+  createPayOSPaymentLink,
+  getPayOSPaymentLink,
+  mapPayOSStatus,
+  verifyPayOSWebhookPayload,
+} from "./payos.service.js";
 import { sendOrderConfirmationEmail } from "./order-email.service.js";
 
 interface CheckoutOwnerInput {
@@ -45,6 +54,13 @@ const SHIPPING_FEE = 0;
 const CURRENCY = "VND";
 const EMPTY_CART_MESSAGE = "Giỏ hàng của bạn đang trống";
 const UNAVAILABLE_CART_MESSAGE = "Một số sản phẩm không còn khả dụng";
+
+export const payosGateway = {
+  createPayOSPaymentLink,
+  getPayOSPaymentLink,
+  mapPayOSStatus,
+  verifyPayOSWebhookPayload,
+};
 
 export class CheckoutSessionServiceError extends Error {
   statusCode: number;
@@ -224,6 +240,15 @@ function toPendingCheckoutResponse(
   };
 }
 
+function toPaymentPendingCheckoutResponse(
+  order: IOrder,
+): PaymentPendingCheckoutSessionResponse {
+  return {
+    status: "payment_pending",
+    redirectTo: `/checkout/payment-result?token=${encodeURIComponent(order.checkoutToken ?? "")}&orderId=${encodeURIComponent(order._id.toString())}`,
+  };
+}
+
 function toSessionItems(
   items: ICheckoutSessionItemSnapshot[],
 ): ICheckoutSessionItemSnapshot[] {
@@ -253,6 +278,9 @@ function toCompletedCheckoutResponse(
     order: {
       orderId: order._id.toString(),
       customerEmail: order.customerEmail ?? "",
+      ...(order.paymentMethod === undefined
+        ? {}
+        : { paymentMethod: order.paymentMethod }),
       shippingAddress: order.shippingAddress,
       items: toSessionItems(checkoutSession.itemsSnapshot),
       subtotalAmount: order.subtotalAmount,
@@ -419,6 +447,232 @@ function normalizeShippingAddress(address: IShippingAddress): IShippingAddress {
   };
 }
 
+async function releaseCancelledCheckoutToken(
+  checkoutToken: string,
+  ownerQuery: CheckoutGuestQuery,
+  session: ClientSession,
+): Promise<void> {
+  await Order.updateMany(
+    {
+      checkoutToken,
+      ...ownerQuery,
+      status: "cancelled",
+    },
+    {
+      $unset: {
+        checkoutToken: 1,
+      },
+    },
+    { session },
+  );
+}
+
+function generatePayOSOrderCode(): number {
+  return Date.now() * 100 + Math.floor(Math.random() * 100);
+}
+
+async function restoreSnapshotStock(
+  items: ICheckoutSessionItemSnapshot[],
+  session: ClientSession,
+): Promise<void> {
+  const bulkOps = items.map((item) => ({
+    updateOne: {
+      filter: {
+        _id: new Types.ObjectId(item.productId),
+        "variants.sku": item.variantSku,
+      },
+      update: {
+        $inc: { "variants.$.stock": item.quantity },
+      },
+    },
+  }));
+
+  if (bulkOps.length > 0) {
+    await Product.bulkWrite(bulkOps, { session });
+  }
+
+  const uniqueProductIds = [
+    ...new Set(items.map((item) => item.productId)),
+  ].map((productId) => new Types.ObjectId(productId));
+
+  await Promise.all(
+    uniqueProductIds.map((productId) =>
+      recalculateProductAvailability(productId, session),
+    ),
+  );
+}
+
+async function restoreGuestCartFromSnapshot(
+  guestId: string,
+  items: ICheckoutSessionItemSnapshot[],
+  session: ClientSession,
+): Promise<void> {
+  const cartItems = items.map((item) => ({
+    productId: new Types.ObjectId(item.productId),
+    variantSku: item.variantSku,
+    quantity: item.quantity,
+  }));
+
+  await Cart.updateOne(
+    { guestId },
+    { $set: { items: cartItems } },
+    { upsert: true, session },
+  );
+}
+
+async function finalizePaidOrder(
+  order: IOrder,
+  checkoutSession: ICheckoutSession,
+  session: ClientSession,
+): Promise<void> {
+  let didChange = false;
+
+  if (order.paymentStatus !== "paid") {
+    order.paymentStatus = "paid";
+    didChange = true;
+  }
+
+  if (checkoutSession.status !== "completed") {
+    checkoutSession.status = "completed";
+    didChange = true;
+  }
+
+  if (didChange === false) {
+    return;
+  }
+
+  await order.save({ session });
+  await checkoutSession.save({ session });
+}
+
+async function revertPendingQrOrder(
+  order: IOrder,
+  checkoutSession: ICheckoutSession,
+  session: ClientSession,
+): Promise<void> {
+  if (checkoutSession.guestId === undefined || checkoutSession.guestId.trim() === "") {
+    throw new CheckoutSessionServiceError("Phiên thanh toán đã hết hạn", 404);
+  }
+
+  if (order.status === "cancelled" && checkoutSession.status === "pending") {
+    return;
+  }
+
+  await restoreSnapshotStock(checkoutSession.itemsSnapshot, session);
+  await restoreGuestCartFromSnapshot(
+    checkoutSession.guestId,
+    checkoutSession.itemsSnapshot,
+    session,
+  );
+
+  order.status = "cancelled";
+  order.paymentStatus = "failed";
+  order.cancelledAt = new Date();
+  checkoutSession.status = "pending";
+
+  await order.save({ session });
+  await checkoutSession.save({ session });
+}
+
+function mapCheckoutPaymentStatus(
+  payosStatus: ReturnType<typeof mapPayOSStatus>,
+): CheckoutPaymentStatusResponse["status"] {
+  switch (payosStatus) {
+    case "PAID":
+      return "paid";
+    case "CANCELLED":
+      return "cancelled";
+    case "FAILED":
+      return "failed";
+    case "EXPIRED":
+      return "expired";
+    default:
+      return "pending";
+  }
+}
+
+async function syncQrOrderStateByOrder(
+  order: IOrder,
+  checkoutSession: ICheckoutSession,
+): Promise<CheckoutPaymentStatusResponse> {
+  if (order.payosOrderCode === undefined) {
+    throw new CheckoutSessionServiceError("QR payment is missing PayOS data", 409);
+  }
+
+  const paymentLink = await payosGateway.getPayOSPaymentLink(order.payosOrderCode);
+  const payosStatus = payosGateway.mapPayOSStatus(paymentLink.status);
+  const transactionSession = await mongoose.startSession();
+  const shouldSendConfirmationEmail =
+    payosStatus === "PAID" && order.paymentStatus !== "paid";
+
+  try {
+    await transactionSession.withTransaction(async () => {
+      const freshOrder = await Order.findById(order._id).session(transactionSession);
+      const freshCheckoutSession = await CheckoutSession.findById(checkoutSession._id).session(
+        transactionSession,
+      );
+
+      if (freshOrder === null || freshCheckoutSession === null) {
+        throw new CheckoutSessionServiceError("Đơn hàng không tồn tại", 404);
+      }
+
+      if (payosStatus === "PAID") {
+        await finalizePaidOrder(freshOrder, freshCheckoutSession, transactionSession);
+        order.paymentStatus = "paid";
+        checkoutSession.status = "completed";
+        return;
+      }
+
+      if (
+        payosStatus === "CANCELLED" ||
+        payosStatus === "FAILED" ||
+        payosStatus === "EXPIRED"
+      ) {
+        await revertPendingQrOrder(
+          freshOrder,
+          freshCheckoutSession,
+          transactionSession,
+        );
+        order.status = "cancelled";
+        order.paymentStatus = "failed";
+        checkoutSession.status = "pending";
+      }
+    });
+  } finally {
+    await transactionSession.endSession();
+  }
+
+  const status = mapCheckoutPaymentStatus(payosStatus);
+  const orderId = order._id.toString();
+  const token = checkoutSession.token;
+
+  if (shouldSendConfirmationEmail === true) {
+    const paidOrder = await Order.findById(order._id);
+
+    if (paidOrder !== null) {
+      sendOrderConfirmationEmail(paidOrder).catch((error) => {
+        console.error("Failed to send order confirmation email:", error);
+      });
+    }
+  }
+
+  return {
+    status,
+    orderId,
+    token,
+    ...(status === "paid"
+      ? { redirectTo: `/order/success/${encodeURIComponent(token)}` }
+      : {}),
+    ...(status === "cancelled"
+      ? { message: "Thanh toán đã bị hủy. Bạn có thể quay lại checkout." }
+      : status === "failed"
+        ? { message: "Thanh toán không thành công. Vui lòng thử lại." }
+        : status === "expired"
+          ? { message: "Liên kết thanh toán đã hết hạn. Vui lòng thử lại." }
+          : { message: "Thanh toán đang được xử lý." }),
+  };
+}
+
 function isRetryableTransactionError(error: unknown): boolean {
   if (error instanceof CheckoutSessionServiceError) return false;
   if (typeof error !== "object" || error === null) return false;
@@ -516,6 +770,19 @@ export async function getCheckoutSessionByToken(
     return toCompletedCheckoutResponse(checkoutSession, order);
   }
 
+  if (checkoutSession.status === "payment_pending") {
+    const order = await Order.findOne({
+      checkoutToken: checkoutSession.token,
+      ...ownerQuery,
+    });
+
+    if (order === null) {
+      throw new CheckoutSessionServiceError("Đơn hàng không tồn tại", 404);
+    }
+
+    return toPaymentPendingCheckoutResponse(order);
+  }
+
   return toPendingCheckoutResponse(checkoutSession);
 }
 
@@ -563,6 +830,12 @@ export async function completeCheckoutSession(
         await decrementSnapshotStock(
           checkoutSession.itemsSnapshot,
           productMap,
+          transactionSession,
+        );
+
+        await releaseCancelledCheckoutToken(
+          checkoutSession.token,
+          ownerQuery,
           transactionSession,
         );
 
@@ -632,4 +905,246 @@ export async function completeCheckoutSession(
     orderId: completedOrder._id.toString(),
     token: normalizedToken,
   };
+}
+
+export async function createPayOSCheckoutSessionPayment(
+  token: string,
+  owner: CheckoutOwnerInput,
+  input: CheckoutCompleteInput,
+): Promise<CheckoutPayOSInitResponse> {
+  const normalizedToken = token.trim();
+  const ownerQuery = resolveCheckoutOwnerQuery(owner);
+
+  if (normalizedToken === "" || ownerQuery === null) {
+    throw new CheckoutSessionServiceError("Phiên thanh toán đã hết hạn", 404);
+  }
+
+  const transactionSession = await mongoose.startSession();
+  let createdOrder: IOrder | null = null;
+
+  try {
+    await transactionSession.withTransaction(async () => {
+      const checkoutSession = await CheckoutSession.findOne({
+        token: normalizedToken,
+        ...ownerQuery,
+        expiresAt: { $gt: new Date() },
+      }).session(transactionSession);
+
+      if (checkoutSession === null) {
+        throw new CheckoutSessionServiceError("Phiên thanh toán đã hết hạn", 404);
+      }
+
+      if (checkoutSession.status === "completed") {
+        throw new CheckoutSessionServiceError("Đơn hàng đã được đặt", 409);
+      }
+
+      if (checkoutSession.status === "payment_pending") {
+        const existingOrder = await Order.findOne({
+          checkoutToken: checkoutSession.token,
+          ...ownerQuery,
+        }).session(transactionSession);
+
+        if (existingOrder === null) {
+          throw new CheckoutSessionServiceError("Đơn hàng không tồn tại", 404);
+        }
+
+        createdOrder = existingOrder;
+        return;
+      }
+
+      const productMap = await revalidateSnapshotStock(
+        checkoutSession.itemsSnapshot,
+        transactionSession,
+      );
+
+      await decrementSnapshotStock(
+        checkoutSession.itemsSnapshot,
+        productMap,
+        transactionSession,
+      );
+
+      await releaseCancelledCheckoutToken(
+        checkoutSession.token,
+        ownerQuery,
+        transactionSession,
+      );
+
+      const payosOrderCode = generatePayOSOrderCode();
+
+      const [order] = await Order.create(
+        [
+          {
+            ...ownerQuery,
+            customerEmail: input.customerEmail,
+            checkoutToken: checkoutSession.token,
+            items: toOrderItems(checkoutSession.itemsSnapshot),
+            status: "pending",
+            paymentStatus: "unpaid",
+            paymentMethod: "bank_transfer",
+            shippingAddress: normalizeShippingAddress(input.shippingAddress),
+            subtotalAmount: checkoutSession.subtotalAmount,
+            discountAmount: 0,
+            shippingFee: checkoutSession.shippingFee,
+            taxAmount: 0,
+            totalAmount: checkoutSession.totalAmount,
+            currency: checkoutSession.currency,
+            payosOrderCode,
+          },
+        ],
+        { session: transactionSession },
+      );
+
+      if (order === undefined) {
+        throw new CheckoutSessionServiceError("Failed to create order", 500);
+      }
+
+      await Cart.updateOne(
+        ownerQuery,
+        { $set: { items: [] } },
+        { session: transactionSession },
+      );
+
+      checkoutSession.status = "payment_pending";
+      await checkoutSession.save({ session: transactionSession });
+      createdOrder = order;
+    });
+  } finally {
+    await transactionSession.endSession();
+  }
+
+  const qrOrder = createdOrder as IOrder | null;
+
+  if (qrOrder === null) {
+    throw new CheckoutSessionServiceError("Failed to create order", 500);
+  }
+
+  if (
+    qrOrder.payosOrderCode !== undefined &&
+    qrOrder.payosPaymentLinkId !== undefined &&
+    qrOrder.payosPaymentLinkId.trim() !== ""
+  ) {
+    return {
+      orderId: qrOrder._id.toString(),
+      token: normalizedToken,
+      checkoutUrl: `/checkout/payment-result?token=${encodeURIComponent(normalizedToken)}&orderId=${encodeURIComponent(qrOrder._id.toString())}`,
+    };
+  }
+
+  if (qrOrder.payosOrderCode === undefined) {
+    throw new CheckoutSessionServiceError("Failed to create PayOS order", 500);
+  }
+
+  try {
+    const paymentLink = await payosGateway.createPayOSPaymentLink({
+      orderCode: qrOrder.payosOrderCode as number,
+      orderId: qrOrder._id.toString(),
+      token: normalizedToken,
+      buyerName: qrOrder.shippingAddress.recipientName,
+      buyerEmail: qrOrder.customerEmail ?? "",
+      buyerPhone: qrOrder.shippingAddress.phone,
+    });
+
+    qrOrder.payosPaymentLinkId = paymentLink.paymentLinkId;
+    await qrOrder.save();
+
+    return {
+      orderId: qrOrder._id.toString(),
+      token: normalizedToken,
+      checkoutUrl: paymentLink.checkoutUrl,
+    };
+  } catch (error) {
+    const rollbackSession = await mongoose.startSession();
+
+    try {
+      await rollbackSession.withTransaction(async () => {
+        const freshOrder = await Order.findById(qrOrder._id).session(rollbackSession);
+        const freshCheckoutSession = await CheckoutSession.findOne({
+          token: normalizedToken,
+          ...ownerQuery,
+        }).session(rollbackSession);
+
+        if (freshOrder === null || freshCheckoutSession === null) {
+          return;
+        }
+
+        await revertPendingQrOrder(freshOrder, freshCheckoutSession, rollbackSession);
+      });
+    } finally {
+      await rollbackSession.endSession();
+    }
+
+    throw error;
+  }
+}
+
+export async function getCheckoutPaymentStatus(
+  token: string,
+  orderId: string,
+  owner: CheckoutOwnerInput,
+): Promise<CheckoutPaymentStatusResponse> {
+  const normalizedToken = token.trim();
+  const ownerQuery = resolveCheckoutOwnerQuery(owner);
+
+  if (normalizedToken === "" || ownerQuery === null || orderId.trim() === "") {
+    throw new CheckoutSessionServiceError("Phiên thanh toán đã hết hạn", 404);
+  }
+
+  const checkoutSession = await CheckoutSession.findOne({
+    token: normalizedToken,
+    ...ownerQuery,
+  });
+
+  if (checkoutSession === null) {
+    throw new CheckoutSessionServiceError("Phiên thanh toán đã hết hạn", 404);
+  }
+
+  const order = await Order.findOne({
+    _id: orderId,
+    ...ownerQuery,
+  });
+
+  if (order === null) {
+    throw new CheckoutSessionServiceError("Đơn hàng không tồn tại", 404);
+  }
+
+  if (checkoutSession.status === "completed" || order.paymentStatus === "paid") {
+    return {
+      status: "paid",
+      orderId: order._id.toString(),
+      token: normalizedToken,
+      redirectTo: `/order/success/${encodeURIComponent(normalizedToken)}`,
+    };
+  }
+
+  return syncQrOrderStateByOrder(order, checkoutSession);
+}
+
+export async function handlePayOSWebhook(
+  payload: unknown,
+): Promise<{ success: true }> {
+  const data = await payosGateway.verifyPayOSWebhookPayload(payload);
+  const orderCode =
+    typeof data.orderCode === "number" ? data.orderCode : Number(data.orderCode);
+
+  if (Number.isFinite(orderCode) === false) {
+    throw new CheckoutSessionServiceError("Invalid PayOS webhook payload", 400);
+  }
+
+  const order = await Order.findOne({ payosOrderCode: orderCode });
+
+  if (order === null || order.checkoutToken === undefined || order.guestId === undefined) {
+    return { success: true };
+  }
+
+  const checkoutSession = await CheckoutSession.findOne({
+    token: order.checkoutToken,
+    guestId: order.guestId,
+  });
+
+  if (checkoutSession === null) {
+    return { success: true };
+  }
+
+  await syncQrOrderStateByOrder(order, checkoutSession);
+  return { success: true };
 }

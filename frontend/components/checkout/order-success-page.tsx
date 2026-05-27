@@ -37,6 +37,20 @@ function formatAddress(
     .join(", ");
 }
 
+function getPaymentTitle(
+  paymentMethod: CompletedCheckoutSession["order"]["paymentMethod"],
+): string {
+  return paymentMethod === "bank_transfer" ? "Payment received" : "Payment";
+}
+
+function getPaymentDescription(
+  paymentMethod: CompletedCheckoutSession["order"]["paymentMethod"],
+): string {
+  return paymentMethod === "bank_transfer"
+    ? "Paid via PayOS QR payment. Your payment has been confirmed successfully."
+    : "Cash on delivery (COD). We will contact you to confirm before delivery.";
+}
+
 export function OrderSuccessPage({ token }: OrderSuccessPageProps) {
   const router = useRouter();
   const [session, setSession] = useState<CompletedCheckoutSession | null>(null);
@@ -164,11 +178,10 @@ export function OrderSuccessPage({ token }: OrderSuccessPageProps) {
 
           <div className="mt-8 border-t border-[#e4dfd8] pt-6">
             <h2 className="font-afacad text-[15px] font-semibold uppercase tracking-[0.08em]">
-              Payment
+              {getPaymentTitle(order.paymentMethod)}
             </h2>
             <p className="mt-3 font-afacad text-[15px] text-black/66">
-              Cash on delivery (COD). We will contact you to confirm before
-              delivery.
+              {getPaymentDescription(order.paymentMethod)}
             </p>
           </div>
 

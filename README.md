@@ -85,6 +85,13 @@ The backend reads:
 - `JWT_ACCESS_SECRET`
 - `JWT_REFRESH_SECRET`
 - `CLOUDINARY_URL` if you are using media operations that depend on it
+- `PAYOS_CLIENT_ID` for QR checkout
+- `PAYOS_API_KEY` for QR checkout
+- `PAYOS_CHECKSUM_KEY` for QR checkout
+- `PAYOS_FIXED_QR_AMOUNT` for the hosted PayOS QR amount
+- `FRONTEND_PUBLIC_BASE_URL` for PayOS return and cancel URLs
+- `BACKEND_PUBLIC_BASE_URL` for the PayOS webhook URL
+- `PAYOS_WEBHOOK_PATH` if you want to override the default webhook route
 
 ## Initial Setup
 
@@ -191,6 +198,81 @@ npm run normalize:sunglasses
 npm run normalize:eyeglasses
 npm run seed
 ```
+
+## PayOS QR Checkout Dev Setup
+
+The checkout now supports both:
+
+- `cash_on_delivery`
+- `QR code` through the hosted PayOS payment page
+
+For the current dev flow, every PayOS QR request is created with a fixed hosted amount of:
+
+```text
+10,000 VND
+```
+
+This PayOS amount is only for the QR payment request.
+The internal Season order totals still use the real checkout/cart totals.
+
+### `.env.backend` example
+
+Put values like these in `backend/.env.backend`:
+
+```env
+PAYOS_CLIENT_ID=your_payos_client_id
+PAYOS_API_KEY=your_payos_api_key
+PAYOS_CHECKSUM_KEY=your_payos_checksum_key
+PAYOS_FIXED_QR_AMOUNT=10000
+FRONTEND_PUBLIC_BASE_URL=http://localhost:3000
+BACKEND_PUBLIC_BASE_URL=https://your-ngrok-subdomain.ngrok-free.app
+PAYOS_WEBHOOK_PATH=/api/checkout/payos/webhook
+```
+
+### Ngrok setup
+
+Run the backend first:
+
+```bash
+cd backend
+npm run dev
+```
+
+Expose the backend with ngrok in a separate terminal:
+
+```bash
+ngrok http 3001
+```
+
+Take the public HTTPS URL from ngrok and set:
+
+```env
+BACKEND_PUBLIC_BASE_URL=https://your-ngrok-subdomain.ngrok-free.app
+```
+
+The full webhook URL becomes:
+
+```text
+https://your-ngrok-subdomain.ngrok-free.app/api/checkout/payos/webhook
+```
+
+Add that exact URL in the PayOS dashboard webhook configuration.
+
+### Local frontend return flow
+
+For local development the frontend return page should stay:
+
+```env
+FRONTEND_PUBLIC_BASE_URL=http://localhost:3000
+```
+
+PayOS will return the shopper to the app route:
+
+```text
+/checkout/payment-result
+```
+
+That page asks the backend for the real payment state before redirecting to the success page or back to checkout.
 
 ## Frontend
 

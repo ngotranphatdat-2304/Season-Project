@@ -42,10 +42,30 @@ function formatAddress(order: IOrder): string {
     .join(", ");
 }
 
+function isPaidOrder(order: IOrder): boolean {
+  return order.paymentMethod === "bank_transfer" || order.paymentStatus === "paid";
+}
+
+function getPreviewText(order: IOrder): string {
+  return isPaidOrder(order)
+    ? `Payment received for order ${order._id.toString()}`
+    : `Order ${order._id.toString()} has been confirmed`;
+}
+
+function getPaymentHeading(order: IOrder): string {
+  return isPaidOrder(order) ? "Payment received" : "Payment";
+}
+
+function getPaymentDescription(order: IOrder): string {
+  return isPaidOrder(order)
+    ? "Paid via PayOS QR payment. Your payment has been confirmed successfully."
+    : "Cash on delivery (COD). We will contact you to confirm before delivery.";
+}
+
 export function OrderConfirmationEmail({
   order,
 }: OrderConfirmationEmailProps): React.JSX.Element {
-  const previewText = `Order ${order._id.toString()} has been confirmed`;
+  const previewText = getPreviewText(order);
 
   return (
     <Html lang="en">
@@ -97,11 +117,10 @@ export function OrderConfirmationEmail({
 
               <Section>
                 <Text className="m-0 text-[15px] font-bold uppercase tracking-[0.08em] text-[#111111]">
-                  Payment
+                  {getPaymentHeading(order)}
                 </Text>
                 <Text className="m-0 mt-3 text-[15px] leading-[1.6] text-black/65">
-                  Cash on delivery (COD). We will contact you to confirm before
-                  delivery.
+                  {getPaymentDescription(order)}
                 </Text>
               </Section>
             </Section>

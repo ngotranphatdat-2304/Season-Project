@@ -33,7 +33,10 @@ export type CheckoutShippingAddressPayload = {
 export type CheckoutOrderPayload = {
   customerEmail: string;
   shippingAddress: CheckoutShippingAddressPayload;
-  paymentMethod: Extract<CheckoutPaymentMethod, "cash_on_delivery">;
+  paymentMethod: Extract<
+    CheckoutPaymentMethod,
+    "cash_on_delivery" | "bank_transfer"
+  >;
 };
 
 export type CheckoutInitResponse = {
@@ -58,6 +61,7 @@ export type CompletedCheckoutSession = {
   order: {
     orderId: string;
     customerEmail: string;
+    paymentMethod?: CheckoutPaymentMethod;
     shippingAddress: CheckoutShippingAddressPayload;
     items: CheckoutSessionItem[];
     subtotalAmount: number;
@@ -67,9 +71,29 @@ export type CompletedCheckoutSession = {
   };
 };
 
+export type PaymentPendingCheckoutSession = {
+  status: "payment_pending";
+  redirectTo: string;
+};
+
 export type CheckoutSessionResponse =
   | PendingCheckoutSession
+  | PaymentPendingCheckoutSession
   | CompletedCheckoutSession;
+
+export type CheckoutPayOSInitResponse = {
+  orderId: string;
+  token: string;
+  checkoutUrl: string;
+};
+
+export type CheckoutPaymentStatusResponse = {
+  status: "paid" | "pending" | "cancelled" | "failed" | "expired";
+  orderId: string;
+  token: string;
+  redirectTo?: string;
+  message?: string;
+};
 
 export async function initCheckoutSession(): Promise<CheckoutInitResponse> {
   const response = await api.post<CheckoutInitResponse>("/checkout/init");
@@ -92,6 +116,33 @@ export async function completeCheckoutSession(
   const response = await api.post<{ orderId: string; token: string }>(
     `/checkout/${encodeURIComponent(token)}/complete`,
     payload,
+  );
+  return response.data;
+}
+
+export async function initPayOSCheckoutPayment(
+  token: string,
+  payload: CheckoutOrderPayload,
+): Promise<CheckoutPayOSInitResponse> {
+  const response = await api.post<CheckoutPayOSInitResponse>(
+    `/checkout/${encodeURIComponent(token)}/payos`,
+    payload,
+  );
+  return response.data;
+}
+
+export async function fetchCheckoutPaymentStatus(
+  token: string,
+  orderId: string,
+): Promise<CheckoutPaymentStatusResponse> {
+  const response = await api.get<CheckoutPaymentStatusResponse>(
+    "/checkout/payment-status",
+    {
+      params: {
+        token,
+        orderId,
+      },
+    },
   );
   return response.data;
 }

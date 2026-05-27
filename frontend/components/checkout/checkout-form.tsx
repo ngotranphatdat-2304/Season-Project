@@ -4,7 +4,10 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { type CheckoutOrderPayload } from "@/lib/checkout/checkout-api";
+import {
+  type CheckoutOrderPayload,
+  type CheckoutPaymentMethod,
+} from "@/lib/checkout/checkout-api";
 import { VIETNAM_PROVINCES } from "@/lib/checkout/vietnam-provinces";
 import { validateEmail, validatePhoneNumber } from "@/lib/validator";
 import { cn } from "@/lib/utils";
@@ -30,6 +33,7 @@ type CheckoutFormErrors = Partial<Record<CheckoutFormField, string>>;
 type CheckoutFormTouched = Partial<Record<CheckoutFormField, boolean>>;
 
 const COD_PAYMENT_METHOD = "cash_on_delivery" as const;
+const QR_PAYMENT_METHOD = "bank_transfer" as const;
 
 const VALIDATION_MESSAGES: Record<string, string> = {
   "validator.required": "Please fill out this field.",
@@ -105,6 +109,10 @@ function validateCheckoutField(
 
 function serializeCheckoutOrderPayload(
   values: CheckoutFormValues,
+  paymentMethod: Extract<
+    CheckoutPaymentMethod,
+    "cash_on_delivery" | "bank_transfer"
+  >,
 ): CheckoutOrderPayload {
   const firstName = values.firstName.trim();
   const lastName = values.lastName.trim();
@@ -126,12 +134,16 @@ function serializeCheckoutOrderPayload(
       ...(postalCode === undefined ? {} : { postalCode }),
       country: "Vietnam",
     },
-    paymentMethod: COD_PAYMENT_METHOD,
+    paymentMethod,
   };
 }
 
 function validateAndSerializeCheckoutOrderPayload(
   values: CheckoutFormValues,
+  paymentMethod: Extract<
+    CheckoutPaymentMethod,
+    "cash_on_delivery" | "bank_transfer"
+  >,
 ):
   | { errors: CheckoutFormErrors; payload?: undefined }
   | { errors: CheckoutFormErrors; payload: CheckoutOrderPayload } {
@@ -143,7 +155,7 @@ function validateAndSerializeCheckoutOrderPayload(
 
   return {
     errors: {},
-    payload: serializeCheckoutOrderPayload(values),
+    payload: serializeCheckoutOrderPayload(values, paymentMethod),
   };
 }
 
@@ -201,16 +213,20 @@ function CheckoutRadioRow({
   detail,
   checked = false,
   muted = false,
+  onClick,
 }: {
   label: string;
   detail?: string;
   checked?: boolean;
   muted?: boolean;
+  onClick?: () => void;
 }) {
   return (
-    <div
+    <button
+      type="button"
+      onClick={onClick}
       className={cn(
-        "flex items-center justify-between gap-4 border-[#d8d3cc] bg-white px-4 py-4 font-afacad text-[15px]",
+        "flex w-full items-center justify-between gap-4 border-[#d8d3cc] bg-white px-4 py-4 text-left font-afacad text-[15px]",
         muted && "text-black/58",
       )}
     >
@@ -228,7 +244,7 @@ function CheckoutRadioRow({
       {detail !== undefined ? (
         <span className="shrink-0 font-semibold uppercase">{detail}</span>
       ) : null}
-    </div>
+    </button>
   );
 }
 
@@ -239,6 +255,9 @@ export function CheckoutForm({
   const [values, setValues] = useState<CheckoutFormValues>(initialFormValues);
   const [errors, setErrors] = useState<CheckoutFormErrors>({});
   const [touched, setTouched] = useState<CheckoutFormTouched>({});
+  const [paymentMethod, setPaymentMethod] = useState<
+    Extract<CheckoutPaymentMethod, "cash_on_delivery" | "bank_transfer">
+  >(COD_PAYMENT_METHOD);
 
   const handleFieldChange = (field: CheckoutFormField, value: string) => {
     setValues((current) => ({
@@ -287,7 +306,7 @@ export function CheckoutForm({
   };
 
   const handleSubmit = () => {
-    const result = validateAndSerializeCheckoutOrderPayload(values);
+    const result = validateAndSerializeCheckoutOrderPayload(values, paymentMethod);
     setErrors(result.errors);
     setTouched({
       email: true,
@@ -398,7 +417,7 @@ export function CheckoutForm({
                 )}
               >
                 <option value="" disabled>
-                  Province/City
+                  Tinh/Thanh pho
                 </option>
                 {VIETNAM_PROVINCES.map((province) => (
                   <option key={province.id} value={province.name}>
@@ -454,10 +473,27 @@ export function CheckoutForm({
 
         <div className="mt-3 overflow-hidden rounded-md border border-[#d8d3cc] bg-white">
           <div className="border-b border-[#d8d3cc]">
-            <CheckoutRadioRow label="Cash on delivery (COD)" checked />
+            <CheckoutRadioRow
+              label="Cash on delivery (COD)"
+              checked={paymentMethod === COD_PAYMENT_METHOD}
+              onClick={() => {
+                setPaymentMethod(COD_PAYMENT_METHOD);
+              }}
+            />
+          </div>
+          <div className="border-b border-[#d8d3cc]">
+            <CheckoutRadioRow
+              label="QR code"
+              checked={paymentMethod === QR_PAYMENT_METHOD}
+              onClick={() => {
+                setPaymentMethod(QR_PAYMENT_METHOD);
+              }}
+            />
           </div>
           <div className="bg-[#f7f5f2] px-4 py-4 text-center font-afacad text-[13px] leading-5 text-black/65">
-            You will pay directly when your order arrives.
+            {paymentMethod === COD_PAYMENT_METHOD
+              ? "You will pay directly when your order arrives."
+              : "You will be redirected to PayOS to complete your QR payment."}
           </div>
         </div>
       </section>
@@ -468,7 +504,11 @@ export function CheckoutForm({
         className="mt-6 h-12 w-full rounded-md bg-black font-afacad text-[15px] font-semibold uppercase tracking-[0.08em] text-white hover:bg-black/90"
         onClick={handleSubmit}
       >
-        {isSubmitting ? "Placing order" : "Place order"}
+        {isSubmitting
+          ? paymentMethod === COD_PAYMENT_METHOD
+            ? "Placing order"
+            : "Redirecting to PayOS"
+          : "Place order"}
       </Button>
 
       <footer className="mt-10 border-t border-[#d8d3cc] pt-5">

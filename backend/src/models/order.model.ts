@@ -61,6 +61,8 @@ export interface IOrder extends Document {
   guestId?: string;
   customerEmail?: string;
   checkoutToken?: string;
+  payosOrderCode?: number;
+  payosPaymentLinkId?: string;
   items: IOrderItem[];
   status: OrderStatus;
   paymentStatus: PaymentStatus;
@@ -150,6 +152,8 @@ const OrderSchema = new Schema<IOrder>(
     guestId: { type: String, trim: true, index: true },
     customerEmail: { type: String, trim: true, lowercase: true },
     checkoutToken: { type: String, trim: true, unique: true, sparse: true },
+    payosOrderCode: { type: Number, unique: true, sparse: true, index: true },
+    payosPaymentLinkId: { type: String, trim: true, sparse: true, index: true },
     items: {
       type: [OrderItemSchema],
       required: true,

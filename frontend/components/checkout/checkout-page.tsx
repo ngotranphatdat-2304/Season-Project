@@ -11,6 +11,7 @@ import { CheckoutForm } from "@/components/checkout/checkout-form";
 import {
   completeCheckoutSession,
   fetchCheckoutSession,
+  initPayOSCheckoutPayment,
   type CheckoutOrderPayload,
   type CheckoutSessionItem,
   type PendingCheckoutSession,
@@ -140,6 +141,11 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
           return;
         }
 
+        if (response.status === "payment_pending") {
+          router.replace(response.redirectTo);
+          return;
+        }
+
         setSession(response);
       } catch (error) {
         if (isCancelled) {
@@ -176,6 +182,12 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
     setIsSubmitting(true);
 
     try {
+      if (payload.paymentMethod === "bank_transfer") {
+        const payosResponse = await initPayOSCheckoutPayment(token, payload);
+        window.location.assign(payosResponse.checkoutUrl);
+        return;
+      }
+
       const response = await completeCheckoutSession(token, payload);
       const successPath = getCheckoutSuccessPath(response.token);
 
@@ -212,15 +224,29 @@ export function CheckoutPage({ token }: CheckoutPageProps) {
           return;
         }
 
+        if (status === 409 && message === "Đơn hàng không tồn tại") {
+          toast.error("Unable to resume QR payment");
+          router.replace(`/checkout/${encodeURIComponent(token)}`);
+          return;
+        }
+
         if (status === 409) {
           toast.error(message ?? "Some products do not have enough stock");
           router.push("/");
+          return;
+        }
+
+        if (status === 503) {
+          toast.error("QR payment is not configured yet");
           return;
         }
       }
 
       setIsSubmitting(false);
       toast.error("Unable to place order");
+      return;
+    } finally {
+      setIsSubmitting(false);
     }
   };
 

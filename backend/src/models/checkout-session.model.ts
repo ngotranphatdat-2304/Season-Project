@@ -1,6 +1,9 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-export type CheckoutSessionStatus = "pending" | "completed";
+export type CheckoutSessionStatus =
+  | "pending"
+  | "payment_pending"
+  | "completed";
 
 export interface ICheckoutSessionItemSnapshot {
   productId: string;
@@ -46,7 +49,7 @@ const CheckoutSessionSchema = new Schema<ICheckoutSession>(
     guestId: { type: String, trim: true, index: true },
     status: {
       type: String,
-      enum: ["pending", "completed"],
+      enum: ["pending", "payment_pending", "completed"],
       default: "pending",
       required: true,
     },
