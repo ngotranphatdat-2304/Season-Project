@@ -17,12 +17,15 @@ function getTransporter(): Transporter | null {
   }
 
   transporter ??= nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    family: 4,
     auth: {
       user: GMAIL_USER,
       pass: GMAIL_APP_PASSWORD,
     },
-  });
+  } as nodemailer.TransportOptions);
 
   return transporter;
 }

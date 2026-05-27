@@ -6,7 +6,7 @@ import { Newsletter } from "@/components/sections/Newsletter";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen overflow-x-hidden bg-white">
       <Hero />
       <CategoryGrid />
       <AccessoryFeature />

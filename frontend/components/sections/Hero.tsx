@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { heroImage, heroImage2, heroImage3 } from "@/images/landing-page";
 import {
   Carousel,
   CarouselContent,
@@ -12,7 +13,6 @@ import {
 } from "@/components/ui/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { useRef, useState } from "react";
-import { heroImage, heroImage2, heroImage3 } from "@/images/landing-page";
 
 export function Hero() {
   const plugin = useRef(Autoplay({ delay: 5000, stopOnInteraction: false }));
@@ -27,11 +27,9 @@ export function Hero() {
     api?.scrollNext();
     api?.plugins().autoplay.reset();
   };
-
   const heroImages = [heroImage, heroImage2, heroImage3];
-
   return (
-    <section className="relative w-full h-[70vh] md:h-[95vh] bg-white border-b border-season-gray overflow-hidden group">
+    <section className="group relative h-[calc(100svh-4rem)] min-h-[520px] max-h-[760px] w-full overflow-hidden border-b border-season-gray bg-white md:h-[95vh] md:max-h-none">
       <Carousel
         setApi={setApi}
         plugins={[plugin.current]}
@@ -53,7 +51,7 @@ export function Hero() {
                   alt={`Season Campaign Visual ${index + 1}`}
                   fill
                   sizes="100vw"
-                  className="object-cover md:object-center select-none"
+                  className="select-none object-cover object-[50%_42%] md:object-center"
                   priority={index === 0}
                 />
                 <div className="absolute inset-0 bg-black/20" />
@@ -65,21 +63,21 @@ export function Hero() {
         {/* Navigation Buttons */}
         <CarouselPrevious
           onClick={handlePrevious}
-          className="absolute left-4 top-1/2 -translate-y-1/2 md:left-8 bg-transparent border-white/50 text-white hover:bg-white hover:text-black hover:border-white transition-all duration-300 opacity-100 md:opacity-0 md:group-hover:opacity-100 disabled:opacity-0 h-10 w-10 md:h-12 md:w-12"
+          className="absolute left-3 top-1/2 h-9 w-9 -translate-y-1/2 border-white/35 bg-black/10 text-white opacity-80 backdrop-blur-[1px] transition-all duration-300 hover:border-white hover:bg-white hover:text-black disabled:opacity-0 md:left-8 md:h-12 md:w-12 md:bg-transparent md:opacity-0 md:group-hover:opacity-100"
         />
         <CarouselNext
           onClick={handleNext}
-          className="absolute right-4 top-1/2 -translate-y-1/2 md:right-8 bg-transparent border-white/50 text-white hover:bg-white hover:text-black hover:border-white transition-all duration-300 opacity-100 md:opacity-0 md:group-hover:opacity-100 disabled:opacity-0 h-10 w-10 md:h-12 md:w-12"
+          className="absolute right-3 top-1/2 h-9 w-9 -translate-y-1/2 border-white/35 bg-black/10 text-white opacity-80 backdrop-blur-[1px] transition-all duration-300 hover:border-white hover:bg-white hover:text-black disabled:opacity-0 md:right-8 md:h-12 md:w-12 md:bg-transparent md:opacity-0 md:group-hover:opacity-100"
         />
       </Carousel>
 
-      <div className="absolute inset-0 z-10 flex flex-col  items-center justify-end mb-10 md:justify-center text-center gap-6 md:gap-8 animate-in fade-in zoom-in duration-700 pointer-events-none px-4">
-        <h1 className="text-2xl sm:text-4xl md:text-6xl font-serif text-white uppercase tracking-[0.20em] font-extralight drop-shadow-md">
+      <div className="pointer-events-none absolute inset-0 z-10 flex animate-in flex-col items-center justify-end gap-5 px-5 pb-16 text-center fade-in zoom-in duration-700 sm:gap-6 sm:pb-18 md:justify-center md:gap-8 md:px-4 md:pb-0">
+        <h1 className="font-serif text-[1.65rem] font-extralight uppercase leading-[1.04] tracking-[0.14em] text-white drop-shadow-md sm:text-4xl sm:tracking-[0.18em] md:text-6xl md:tracking-[0.20em]">
           New Collection
         </h1>
         <Link
           href="/collections/the-athletes/"
-          className="rounded-none outline border-white bg-transparent px-6 py-5 md:px-8 md:py-6 font-sans text-[10px] md:text-xs uppercase tracking-widest text-white hover:bg-white hover:text-black transition-colors duration-300 backdrop-blur-sm pointer-events-auto"
+          className="pointer-events-auto inline-flex min-h-11 items-center justify-center rounded-none border border-white bg-transparent px-6 py-3 font-sans text-[10px] uppercase tracking-widest text-white outline transition-colors duration-300 hover:bg-white hover:text-black md:min-h-12 md:px-8 md:py-4 md:text-xs"
         >
           Shop Now
         </Link>
