@@ -1,4 +1,4 @@
-import nodemailer, { type Transporter } from "nodemailer";
+import { google } from "googleapis";
 import { render } from "@react-email/render";
 import {
   GMAIL_USER,
@@ -9,41 +9,44 @@ import {
 import type { IOrder } from "../models/order.model.js";
 import { OrderConfirmationEmail } from "./order-confirmation-email.js";
 
-let transporter: Transporter | null = null;
-
-function getTransporter(): Transporter | null {
-  if (
-    GMAIL_USER === undefined ||
-    GMAIL_USER === "" ||
-    GMAIL_CLIENT_ID === undefined ||
-    GMAIL_CLIENT_ID === "" ||
-    GMAIL_CLIENT_SECRET === undefined ||
-    GMAIL_CLIENT_SECRET === "" ||
-    GMAIL_REFRESH_TOKEN === undefined ||
-    GMAIL_REFRESH_TOKEN === ""
-  ) {
-    return null;
-  }
-
-  transporter ??= nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      type: "OAuth2",
-      user: GMAIL_USER,
-      clientId: GMAIL_CLIENT_ID,
-      clientSecret: GMAIL_CLIENT_SECRET,
-      refreshToken: GMAIL_REFRESH_TOKEN,
-    },
-  });
-
-  return transporter;
+function isConfigured(): boolean {
+  return (
+    GMAIL_USER !== undefined &&
+    GMAIL_USER !== "" &&
+    GMAIL_CLIENT_ID !== undefined &&
+    GMAIL_CLIENT_ID !== "" &&
+    GMAIL_CLIENT_SECRET !== undefined &&
+    GMAIL_CLIENT_SECRET !== "" &&
+    GMAIL_REFRESH_TOKEN !== undefined &&
+    GMAIL_REFRESH_TOKEN !== ""
+  );
 }
 
-export async function sendOrderConfirmationEmail(
-  order: IOrder,
-  mailTransporter: Transporter | null = getTransporter(),
-): Promise<void> {
-  if (mailTransporter === null) {
+function buildRawEmail(
+  to: string,
+  from: string,
+  subject: string,
+  html: string,
+): string {
+  const message = [
+    `From: Season <${from}>`,
+    `To: ${to}`,
+    `Subject: ${subject}`,
+    `MIME-Version: 1.0`,
+    `Content-Type: text/html; charset=utf-8`,
+    ``,
+    html,
+  ].join("\r\n");
+
+  return Buffer.from(message)
+    .toString("base64")
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/, "");
+}
+
+export async function sendOrderConfirmationEmail(order: IOrder): Promise<void> {
+  if (!isConfigured()) {
     console.warn(
       "Skipping order confirmation email because Gmail OAuth2 config is not configured.",
     );
@@ -56,19 +59,32 @@ export async function sendOrderConfirmationEmail(
   }
 
   try {
+    const oauth2Client = new google.auth.OAuth2(
+      GMAIL_CLIENT_ID,
+      GMAIL_CLIENT_SECRET,
+    );
+
+    oauth2Client.setCredentials({ refresh_token: GMAIL_REFRESH_TOKEN ?? null });
+    const gmail = google.gmail({ version: "v1", auth: oauth2Client });
+
     const html = await render(OrderConfirmationEmail({ order }));
 
-    await mailTransporter.sendMail({
-      from: `Season <${GMAIL_USER}>`,
-      to: order.customerEmail.trim(),
-      subject: `Order confirmation ${order._id.toString()}`,
+    const raw = buildRawEmail(
+      order.customerEmail.trim(),
+      GMAIL_USER!,
+      `Order confirmation ${order._id.toString()}`,
       html,
+    );
+
+    await gmail.users.messages.send({
+      userId: "me",
+      requestBody: { raw },
     });
   } catch (error) {
     const message =
       error instanceof Error && error.message.trim() !== ""
         ? error.message
-        : "unknown mail transport error";
+        : "unknown Gmail API error";
 
     throw new Error(
       `Failed to send order confirmation email for order ${order._id.toString()}: ${message}`,
