@@ -21,6 +21,6 @@ export default async function CategoryPage({ params }: CategoryRouteProps) {
       notFound();
     }
 
-    redirect(`/products/${categoryParam}/view-all`);
+    redirect(`/${categoryParam}/view-all`);
   }
 }
