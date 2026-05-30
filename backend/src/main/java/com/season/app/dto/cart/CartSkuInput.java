@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 public class CartSkuInput {
-    @NotBlank(message = "sku is required")
+   
     private String sku;
 
     @NotNull(message = "quantity is required")
