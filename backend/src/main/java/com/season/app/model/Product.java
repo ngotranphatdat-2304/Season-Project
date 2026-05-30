@@ -31,6 +31,7 @@ public class Product {
     @Indexed(unique = true)
     private String slug;
 
+    // @org.springframework.data.mongodb.core.mapping.Field(targetType = org.springframework.data.mongodb.core.mapping.FieldType.OBJECT_ID)
     private String collectionId;
 
     private String brand;

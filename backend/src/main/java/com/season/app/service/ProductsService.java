@@ -51,22 +51,55 @@ public class ProductsService {
             int limit
     ) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("isActive").is(true));
+          query.addCriteria(Criteria.where("isActive").is(true));
+        // Truyền thẳng String giống hệt dưới DB để bỏ qua lỗi ép kiểu Enum của Spring Data
         query.addCriteria(Criteria.where("availability").is("in_stock"));
 
+
         if (type != null && !type.trim().isEmpty()) {
-            query.addCriteria(Criteria.where("type").is(type));
+            Product.ProductType matchedType = null;
+            for (Product.ProductType pt : Product.ProductType.values()) {
+                if (pt.getValue().equalsIgnoreCase(type.trim()) || pt.name().equalsIgnoreCase(type.trim())) {
+                    matchedType = pt;
+                    break;
+                }
+            }
+            if (matchedType != null) {
+                query.addCriteria(Criteria.where("type").is(matchedType));
+            }
         }
+        
         if (frameType != null && !frameType.trim().isEmpty()) {
-            query.addCriteria(Criteria.where("specifications.frameType.material").is(frameType));
+            Product.FrameMaterial matchedMaterial = null;
+            for (Product.FrameMaterial fm : Product.FrameMaterial.values()) {
+                if (fm.name().equalsIgnoreCase(frameType.trim())) {
+                    matchedMaterial = fm;
+                    break;
+                }
+            }
+            if (matchedMaterial != null) {
+                query.addCriteria(Criteria.where("specifications.frameType.material").is(matchedMaterial));
+            }
         }
+        
         if (frameSize != null && !frameSize.trim().isEmpty()) {
-            query.addCriteria(Criteria.where("specifications.frameType.size.label").is(frameSize));
+            Product.FrameSize matchedSize = null;
+            for (Product.FrameSize fs : Product.FrameSize.values()) {
+                if (fs.name().equalsIgnoreCase(frameSize.trim())) {
+                    matchedSize = fs;
+                    break;
+                }
+            }
+            if (matchedSize != null) {
+                query.addCriteria(Criteria.where("specifications.frameType.size.label").is(matchedSize));
+            }
         }
+        
         if (collectionSlug != null && !collectionSlug.trim().isEmpty()) {
             Optional<Collection> collectionOpt = collectionRepository.findBySlug(collectionSlug);
             if (collectionOpt.isPresent()) {
-                query.addCriteria(Criteria.where("collectionId").is(collectionOpt.get().getId()));
+                String collId = collectionOpt.get().getId();
+                query.addCriteria(Criteria.where("collectionId").is(collId));
             } else {
                 ProductsResponseData empty = new ProductsResponseData();
                 empty.setRecords(List.of());
@@ -74,9 +107,20 @@ public class ProductsService {
                 return empty;
             }
         }
+        
         if (gender != null && !gender.trim().isEmpty()) {
-            query.addCriteria(Criteria.where("specifications.gender").is(gender));
+            Product.ProductGender matchedGender = null;
+            for (Product.ProductGender pg : Product.ProductGender.values()) {
+                if (pg.name().equalsIgnoreCase(gender.trim())) {
+                    matchedGender = pg;
+                    break;
+                }
+            }
+            if (matchedGender != null) {
+                query.addCriteria(Criteria.where("specifications.gender").is(matchedGender));
+            }
         }
+        
         if (Boolean.TRUE.equals(sale)) {
             query.addCriteria(Criteria.where("salePercent").gt(0));
         }

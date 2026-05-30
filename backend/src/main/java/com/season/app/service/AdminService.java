@@ -45,9 +45,16 @@ public class AdminService {
     // Tự động tính toán lại số lượng sản phẩm in_stock của bộ sưu tập
     private void refreshCollectionInStockCounts(String collectionId) {
         if (collectionId == null) return;
-        Query query = new Query(Criteria.where("collectionId").is(collectionId)
-                .and("isActive").is(true)
-                .and("availability").is("in_stock"));
+        
+        Query query = new Query();
+        try {
+            query.addCriteria(Criteria.where("collectionId").is(new org.bson.types.ObjectId(collectionId)));
+        } catch (IllegalArgumentException e) {
+            query.addCriteria(Criteria.where("collectionId").is(collectionId));
+        }
+        query.addCriteria(Criteria.where("isActive").is(true)
+                .and("availability").is(Product.ProductAvailability.IN_STOCK));
+        
         long count = mongoTemplate.count(query, Product.class);
 
         Collection collection = mongoTemplate.findById(collectionId, Collection.class);
@@ -73,7 +80,7 @@ public class AdminService {
 
         // Sản phẩm có lượng tồn kho thấp (Variants stock <= 2)
         Query lowStockQuery = new Query(Criteria.where("isActive").is(true)
-                .and("availability").is("in_stock")
+                .and("availability").is(Product.ProductAvailability.IN_STOCK)
                 .and("variants.stock").lte(2));
         long lowStockProducts = mongoTemplate.count(lowStockQuery, Product.class);
 
@@ -232,7 +239,11 @@ public class AdminService {
             q.addCriteria(Criteria.where("name").regex(query.getQ().trim(), "i"));
         }
         if (query.getCollectionId() != null && !query.getCollectionId().trim().isEmpty()) {
-            q.addCriteria(Criteria.where("collectionId").is(query.getCollectionId()));
+            try {
+                q.addCriteria(Criteria.where("collectionId").is(new org.bson.types.ObjectId(query.getCollectionId())));
+            } catch (IllegalArgumentException e) {
+                q.addCriteria(Criteria.where("collectionId").is(query.getCollectionId()));
+            }
         }
         if (query.getIsActive() != null) {
             q.addCriteria(Criteria.where("isActive").is(query.getIsActive()));
