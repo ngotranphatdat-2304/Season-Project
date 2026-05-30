@@ -31,6 +31,9 @@ public class CheckoutSessionService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private OrderEmailService orderEmailService;
+
     private static final int CHECKOUT_TOKEN_BYTES = 12;
     private final SecureRandom secureRandom = new SecureRandom();
 
@@ -219,6 +222,8 @@ public class CheckoutSessionService {
                 .build();
 
         orderRepository.save(order);
+
+        orderEmailService.sendOrderConfirmationEmail(order);
 
         session.setStatus(CheckoutSession.CheckoutSessionStatus.COMPLETED);
         checkoutSessionRepository.save(session);

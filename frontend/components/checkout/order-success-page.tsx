@@ -33,7 +33,10 @@ function formatAddress(
     address.province,
     address.country,
   ]
-    .filter((value): value is string => value !== undefined && value.trim() !== "")
+    .filter(
+      (value): value is string =>
+        typeof value === "string" && value.trim() !== "",
+    )
     .join(", ");
 }
 
@@ -73,10 +76,13 @@ export function OrderSuccessPage({ token }: OrderSuccessPageProps) {
         }
 
         if (response.status !== "completed") {
-          console.info("[order-success] session is not completed; redirecting", {
-            token,
-            status: response.status,
-          });
+          console.info(
+            "[order-success] session is not completed; redirecting",
+            {
+              token,
+              status: response.status,
+            },
+          );
           router.replace(`/checkout/${encodeURIComponent(token)}`);
           return;
         }
@@ -88,9 +94,12 @@ export function OrderSuccessPage({ token }: OrderSuccessPageProps) {
         }
 
         if (isAxiosError(error) && error.response?.status === 404) {
-          console.info("[order-success] completed session lookup returned 404", {
-            token,
-          });
+          console.info(
+            "[order-success] completed session lookup returned 404",
+            {
+              token,
+            },
+          );
           toast.error("Checkout session has expired");
         } else {
           console.info("[order-success] completed session lookup failed", {
@@ -145,7 +154,10 @@ export function OrderSuccessPage({ token }: OrderSuccessPageProps) {
               </h1>
               <p className="mt-4 font-afacad text-[17px] text-black/68">
                 Your order number is{" "}
-                <span className="font-semibold text-black">{order.orderId}</span>.
+                <span className="font-semibold text-black">
+                  {order.orderId}
+                </span>
+                .
               </p>
             </div>
           </div>
