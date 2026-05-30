@@ -24,7 +24,7 @@ public class Collection {
 
     private String name;
 
-    @Indexed(unique = true)
+    // @Indexed(unique = true)
     private String slug;
 
     @Builder.Default

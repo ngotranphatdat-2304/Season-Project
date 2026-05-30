@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j; //debug
 
+@Slf4j //debug
 @Service
 public class ProductsService {
     private final ProductRepository productRepository;
@@ -50,6 +52,8 @@ public class ProductsService {
             int offset,
             int limit
     ) {
+        log.info("============== BƯỚC 2: VÀO SERVICE TÌM KIẾM =============="); //debug
+        log.info("3. Các tham số nhận được -> type: [{}], collectionSlug: [{}]", type, collectionSlug);
         Query query = new Query();
           query.addCriteria(Criteria.where("isActive").is(true));
         // Truyền thẳng String giống hệt dưới DB để bỏ qua lỗi ép kiểu Enum của Spring Data
@@ -96,11 +100,17 @@ public class ProductsService {
         }
         
         if (collectionSlug != null && !collectionSlug.trim().isEmpty()) {
+            log.info("============== BƯỚC 3: TRUY VẤN COLLECTION DB =============="); //debug
+            log.info("4. Đang gọi collectionRepository.findBySlug với giá trị: [{}]", collectionSlug);
             Optional<Collection> collectionOpt = collectionRepository.findBySlug(collectionSlug);
             if (collectionOpt.isPresent()) {
                 String collId = collectionOpt.get().getId();
+                log.info("5. THÀNH CÔNG: Đã tìm thấy Collection. ID: [{}], Tên: [{}]", collId, collectionOpt.get().getName()); //debug
                 query.addCriteria(Criteria.where("collectionId").is(collId));
+
+                log.info("6. Đã thêm điều kiện lọc sản phẩm theo collectionId: [{}]", collId); //debug
             } else {
+                log.warn("5. THẤT BẠI: KHÔNG TÌM THẤY Collection nào có slug là: [{}]", collectionSlug); //debug
                 ProductsResponseData empty = new ProductsResponseData();
                 empty.setRecords(List.of());
                 empty.setTotal(0L);
@@ -125,6 +135,9 @@ public class ProductsService {
             query.addCriteria(Criteria.where("salePercent").gt(0));
         }
 
+        log.info("============== BƯỚC 4: LẤY SẢN PHẨM =============="); //debug
+        log.info("7. Chuẩn bị chạy query lấy sản phẩm...");
+
         long total = mongoTemplate.count(query, Product.class);
 
         Sort sortOrder = ProductSortUtil.buildProductSort(sort);
@@ -139,9 +152,11 @@ public class ProductsService {
         ProductsResponseData response = new ProductsResponseData();
         response.setRecords(records);
         response.setTotal(total);
+        log.info("8. Xong! Đã tìm thấy [{}] sản phẩm khớp điều kiện.", products.size());
         return response;
     }
 
+    
     private ProductResponse toProductResponse(Product product) {
         ProductResponse response = new ProductResponse();
         response.setId(product.getId());
