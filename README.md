@@ -1,9 +1,10 @@
+````markdown
 # Season
 
 Season is a full-stack eyewear project with:
 
 - a `Next.js` frontend in `frontend/`
-- an `Express + MongoDB` backend in `backend/`
+- a `Spring Boot + MongoDB` backend in `backend/`
 - a `docker-compose.yml` file at the repo root for local MongoDB
 
 This README is the main setup guide for the project.
@@ -11,13 +12,14 @@ This README is the main setup guide for the project.
 ## Tech Stack
 
 - Frontend: `Next.js 16`, `React 19`, `TypeScript`, `Tailwind CSS`
-- Backend: `Express 5`, `Mongoose`, `TypeScript`
+- Backend: `Java 17+`, `Spring Boot`, `Spring Data MongoDB`
 - Database: `MongoDB` via Docker
 
 ## Prerequisites
 
 Install these first:
 
+- `Java JDK >= 17`
 - `Node.js >= 20.9.0`
 - `npm`
 - `Docker`
@@ -26,29 +28,32 @@ Install these first:
 Check your versions:
 
 ```bash
+java -version
 node -v
 npm -v
 docker -v
 docker compose version
 ```
+````
 
 ## Repository Structure
 
 ```text
 season/
-├── backend/              # Express API + MongoDB models
+├── backend/              # Spring Boot API + MongoDB models
 ├── frontend/             # Next.js app
 ├── docker-compose.yml    # Local MongoDB
 ├── MONGODB_SETUP.md
 └── README.md
+
 ```
 
 ## Environment Files
 
-This project uses local env files that are intentionally not committed to Git.
-The env files are already shared separately between teammates.
+This project uses local env/properties files that are intentionally not committed to Git.
+The configuration files are already shared separately between teammates.
 
-Put each shared env file in the correct folder before starting the project.
+Put each shared config file in the correct folder before starting the project.
 
 ### Frontend
 
@@ -56,6 +61,7 @@ Put the shared frontend env file here:
 
 ```text
 frontend/.env.local
+
 ```
 
 This file belongs inside the `frontend/` folder.
@@ -63,35 +69,34 @@ This file belongs inside the `frontend/` folder.
 The frontend reads at least:
 
 ```env
-API_URL=http://localhost:3001
+NEXT_PUBLIC_API_URL=http://localhost:8080/api
+
 ```
 
 ### Backend
 
-Put the shared backend env file here:
+Put the shared backend configuration file here:
 
 ```text
-backend/.env.backend
+backend/src/main/resources/application.properties
+
 ```
 
 This file belongs inside the `backend/` folder.
 
 The backend reads:
 
-- `MONGO_URI`
-- `MONGO_DB`
-- `PORT`
-- `ALLOWED_ORIGIN` or comma-separated `ALLOWED_ORIGINS`
-- `JWT_ACCESS_SECRET`
-- `JWT_REFRESH_SECRET`
-- `CLOUDINARY_URL` if you are using media operations that depend on it
-- `PAYOS_CLIENT_ID` for QR checkout
-- `PAYOS_API_KEY` for QR checkout
-- `PAYOS_CHECKSUM_KEY` for QR checkout
-- `PAYOS_FIXED_QR_AMOUNT` for the hosted PayOS QR amount
-- `FRONTEND_PUBLIC_BASE_URL` for PayOS return and cancel URLs
-- `BACKEND_PUBLIC_BASE_URL` for the PayOS webhook URL
-- `PAYOS_WEBHOOK_PATH` if you want to override the default webhook route
+- `spring.data.mongodb.uri`
+- `server.port` (defaults to 8080)
+- `app.cors.allowed-origins` for frontend connection
+- `app.jwt.access-secret` and `app.jwt.refresh-secret`
+- `spring.mail.username`, `app.gmail.client-id`, `app.gmail.client-secret`, `app.gmail.refresh-token` if you are using email operations
+- `app.payos.client-id` for QR checkout
+- `app.payos.api-key` for QR checkout
+- `app.payos.checksum-key` for QR checkout
+- `app.payos.fixed-qr-amount` for the hosted PayOS QR amount
+- `app.payos.frontend-url` for PayOS return and cancel URLs
+- `app.payos.webhook-url` for the PayOS webhook URL
 
 ## Initial Setup
 
@@ -106,29 +111,29 @@ Install dependencies separately for frontend and backend.
 ```bash
 cd frontend
 npm install
+
 ```
 
 #### Backend
 
+For the Spring Boot backend, Maven will handle dependencies automatically. You can install them by running:
+
 ```bash
 cd backend
-npm install
+./mvnw clean install
+
 ```
 
-If you want to install both from the project root, run:
+_(On Windows, use `mvnw.cmd clean install`)_
 
-```bash
-cd frontend && npm install
-cd ../backend && npm install
-```
+### 2. Place The Shared Config Files
 
-### 2. Place The Shared Env Files
-
-Put the shared env files in these locations:
+Put the shared configuration files in these locations:
 
 ```text
 frontend/.env.local
-backend/.env.backend
+backend/src/main/resources/application.properties
+
 ```
 
 ### 3. Start MongoDB With Docker
@@ -137,6 +142,7 @@ From the project root where `docker-compose.yml` is located:
 
 ```bash
 docker compose up -d
+
 ```
 
 This starts the local MongoDB container defined in `docker-compose.yml`.
@@ -148,6 +154,7 @@ docker compose ps
 docker compose logs mongodb
 docker compose down
 docker compose down -v
+
 ```
 
 If you want a clean Mongo reset:
@@ -155,22 +162,12 @@ If you want a clean Mongo reset:
 ```bash
 docker compose down -v
 docker compose up -d
+
 ```
 
 ### 4. Seed The Database
 
-After MongoDB is running, seed the backend data:
-
-```bash
-cd backend
-ALLOW_DESTRUCTIVE_SEED=true npm run seed
-```
-
-Important notes:
-
-- `npm run seed` clears the current database before inserting fresh data and requires `ALLOW_DESTRUCTIVE_SEED=true`
-- seed reads from `season_data/`
-- run it again whenever you want to reset the local database to the normalized project data
+After MongoDB is running, ensure your database is seeded. In Spring Boot, this is typically handled automatically on startup via `CommandLineRunner` or data initialization scripts provided by your team. Check your application logs to ensure data has been loaded.
 
 ## Backend
 
@@ -178,25 +175,23 @@ Once the initial setup is done, run the backend from the `backend/` folder:
 
 ```bash
 cd backend
-npm run dev
+./mvnw spring-boot:run
+
 ```
 
 Default backend URL:
 
 ```text
-http://localhost:3001
+http://localhost:8080
+
 ```
 
-Useful backend scripts:
+Useful backend scripts (Maven):
 
 ```bash
-npm run dev
-npm run build
-npm run start
-npm run normalize
-npm run normalize:sunglasses
-npm run normalize:eyeglasses
-npm run seed
+./mvnw spring-boot:run    # Start development server
+./mvnw clean package      # Build for production
+
 ```
 
 ## PayOS QR Checkout Dev Setup
@@ -210,23 +205,24 @@ For the current dev flow, every PayOS QR request is created with a fixed hosted 
 
 ```text
 10,000 VND
+
 ```
 
 This PayOS amount is only for the QR payment request.
 The internal Season order totals still use the real checkout/cart totals.
 
-### `.env.backend` example
+### `application.properties` example
 
-Put values like these in `backend/.env.backend`:
+Put values like these in `backend/src/main/resources/application.properties`:
 
-```env
-PAYOS_CLIENT_ID=your_payos_client_id
-PAYOS_API_KEY=your_payos_api_key
-PAYOS_CHECKSUM_KEY=your_payos_checksum_key
-PAYOS_FIXED_QR_AMOUNT=10000
-FRONTEND_PUBLIC_BASE_URL=http://localhost:3000
-BACKEND_PUBLIC_BASE_URL=https://your-ngrok-subdomain.ngrok-free.app
-PAYOS_WEBHOOK_PATH=/api/checkout/payos/webhook
+```properties
+app.payos.client-id=your_payos_client_id
+app.payos.api-key=your_payos_api_key
+app.payos.checksum-key=your_payos_checksum_key
+app.payos.fixed-qr-amount=10000
+app.payos.frontend-url=http://localhost:3000
+app.payos.webhook-url=[https://your-ngrok-subdomain.ngrok-free.app/api/checkout/payos/webhook](https://your-ngrok-subdomain.ngrok-free.app/api/checkout/payos/webhook)
+
 ```
 
 ### Ngrok setup
@@ -235,25 +231,22 @@ Run the backend first:
 
 ```bash
 cd backend
-npm run dev
+./mvnw spring-boot:run
+
 ```
 
 Expose the backend with ngrok in a separate terminal:
 
 ```bash
-ngrok http 3001
+ngrok http 8080
+
 ```
 
-Take the public HTTPS URL from ngrok and set:
+Take the public HTTPS URL from ngrok and set it in your properties:
 
-```env
-BACKEND_PUBLIC_BASE_URL=https://your-ngrok-subdomain.ngrok-free.app
-```
+```properties
+app.payos.webhook-url=[https://your-ngrok-subdomain.ngrok-free.app/api/checkout/payos/webhook](https://your-ngrok-subdomain.ngrok-free.app/api/checkout/payos/webhook)
 
-The full webhook URL becomes:
-
-```text
-https://your-ngrok-subdomain.ngrok-free.app/api/checkout/payos/webhook
 ```
 
 Add that exact URL in the PayOS dashboard webhook configuration.
@@ -264,12 +257,14 @@ For local development the frontend return page should stay:
 
 ```env
 FRONTEND_PUBLIC_BASE_URL=http://localhost:3000
+
 ```
 
 PayOS will return the shopper to the app route:
 
 ```text
 /checkout/payment-result
+
 ```
 
 That page asks the backend for the real payment state before redirecting to the success page or back to checkout.
@@ -281,12 +276,14 @@ Once the backend is already running, start the frontend from the `frontend/` fol
 ```bash
 cd frontend
 npm run dev
+
 ```
 
 Default frontend URL:
 
 ```text
 http://localhost:3000
+
 ```
 
 Useful frontend scripts:
@@ -296,6 +293,7 @@ npm run dev
 npm run build
 npm run start
 npm run lint
+
 ```
 
 The frontend expects the backend API to be available at the URL defined in `frontend/.env.local`.
@@ -304,13 +302,12 @@ The frontend expects the backend API to be available at the URL defined in `fron
 
 Use this order for local development:
 
-1. Install frontend and backend dependencies
-2. Put the shared env files in `backend/.env.backend` and `frontend/.env.local`
-3. Start MongoDB with Docker
-4. Seed the backend data with `cd backend && ALLOW_DESTRUCTIVE_SEED=true npm run seed`
-5. Start the backend
-6. Start the frontend
-7. Open `http://localhost:3000`
+1. Put the shared config files in `backend/src/main/resources/application.properties` and `frontend/.env.local`
+2. Start MongoDB with Docker
+3. Install frontend dependencies (`cd frontend && npm install`)
+4. Start the backend (`cd backend && ./mvnw spring-boot:run`)
+5. Start the frontend (`cd frontend && npm run dev`)
+6. Open `http://localhost:3000`
 
 ## Build For Production
 
@@ -318,8 +315,9 @@ Use this order for local development:
 
 ```bash
 cd backend
-npm run build
-npm run start
+./mvnw clean package
+java -jar target/season-0.0.1-SNAPSHOT.jar
+
 ```
 
 ### Frontend
@@ -328,6 +326,7 @@ npm run start
 cd frontend
 npm run build
 npm run start
+
 ```
 
 ## Common Problems
@@ -341,6 +340,7 @@ Check:
 ```bash
 cd frontend
 npm run dev
+
 ```
 
 ### Next.js refuses to start because of Node version
@@ -349,30 +349,33 @@ This frontend uses `Next.js 16`, which requires `Node.js >= 20.9.0`.
 
 If `node -v` is lower than that, upgrade Node first.
 
-### Backend fails with `Please provide a MongoDB URI`
+### Backend fails with `Connection refused` or Mongo timeout
 
-Your `backend/.env.backend` is missing or `MONGO_URI` is not set correctly.
+Your `application.properties` is missing or `spring.data.mongodb.uri` is not set correctly. Ensure Docker is running.
 
 ### Backend starts but no products appear
 
 Check these:
 
 1. MongoDB is running
-2. you already ran `cd backend && ALLOW_DESTRUCTIVE_SEED=true npm run seed`
-3. the seed command finished without errors
-4. the backend is pointing at the same MongoDB database you seeded
+2. Database seeding was successfully executed by Spring Boot on startup.
+3. The backend is pointing at the same MongoDB database you seeded.
 
 ### Frontend loads but product API calls fail
 
 Check these:
 
 1. MongoDB is running
-2. backend is running on `http://localhost:3001`
+2. Backend is running on `http://localhost:8080`
 3. `frontend/.env.local` points to the correct backend URL
-4. `backend/.env.backend` has the correct `ALLOWED_ORIGIN`
+4. `application.properties` has the correct `app.cors.allowed-origins` configured for your frontend.
 
 ## Notes
 
 - The root `package.json` is not the main app entrypoint for day-to-day development.
 - For normal work, use `frontend/` and `backend/` directly.
 - The root `docker-compose.yml` is only for MongoDB.
+
+```
+
+```
