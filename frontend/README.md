@@ -1,24 +1,36 @@
 # Frontend
 
-Use the main project guide at:
+Use the main setup guide at:
 
-`../README.md`
+```text
+../README.md
+```
 
-The frontend app lives in `frontend/`, but the full local setup also requires:
+The frontend app lives in `frontend/`.
 
-- MongoDB from the repo root `docker-compose.yml`
-- the backend in `backend/`
-- `frontend/.env.local`
-- `backend/.env.backend`
+Create this local env file:
 
-The env files are shared separately with teammates and should be placed here:
+```text
+frontend/.env.local
+```
 
-- `frontend/.env.local`
-- `backend/.env.backend`
+Required variable:
 
-For day-to-day frontend commands:
+```env
+API_URL=http://localhost:3001
+```
+
+Set `API_URL` to the backend URL from `backend/.env`.
+
+Day-to-day commands:
 
 ```bash
 npm install
 npm run dev
+```
+
+Open:
+
+```text
+http://localhost:3000
 ```

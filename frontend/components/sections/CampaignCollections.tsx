@@ -28,7 +28,7 @@ export function AccessoryFeature() {
   return (
     <section className="md:py-10 bg-season-gray">
       <div className="space-y-1 md:space-y-10">
-        {collections.map((collection, index) => (
+        {collections.map((collection) => (
           <CollectionCard key={collection.id} collection={collection} />
         ))}
       </div>

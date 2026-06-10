@@ -159,7 +159,7 @@ export class Product {
       availability: getAvailabilityOrDefault(data.availability),
       description: data.description,
       specifications: ProductSpecifications.deser(data.specifications),
-      variants: (data.variants ?? []).map((variant: any) =>
+      variants: (data.variants ?? []).map((variant: unknown) =>
         ProductVariant.deser(variant),
       ),
       rating: Rating.deser(data.rating),
