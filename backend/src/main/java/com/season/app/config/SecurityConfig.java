@@ -49,6 +49,7 @@ public class SecurityConfig {
                     "/api/products", "/api/products/**", 
                     "/api/categories", "/api/categories/**", 
                     "/api/collections", "/api/collections/**",
+                    "/api/try-on", "/api/try-on/**",
                     "/api/cart", "/api/cart/**",          // Cho phép truy cập giỏ hàng tự do
                     "/api/checkout", "/api/checkout/**"   // Cho phép truy cập cổng thanh toán tự do
                 ).permitAll()

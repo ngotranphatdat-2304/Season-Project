@@ -41,6 +41,8 @@ type ProductRecord = {
     color?: string;
     price: number;
     images: string[];
+    tryOnImage?: string;
+    tryOnModel?: string;
     isDefault: boolean;
     stock: number;
   }>;

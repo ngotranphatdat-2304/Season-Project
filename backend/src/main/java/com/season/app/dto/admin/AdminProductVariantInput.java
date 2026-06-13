@@ -20,6 +20,10 @@ public class AdminProductVariantInput {
     @NotNull(message = "images is required")
     private List<String> images;
 
+    private String tryOnImage;
+
+    private String tryOnModel;
+
     @NotNull(message = "isDefault is required")
     private Boolean isDefault;
 
@@ -27,4 +31,3 @@ public class AdminProductVariantInput {
     @Min(value = 0, message = "stock must be >= 0")
     private Integer stock;
 }
-

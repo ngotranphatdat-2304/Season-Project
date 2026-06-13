@@ -161,6 +161,10 @@ public class Product {
         @Builder.Default
         private List<String> images = new ArrayList<>();
 
+        private String tryOnImage;
+
+        private String tryOnModel;
+
         @Builder.Default
         private Boolean isDefault = false;
 
