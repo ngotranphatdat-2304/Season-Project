@@ -51,3 +51,15 @@ out/
 
 # OS
 Thumbs.db
+
+# Local planning notes
+plan*.md
+*plan*.md
+docs/*plan*.md
+docs/*phase*.md
+docs/*analysis*.md
+docs/*handoff*.md
+
+# Generated debug artifacts
+.tryon-debug/
+**/.tryon-debug/

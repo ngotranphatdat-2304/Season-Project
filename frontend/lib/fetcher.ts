@@ -1,7 +1,12 @@
 import { api } from "./api";
 
 type DeserializeableClass<T> = {
-  deser(data: any): T;
+  deser(data: unknown): T;
+};
+
+type ListResponsePayload = {
+  records?: unknown[];
+  total?: number;
 };
 
 export type ListResponse<T> = {
@@ -15,7 +20,7 @@ export async function fetchOne<T>(
   params?: Record<string, unknown>,
 ): Promise<T> {
   const response = await api.get(url, { params });
-  const data = response.data;
+  const data = response.data as unknown;
 
   if (data === undefined) {
     throw new Error(`Missing response data from ${url}`);
@@ -30,14 +35,18 @@ export async function fetchList<T>(
   params?: Record<string, unknown>,
 ): Promise<ListResponse<T>> {
   const response = await api.get(url, { params });
-  const data = response.data;
+  const data = response.data as unknown;
 
   if (data === undefined) {
     throw new Error(`Missing response data from ${url}`);
   }
 
+  const payload = data as ListResponsePayload;
+  const records = Array.isArray(payload.records) ? payload.records : [];
+  const total = typeof payload.total === "number" ? payload.total : 0;
+
   return {
-    records: (data.records ?? []).map((item: any) => Model.deser(item)),
-    total: data.total ?? 0,
+    records: records.map((item) => Model.deser(item)),
+    total,
   };
 }

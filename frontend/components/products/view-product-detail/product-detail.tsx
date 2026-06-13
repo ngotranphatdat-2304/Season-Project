@@ -1,9 +1,10 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { isAxiosError } from "axios";
-import { Bookmark, Minus, Plus } from "lucide-react";
+import { Bookmark, Glasses, Minus, Plus } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
   Carousel,
@@ -299,6 +300,17 @@ export function ProductDetailView({
             + {selectedVariant?.price.toLocaleString("vi-VN") ?? "0"} VND
           </span>
         </button>
+
+        <Button
+          asChild
+          variant="outline"
+          className="h-auto w-full rounded-none border-black/18 bg-transparent px-5 py-4 font-afacad text-[13px] font-normal uppercase tracking-[0.18em] text-black shadow-none hover:border-black/45 hover:bg-white/45 hover:text-black"
+        >
+          <Link href="/try-on">
+            <Glasses className="size-4 stroke-[1.7]" />
+            <span>Try on</span>
+          </Link>
+        </Button>
       </div>
     </div>
   );

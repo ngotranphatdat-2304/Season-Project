@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-require-imports */
+
 const fs = require('fs');
 
 const data = JSON.parse(fs.readFileSync('/home/khoa/ProjectSeason/my-app/backend/season_data/All-Products.json', 'utf8'));
