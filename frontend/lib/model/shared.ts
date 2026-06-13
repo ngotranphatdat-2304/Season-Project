@@ -29,6 +29,8 @@ export interface ProductVariantArgs {
   color?: string;
   price: number;
   images: string[];
+  tryOnImage?: string;
+  tryOnModel?: string;
   isDefault: boolean;
   stock: number;
 }
@@ -38,6 +40,8 @@ export class ProductVariant {
   color?: string;
   price: number;
   images: string[];
+  tryOnImage?: string;
+  tryOnModel?: string;
   isDefault: boolean;
   stock: number;
 
@@ -46,17 +50,33 @@ export class ProductVariant {
     this.color = args.color;
     this.price = args.price;
     this.images = args.images;
+    this.tryOnImage = args.tryOnImage;
+    this.tryOnModel = args.tryOnModel;
     this.isDefault = args.isDefault;
     this.stock = args.stock;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static deser(data: any): ProductVariant {
+    const sku = data?.sku ?? "";
+    const tryOnModel =
+      typeof data?.tryOnModel === "string" && data.tryOnModel.trim() !== ""
+        ? data.tryOnModel
+        : undefined;
+
     return new ProductVariant({
-      sku: data?.sku ?? "",
+      sku,
       color: data?.color ?? undefined,
       price: data?.price ?? 0,
       images: data?.images ?? [],
+      tryOnImage:
+        typeof data?.tryOnImage === "string" && data.tryOnImage.trim() !== ""
+          ? data.tryOnImage
+          : undefined,
+      tryOnModel:
+        tryOnModel !== undefined && tryOnModel.trim() !== ""
+          ? tryOnModel
+          : undefined,
       isDefault: data?.isDefault ?? false,
       stock: data?.stock ?? 0,
     });

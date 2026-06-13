@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { isAxiosError } from "axios";
 import { Bookmark, Glasses, Minus, Plus } from "lucide-react";
@@ -29,6 +28,7 @@ import {
 } from "./utils";
 import { RelatedProductGrid } from "./related-product-grid";
 import { addVariantToGuestCart } from "@/lib/cart/cart-api";
+import { VirtualTryOnModal } from "./virtual-try-on-modal";
 
 type ProductDetailViewProps = {
   product: SerializedProductRecord;
@@ -127,6 +127,7 @@ export function ProductDetailView({
   const [carouselApi, setCarouselApi] = useState<CarouselApi>();
   const [activeSlide, setActiveSlide] = useState(0);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [isTryOnOpen, setIsTryOnOpen] = useState(false);
 
   const selectedVariant =
     availableVariants[selectedVariantIndex] ??
@@ -140,6 +141,10 @@ export function ProductDetailView({
   const displayName = formatDisplayName(hydratedProduct.name);
   const canAddToCart =
     selectedVariant !== undefined && isAddingToCart === false;
+  const tryOnImageCount =
+    selectedVariant?.images.filter((image) => image.trim() !== "").length ?? 0;
+  const canTryOn =
+    selectedVariant !== undefined && tryOnImageCount >= 2;
 
   useEffect(() => {
     if (availableVariants.length === 0) {
@@ -301,16 +306,18 @@ export function ProductDetailView({
           </span>
         </button>
 
-        <Button
-          asChild
-          variant="outline"
-          className="h-auto w-full rounded-none border-black/18 bg-transparent px-5 py-4 font-afacad text-[13px] font-normal uppercase tracking-[0.18em] text-black shadow-none hover:border-black/45 hover:bg-white/45 hover:text-black"
-        >
-          <Link href="/try-on">
+        {canTryOn === true ? (
+          <button
+            type="button"
+            className="flex w-full items-center justify-center gap-2 border border-black/20 bg-transparent px-5 py-4 text-[13px] font-normal uppercase tracking-[0.18em] text-black transition-colors duration-200 hover:border-black hover:bg-white/45"
+            onClick={() => {
+              setIsTryOnOpen(true);
+            }}
+          >
             <Glasses className="size-4 stroke-[1.7]" />
             <span>Try on</span>
-          </Link>
-        </Button>
+          </button>
+        ) : null}
       </div>
     </div>
   );
@@ -509,6 +516,18 @@ export function ProductDetailView({
         products={relatedProducts}
         collectionSlug={collectionSlug}
       />
+      {isTryOnOpen === true && selectedVariant !== undefined ? (
+        <VirtualTryOnModal
+          key={`${hydratedProduct.id}-${selectedVariant.sku}`}
+          isOpen={isTryOnOpen}
+          productId={hydratedProduct.id}
+          variantSku={selectedVariant.sku}
+          productName={displayName.replace(/\n/g, " ")}
+          onClose={() => {
+            setIsTryOnOpen(false);
+          }}
+        />
+      ) : null}
     </main>
   );
 }

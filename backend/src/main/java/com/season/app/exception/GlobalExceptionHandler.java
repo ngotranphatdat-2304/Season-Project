@@ -6,10 +6,14 @@ import com.season.app.service.CartService;
 import com.season.app.service.CheckoutSessionService;
 import com.season.app.service.PayOSService;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.HttpMediaTypeNotSupportedException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
@@ -62,6 +66,24 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(400).body(res);
     }
 
+    @ExceptionHandler(HttpMediaTypeNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex) {
+        return buildErrorResponse(415, "UNSUPPORTED_MEDIA_TYPE", "Request must be multipart/form-data");
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+        return buildErrorResponse(405, "METHOD_NOT_ALLOWED", "Request method is not supported");
+    }
+
+    @ExceptionHandler({
+            MissingServletRequestPartException.class,
+            MissingServletRequestParameterException.class
+    })
+    public ResponseEntity<ErrorResponse> handleMissingMultipartFields(Exception ex) {
+        return buildErrorResponse(400, "BAD_REQUEST", "faceImage, productId, and variantSku are required");
+    }
+
     // 4. Bắt toàn bộ lỗi rác / lỗi hệ thống chưa lường trước
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleAllOtherExceptions(Exception ex) {
@@ -87,6 +109,7 @@ public class GlobalExceptionHandler {
             case 403 -> "FORBIDDEN";
             case 404 -> "NOT_FOUND";
             case 409 -> "CONFLICT";
+            case 429 -> "TOO_MANY_REQUESTS";
             default -> statusCode >= 500 ? "INTERNAL_SERVER_ERROR" : "REQUEST_ERROR";
         };
     }
